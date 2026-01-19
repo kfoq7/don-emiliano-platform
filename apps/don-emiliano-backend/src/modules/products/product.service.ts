@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { ProductRepository } from './repositories/product.repository'
 import { CategoryRepository } from './repositories/category.repository'
 import { CreateProductDto } from './dtos/create-product.dto'
@@ -17,11 +17,22 @@ export class ProductService {
   }
 
   async createProduct(productData: CreateProductDto) {
+    // Validate category exists before creating product
+    const categoryExists = await this.categoryRepository.findById(
+      productData.categoryId,
+    )
+
+    if (!categoryExists) {
+      throw new NotFoundException(
+        `Category with ID ${productData.categoryId} not found`,
+      )
+    }
+
     return this.productRepository.create(productData)
   }
 
   async getAllCategory() {
-    return this.categoryRepository.getAll()
+    return this.categoryRepository.findAll()
   }
 
   async createCategory(categoryData: CreateCategoryDto) {

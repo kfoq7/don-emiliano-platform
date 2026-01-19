@@ -5,6 +5,7 @@ import { envConfig } from '@config/env.config'
 import { UserModule } from '@modules/user'
 import { ProductModule } from '@modules/products'
 import { AuthModule } from '@modules/auth/auth.module'
+import { OrderModule } from '@modules/order'
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AuthModule } from '@modules/auth/auth.module'
     typeOrmModule(),
     UserModule,
     AuthModule,
+    OrderModule,
     ProductModule,
   ],
 })
