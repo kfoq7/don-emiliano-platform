@@ -28,7 +28,9 @@ function App() {
 
       if (selected) {
         setFilePath(selected)
-        const content = await invoke<string>('read_file_in', { path: selected })
+        const content = await invoke<string>('read_and_get_attendance', {
+          path: selected,
+        })
         console.log(content)
         setFileContent(content)
       }
