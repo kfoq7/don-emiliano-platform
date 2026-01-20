@@ -1,117 +1,155 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 use std::fs;
-use std::path::Path;
+use std::io::{self, Read};
+// use std::path::Path;
 
 use serde_json::json;
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+/**
+This function convert to `.txt`, and retrive the content of Skt file .dat
+*/
+fn getconvert_bytes_to_str(input_path: &str) -> io::Result<String> {
+    // Open the .dat file, and read the entire file
+    let mut file = fs::File::open(input_path)?;
+    let mut buffer = Vec::new();
+    file.read_to_end(&mut buffer)?;
+
+    // Convert the bytes buffer to a String
+    let text_content = String::from_utf8_lossy(&buffer).to_string();
+
+    // Return the data content
+    Ok(text_content)
 }
 
-// fn read_bytes_to_hex(path: &str) -> Result<String, String> {
-//     let file_path = Path::new(path);
-//     let bytes = fs::read(file_path).map_err(|e| format!("Failed to read file: {}", e))?;
-//
-//     let hex = bytes
-//         .iter()
-//         .map(|b| format!("{:02x}", b))
-//         .collect::<Vec<_>>()
-//         .join(" ");
-//
-//     Ok(hex)
-// }
+fn get_user_data(input_path: &str) -> io::Result<String> {
+    let content = getconvert_bytes_to_str(input_path)?;
 
-#[derive(Debug)]
-struct Attendance {
-    user_id: u32,
-    timestamp: String,
-    status_a: u8,
-    status_b: u8,
-    status_c: u8,
-    status_d: u8,
-}
-
-fn get_attendance(path: String) -> Result<Vec<Attendance>, String> {
-    let file_path = Path::new(&path);
-
-    // Reading as a string directly is more idiomatic if the file is text
-    let data = fs::read_to_string(file_path).map_err(|e| format!("Failed to read file: {}", e))?;
-
-    let mut logs = Vec::new();
-
-    for line in data.lines() {
-        // Your log uses Tabs (\t) as the primary separator
-        let columns: Vec<&str> = line.split('\t').map(|s| s.trim()).collect();
-
-        if columns.len() >= 6 {
-            let record = Attendance {
-                // columns[0] is the User ID
-                user_id: columns[0].parse().unwrap_or(0),
-                // columns[1] is the Date/Time string
-                timestamp: columns[1].to_string(),
-                status_a: columns[2].parse().unwrap_or(0),
-                status_b: columns[3].parse().unwrap_or(0),
-                status_c: columns[4].parse().unwrap_or(0),
-                status_d: columns[5].parse().unwrap_or(0),
-            };
-            logs.push(record);
-        }
-    }
-
-    Ok(logs)
-}
-
-fn get_users_from_bytes(path: String) -> Result<Vec<String>, String> {
-    let file_path = Path::new(&path);
-    let bytes = fs::read(file_path).map_err(|e| format!("Failed to read file: {}", e))?;
-
-    let mut names = Vec::new();
-    let mut current_name = Vec::new();
-
-    for &b in &bytes {
-        if b.is_ascii_alphabetic() {
-            current_name.push(b);
-        } else {
-            if current_name.len() >= 3 {
-                if let Ok(name) = String::from_utf8(current_name.clone()) {
-                    names.push(name);
-                }
-            }
-
-            current_name.clear();
-        }
-    }
-
-    Ok(names)
-}
-
-#[tauri::command]
-fn read_and_get_users(path: String) -> Result<String, String> {
-    let users_names = get_users_from_bytes(path)?;
-
-    let users: Vec<serde_json::Value> = users_names
-        .iter()
+    let records: Vec<serde_json::Value> = content
+        .split('\0')
+        .filter(|s| !s.trim().is_empty())
+        .filter(|s| s.chars().any(|c| c.is_alphabetic()))
+        .filter(|s| s.chars().filter(|c| c.is_alphabetic()).count() > 2)
         .enumerate()
-        .map(|(index, user_name)| {
+        .map(|(index, s)| {
+            let name = s
+                .chars()
+                .filter(|c| c.is_alphabetic() || c.is_whitespace())
+                .collect::<String>()
+                .trim()
+                .to_string();
+
             json!({
                 "id": index + 1,
-                "name": user_name
+                "name": name
             })
         })
         .collect();
 
-    serde_json::to_string(&json!({ "users": users }))
-        .map_err(|e| format!("failed to serialize to json: {}", e))
+    let json_output = json!({ "records": records });
+    let json_content =
+        serde_json::to_string_pretty(&json_output).expect("Failed to serialize to JSON");
+
+    Ok(json_content)
+}
+
+fn get_attendance_data(input_path: &str) -> io::Result<String> {
+    let content = getconvert_bytes_to_str(input_path)?;
+
+    println!("{}", content);
+
+    // 5. Parse each line into structured data
+    let records: Vec<serde_json::Value> = content
+        .lines()
+        .filter(|line| !line.trim().is_empty()) // Skip empty lines
+        .map(|line| {
+            let fields: Vec<&str> = line.split('\t').collect();
+
+            // Trim leading/trailing whitespace from each field
+            let id = fields.first().unwrap_or(&"").trim();
+            let timestamp = fields.get(1).unwrap_or(&"").trim();
+            // This variables are unnecessary for now
+            // let field2 = fields.get(2).unwrap_or(&"").trim();
+            // let field3 = fields.get(3).unwrap_or(&"").trim();
+            // let field4 = fields.get(4).unwrap_or(&"").trim();
+            // let field5 = fields.get(5).unwrap_or(&"").trim();
+
+            json!({
+                "user_id": id,
+                "timestamp": timestamp,
+                // "field2": field2,
+                // "field3": field3,
+                // "field4": field4,
+                // "field5": field5
+            })
+        })
+        .collect();
+
+    // 6. Create final JSON with records array
+    let json_output = json!({ "records": records });
+    let json_content =
+        serde_json::to_string_pretty(&json_output).expect("Failed to serialize to JSON");
+
+    Ok(json_content) // Return Ok(()) on success
+}
+
+fn merge_users_and_attendance(users_path: &str, attendance_path: &str) -> io::Result<String> {
+    // Get user data
+    let users_content = get_user_data(users_path)?;
+    let users_json: serde_json::Value = serde_json::from_str(&users_content)
+        .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+
+    // Get attendance data
+    let attendance_content = get_attendance_data(attendance_path)?;
+    let attendance_json: serde_json::Value = serde_json::from_str(&attendance_content)
+        .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+
+    // Extract records arrays
+    let users = users_json["records"]
+        .as_array()
+        .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidData, "Invalid users format"))?;
+    let attendances = attendance_json["records"]
+        .as_array()
+        .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidData, "Invalid attendance format"))?;
+
+    // Create merged records
+    let merged_records: Vec<serde_json::Value> = attendances
+        .iter()
+        .filter_map(|attendance| {
+            let user_id = attendance["user_id"].as_str()?;
+
+            // Find matching user by id
+            let user = users
+                .iter()
+                .find(|u| u["id"].as_i64().map(|id| id.to_string()) == Some(user_id.to_string()));
+
+            Some(json!({
+                "user_id": user_id,
+                "user_name": user.and_then(|u| u["name"].as_str()).unwrap_or("Unknown"),
+                "timestamp": attendance["timestamp"].as_str().unwrap_or("")
+            }))
+        })
+        .collect();
+
+    let json_output = json!({ "records": merged_records });
+    let json_content =
+        serde_json::to_string_pretty(&json_output).expect("Failed to serialize to JSON");
+
+    Ok(json_content)
 }
 
 #[tauri::command]
-fn read_attendance(path: String) -> Result<String, String> {
-    let attendances = get_attendance(path)?;
+fn get_attendance_results(users_path: String, attendance_path: String) -> Result<String, String> {
+    merge_users_and_attendance(&users_path, &attendance_path).map_err(|e| e.to_string())
+}
 
-    // Wrap in a JSON object and serialize
-    serde_json::to_string(&json!({ "data": attendances }))
-        .map_err(|e| format!("Failed to serialize to JSON: {}", e)) // Fixed the format! macro
+#[tauri::command]
+fn read_and_get_users(path: String) -> Result<String, String> {
+    get_user_data(&path).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+fn read_and_get_attendance(path: String) -> Result<String, String> {
+    get_attendance_data(&path).map_err(|e| e.to_string())
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -120,9 +158,9 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
-            greet,
             read_and_get_users,
-            read_attendance
+            read_and_get_attendance,
+            get_attendance_results,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
