@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks'
 import { useRetriveAttendanceData } from './hooks/use-retrive-attendance-data'
 import { useUploadFiles } from './hooks/use-upload-files'
+import { useExportAttendance } from './hooks/use-export-attendance'
 
 function App() {
   const {
@@ -17,6 +18,7 @@ function App() {
       attendanceFilePath,
       setError,
     })
+  const { isExporting, handleExportToCSV } = useExportAttendance({ setError })
 
   const [filters, setFilters] = useState({
     userId: '',
@@ -142,6 +144,18 @@ function App() {
         )}
 
         {error && <p className="text-red-600 mt-4 font-medium">{error}</p>}
+
+        <div className="mt-6 flex gap-3">
+          <button
+            onClick={() => handleExportToCSV(filteredRecords || [])}
+            disabled={
+              isExporting || !filteredRecords || filteredRecords.length === 0
+            }
+            className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors font-medium disabled:bg-gray-400 disabled:cursor-not-allowed"
+          >
+            {isExporting ? 'Exportando...' : 'Exportar a Excel (CSV)'}
+          </button>
+        </div>
 
         {attendanceData && attendanceData.records.length > 0 && (
           <div className="mt-8">

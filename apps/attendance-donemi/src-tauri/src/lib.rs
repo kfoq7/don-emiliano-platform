@@ -137,6 +137,66 @@ fn merge_users_and_attendance(users_path: &str, attendance_path: &str) -> io::Re
     Ok(json_content)
 }
 
+fn export_to_csv(data: &str, output_path: &str) -> io::Result<()> {
+    let json_data: serde_json::Value =
+        serde_json::from_str(data).map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
+
+    let records = json_data
+        .as_array()
+        .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidData, "Invalid data format"))?;
+
+    let mut wtr = csv::Writer::from_path(output_path)?;
+
+    // Write headers based on first record
+    if let Some(first_record) = records.first() {
+        if let Some(obj) = first_record.as_object() {
+            let headers: Vec<&str> = obj.keys().map(|k| k.as_str()).collect();
+            wtr.write_record(&headers)?;
+        }
+    }
+
+    // Write data rows
+    for record in records {
+        if let Some(obj) = record.as_object() {
+            let values: Vec<String> = obj
+                .values()
+                .map(|v| match v {
+                    serde_json::Value::String(s) => s.clone(),
+                    serde_json::Value::Number(n) => n.to_string(),
+                    serde_json::Value::Bool(b) => b.to_string(),
+                    _ => String::new(),
+                })
+                .collect();
+            wtr.write_record(&values)?;
+        }
+    }
+
+    wtr.flush()?;
+    Ok(())
+}
+
+#[tauri::command]
+async fn export_attendance(app: tauri::AppHandle, data: String) -> Result<String, String> {
+    use tauri_plugin_dialog::DialogExt;
+
+    // Open save dialog
+    let file_path = app
+        .dialog()
+        .file()
+        .add_filter("CSV files", &["csv"])
+        .set_file_name("attendance_export.csv")
+        .blocking_save_file();
+
+    match file_path {
+        Some(path) => {
+            let path_str = path.to_string();
+            export_to_csv(&data, &path_str).map_err(|e| e.to_string())?;
+            Ok(format!("Data exported successfully to {}", path_str))
+        }
+        None => Err("Export cancelled by user".to_string()),
+    }
+}
+
 #[tauri::command]
 fn get_attendance_results(users_path: String, attendance_path: String) -> Result<String, String> {
     merge_users_and_attendance(&users_path, &attendance_path).map_err(|e| e.to_string())
@@ -161,6 +221,7 @@ pub fn run() {
             read_and_get_users,
             read_and_get_attendance,
             get_attendance_results,
+            export_attendance,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
