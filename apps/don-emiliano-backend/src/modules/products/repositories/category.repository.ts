@@ -12,8 +12,12 @@ export class CategoryRepository {
     private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  async getAll() {
+  async findAll() {
     return this.categoryRepository.find()
+  }
+
+  async findById(categoryId: number) {
+    return this.categoryRepository.findOneBy({ id: categoryId })
   }
 
   async create(category: CreateCategoryDto) {

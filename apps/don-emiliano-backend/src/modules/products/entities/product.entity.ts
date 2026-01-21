@@ -27,7 +27,7 @@ export class Product {
   @Column({ default: true })
   isStockAvailable: boolean
 
-  @ManyToOne('Category', 'products')
+  @ManyToOne('Category', 'products', { cascade: ['recover'] })
   @JoinColumn()
   category: Relation<Category>
 

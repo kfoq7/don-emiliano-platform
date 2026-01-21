@@ -57,7 +57,7 @@ fn get_attendance_data(input_path: &str) -> io::Result<String> {
 
     println!("{}", content);
 
-    // 5. Parse each line into structured data
+    // Parse each line into structured data
     let records: Vec<serde_json::Value> = content
         .lines()
         .filter(|line| !line.trim().is_empty()) // Skip empty lines
@@ -84,7 +84,7 @@ fn get_attendance_data(input_path: &str) -> io::Result<String> {
         })
         .collect();
 
-    // 6. Create final JSON with records array
+    // Create final JSON with records array
     let json_output = json!({ "records": records });
     let json_content =
         serde_json::to_string_pretty(&json_output).expect("Failed to serialize to JSON");

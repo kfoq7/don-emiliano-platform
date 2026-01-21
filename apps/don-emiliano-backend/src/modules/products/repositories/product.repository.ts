@@ -17,7 +17,13 @@ export class ProductRepository {
   }
 
   async create(data: CreateProductDto): Promise<Product> {
-    const newProduct = this.productRepository.create(data)
+    const { categoryId, ...restData } = data
+
+    const newProduct = this.productRepository.create({
+      ...restData,
+      category: { id: categoryId },
+    })
+
     return this.productRepository.save(newProduct)
   }
 
