@@ -154,7 +154,7 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
         if (lngDisplay) lngDisplay.textContent = lngFixed
 
         // Update local state coord
-        location.set({ lat: latFixed, lng: lngFixed })
+        // location.set({ lat: latFixed, lng: lngFixed })
         console.log(location.get())
 
         container.dispatchEvent(

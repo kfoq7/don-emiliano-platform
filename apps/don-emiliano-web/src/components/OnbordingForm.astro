@@ -1,0 +1,107 @@
+<section class="w-full">
+  <div class="w-full px-4">
+    <h2 class="text-4xl font-bold text-gray-800 mb-6 text-left">Completa tus datos</h2>
+
+    <form id="onboarding-form" class="space-y-4">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+          Nombre completo
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent outline-none transition"
+          placeholder="Ingresa tu nombre"
+        />
+        <span class="text-red-500 text-sm hidden" id="name-error">
+          Por favor ingresa tu nombre
+        </span>
+      </div>
+
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">
+          Número de teléfono
+        </label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          required
+          pattern="[0-9]{10}"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent outline-none transition"
+          placeholder="Ej: 5512345678"
+        />
+        <span class="text-red-500 text-sm hidden" id="phone-error">
+          Por favor ingresa un número válido (10 dígitos)
+        </span>
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform hover:scale-105"
+      >
+        Continuar
+      </button>
+    </form>
+  </div>
+</section>
+
+<script>
+  import { userStore } from '@/stores/user'
+
+  const form = document.getElementById('onboarding-form') as HTMLFormElement
+  const nameInput = document.getElementById('name') as HTMLInputElement
+  const phoneInput = document.getElementById('phone') as HTMLInputElement
+  const nameError = document.getElementById('name-error')
+  const phoneError = document.getElementById('phone-error')
+
+  form?.addEventListener('submit', e => {
+    e.preventDefault()
+
+    let isValid = true
+
+    // Validar nombre
+    if (!nameInput.value.trim()) {
+      nameError?.classList.remove('hidden')
+      nameInput.classList.add('border-red-500')
+      isValid = false
+    } else {
+      nameError?.classList.add('hidden')
+      nameInput.classList.remove('border-red-500')
+    }
+
+    // Validar teléfono
+    const phoneRegex = /^[0-9]{10}$/
+    if (!phoneRegex.test(phoneInput.value.trim())) {
+      phoneError?.classList.remove('hidden')
+      phoneInput.classList.add('border-red-500')
+      isValid = false
+    } else {
+      phoneError?.classList.add('hidden')
+      phoneInput.classList.remove('border-red-500')
+    }
+
+    if (isValid) {
+      // Aquí puedes manejar el envío del formulario
+      console.log('Formulario válido:', {
+        name: nameInput.value,
+        phone: phoneInput.value,
+      })
+      userStore.set({ name: nameInput.value, numberPhone: phoneInput.value })
+      // form.submit(); o hacer una petición fetch
+    }
+  })
+
+  // Limpiar errores al escribir
+  nameInput?.addEventListener('input', () => {
+    nameError?.classList.add('hidden')
+    nameInput.classList.remove('border-red-500')
+  })
+
+  phoneInput?.addEventListener('input', () => {
+    phoneError?.classList.add('hidden')
+    phoneInput.classList.remove('border-red-500')
+  })
+</script>

@@ -7,7 +7,7 @@ export default function OrderCart() {
   const total = useProductItemsTotal()
 
   const handleOrder = () => {
-    window.location.href = '/make-your-orden/complete'
+    window.location.href = '/onbording'
     // const orderMessage = createOrderMesesage({
     //   totalPrice: total,
     //   items: Object.values(productItems.get()),
