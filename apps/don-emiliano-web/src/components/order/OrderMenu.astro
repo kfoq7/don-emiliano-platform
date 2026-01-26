@@ -1,26 +1,11 @@
 ---
 import Order from './Order.tsx'
-import OrderCart from './OrderCart.tsx'
 ---
 
-<section class="my-20 px-4 pt-16">
-  <div class="max-w-7xl m-auto flex items-center justify-between flex-col md:flex-row gap-10">
-    <div class="w-full md:w-[125%]">
-      <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight text-balance">
-        Ordena tu Chicharron favorito
-      </h2>
+<div class="my-20 px-4">
+  <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight text-balance">
+    Ordena tu Chicharron favorito
+  </h2>
 
-      <Order client:load />
-    </div>
-
-    <div class="w-full">
-      <div class="mb-4">
-        <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-balance">
-          Tu seleccion
-        </h2>
-      </div>
-
-      <OrderCart client:load />
-    </div>
-  </div>
-</section>
+  <Order client:load />
+</div>

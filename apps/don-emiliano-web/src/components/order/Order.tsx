@@ -33,8 +33,8 @@ export default function Order() {
       </div>
 
       <div class="h-120 overflow-y-auto">
-        <div className="mt-2">
-          <div className="space-y-3">
+        <div className="mt-4">
+          <div className="grid grid-cols-3 gap-4">
             {filteredProducts.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}
