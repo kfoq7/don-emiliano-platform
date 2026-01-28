@@ -1,7 +1,7 @@
 ---
 import OrderMenu from '@/components/order/OrderMenu.astro'
-import OrderCard from '@/components/order/OrderCart.tsx'
 import OrderCartList from './order/OrderCartList.tsx'
+import OrderCard from '@/components/OrderCard.astro'
 ---
 
 <section class="pt-10">
@@ -10,10 +10,24 @@ import OrderCartList from './order/OrderCartList.tsx'
       <OrderMenu />
     </div>
 
-    <div class="hidden md:block rounded-md border border-gray-200/70 drop-shadow-md">
-      <h1>Tu selccion</h1>
+    <div class="hidden md:block">
+      <OrderCard title="Productos seleccionados">
+        <OrderCartList client:load />
+      </OrderCard>
 
-      <OrderCartList client:load />
+      <OrderCard title="Resumen de pago">
+        <div class="my-2 flex flex-col justify-center gap-x-4">
+          <span>Subtotal: 183</span>
+          <span> Propina: 1.50 </span>
+        </div>
+      </OrderCard>
+
+      <div
+        class="px-2 py-1.5 flex items-center justify-between rounded-md shadow-sm border border-gray-200/40"
+      >
+        <span class="font-semibold"> Total: </span>
+        <span class="font-bold text-lg"> 300 </span>
+      </div>
     </div>
   </div>
 </section>

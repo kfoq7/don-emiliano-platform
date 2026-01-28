@@ -16,14 +16,14 @@ export default function OrderCartList() {
 
   return (
     <div className="h-70 overflow-y-auto">
-      <div className="px-2 my-2 h-full">
+      <div className="my-2 px-3 h-full">
         {Object.values($products).length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <span className="text-gray-500">No hay productos seleccionados.</span>{' '}
           </div>
         ) : (
           Object.values($products).map(({ id, name, quantity }) => (
-            <div key={id} className="flex items-center justify-between px-2 py-4">
+            <div key={id} className="flex items-center justify-between py-4">
               <div className="font-semibold text-lg">{name}</div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-700">Cantidad: {quantity}</span>
