@@ -1,4 +1,4 @@
-import { OrderCartList } from './OrderCartList.tsx'
+import OrderCartList from './OrderCartList.tsx'
 import { useProductItemsTotal, productItems } from '@/stores/order'
 import { Divider } from '@/components/ui'
 import { createOrderMesesage } from '@/lib/utils/create-order-message.ts'
@@ -24,7 +24,7 @@ export default function OrderCart() {
   return (
     <>
       <OrderCartList />
-      <Divider />
+      {/* <Divider /> */}
       <div className="w-full flex items-center justify-between ">
         <div className="text-xl font-bold text-right uppercase">Total: S/.{total}</div>
         <button onClick={handleOrder} className="px-4 py-2 bg-amber-400 rounded-md">

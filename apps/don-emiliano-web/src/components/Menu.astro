@@ -1,7 +1,19 @@
 ---
 import OrderMenu from '@/components/order/OrderMenu.astro'
+import OrderCard from '@/components/order/OrderCart.tsx'
+import OrderCartList from './order/OrderCartList.tsx'
 ---
 
 <section class="pt-10">
-  <OrderMenu />
+  <div class="grid grid-cols-1 lg:grid-cols-[auto_450px]">
+    <div>
+      <OrderMenu />
+    </div>
+
+    <div class="hidden md:block rounded-md border border-gray-200/70 drop-shadow-md">
+      <h1>Tu selccion</h1>
+
+      <OrderCartList client:load />
+    </div>
+  </div>
 </section>

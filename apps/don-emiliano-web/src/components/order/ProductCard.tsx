@@ -5,7 +5,7 @@ type Props = { product: Product }
 
 export default function ProductCard({ product }: Props) {
   return (
-    <div className="flex justify-between px-4 py-2 bg-white border border-gray-300/80 rounded-md drop-shadow-sm">
+    <div className="flex justify-between px-4 py-2 bg-white border border-gray-200/40 rounded-md drop-shadow-sm">
       <div className="flex flex-col items-center justify-center gap-4 w-full">
         {product.image && (
           <img
