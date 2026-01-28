@@ -14,6 +14,9 @@ export class CreateOrderDto {
   @Type(() => Number)
   userId: number
 
+  @IsNumber()
+  @IsPositive()
+  @Type(() => Number)
   totalAmount: number
 
   @IsDefined()
