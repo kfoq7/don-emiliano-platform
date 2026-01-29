@@ -1,8 +1,8 @@
 import { useStore } from '@nanostores/preact'
 import { persistentMap } from '@nanostores/persistent'
-import { type Product } from '@/types/Product'
+import { type ProductSelected } from '@/types/Product'
 
-export const productItems = persistentMap<Record<string, Product & { quantity: number }>>(
+export const productItems = persistentMap<Record<string, ProductSelected & { quantity: number }>>(
   'productItems',
   {},
   {

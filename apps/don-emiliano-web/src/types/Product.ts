@@ -6,3 +6,7 @@ export type Product = {
   price: number
   image?: string
 }
+
+export type ProductSelected = Omit<Product, 'image'> & {
+  observation?: string
+}
