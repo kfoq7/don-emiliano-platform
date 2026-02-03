@@ -12,7 +12,7 @@ export const productItems = persistentMap<Record<string, ProductSelected & { qua
   },
 )
 
-export function addProductItem(item: Product) {
+export function addProductItem(item: ProductSelected) {
   const itemId = `${item.id}`
   const existingEntry = productItems.get()[itemId]
   if (existingEntry) {

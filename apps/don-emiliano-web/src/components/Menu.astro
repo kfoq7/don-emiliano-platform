@@ -26,8 +26,22 @@ import OrderCard from '@/components/OrderCard.astro'
         class="px-2 py-1.5 flex items-center justify-between rounded-md shadow-sm border border-gray-200/40"
       >
         <span class="font-semibold"> Total: </span>
-        <span class="font-bold text-lg"> 300 </span>
+        <span id="order-total-price" class="font-bold text-lg"> 300 </span>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  import { productItems } from '@/stores/order'
+
+  const orderTotalPrice = document.getElementById('order-total-price')
+  if (orderTotalPrice) {
+    productItems.listen(items => {
+      const products = Object.values(items)
+      const total = products.reduce((total, product) => total + product.price * product.quantity, 0)
+
+      orderTotalPrice.innerHTML = `${total}`
+    })
+  }
+</script>
