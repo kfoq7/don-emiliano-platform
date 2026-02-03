@@ -33,11 +33,11 @@ import OrderCard from '@/components/OrderCard.astro'
 </section>
 
 <script>
-  import { productItems } from '@/stores/order'
+  import { cartItems } from '@/stores/order'
 
   const orderTotalPrice = document.getElementById('order-total-price')
   if (orderTotalPrice) {
-    productItems.listen(items => {
+    cartItems.listen(items => {
       const products = Object.values(items)
       const total = products.reduce((total, product) => total + product.price * product.quantity, 0)
 

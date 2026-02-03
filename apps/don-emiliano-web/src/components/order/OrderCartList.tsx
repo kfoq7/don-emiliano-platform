@@ -1,9 +1,9 @@
 import { useStore } from '@nanostores/preact'
-import { productItems } from '@/stores/order'
+import { cartItems } from '@/stores/order'
 import { useHydration } from '@/lib/hooks/hydration'
 
 export default function OrderCartList() {
-  const $products = useStore(productItems)
+  const $products = useStore(cartItems)
   const { hydrated } = useHydration({ item: Object.values($products) })
 
   if (!hydrated) {

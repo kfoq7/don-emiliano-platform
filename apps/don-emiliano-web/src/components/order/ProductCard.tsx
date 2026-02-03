@@ -1,9 +1,13 @@
-import { addProductItem } from '@/stores/order'
+import { addCartItem, increaseCartItem, decreaseCartItem } from '@/stores/order'
+import { Plus, Minus } from '@/components/icons/react-icons'
+import type { CartItem } from '@/types/Order'
 import type { Product } from '@/types/Product'
 
-type Props = { product: Product }
+type Props = { product: Product; cartItem?: CartItem }
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product, cartItem }: Props) {
+  const quantity = cartItem?.quantity || 0
+
   return (
     <div className="flex justify-between px-4 py-2 bg-white border border-gray-200/40 rounded-md drop-shadow-sm">
       <div className="flex flex-col items-center justify-center gap-4 w-full">
@@ -26,12 +30,31 @@ export default function ProductCard({ product }: Props) {
           </div>
         </div>
 
-        <button
-          className="px-2 py-2.5 border border-gray-400 rounded-md cursor-pointer w-full hover:bg-amber-400 hover:border-amber-400"
-          onClick={() => addProductItem(product)}
-        >
-          Agregar
-        </button>
+        {quantity === 0 ? (
+          <button
+            className="size-8 w-full flex items-center justify-center gap-2  bg-amber-500 rounded-md cursor-pointer"
+            onClick={() => addCartItem(product)}
+          >
+            <Plus />
+            Agregar
+          </button>
+        ) : (
+          <div class="size-8 flex items-center justify-between rounded-md w-full bg-amber-200">
+            <button
+              onClick={() => decreaseCartItem(product.id)}
+              class="flex items-center justify-center size-7 border-transparent bg-transparent rounded-md hover:bg-amber-300 hover:text-amber-300"
+            >
+              <Minus />
+            </button>
+            <span class="w-6 text-center font-medium text-black">{quantity}</span>
+            <button
+              onClick={() => increaseCartItem(product.id)}
+              class="flex items-center justify-center size-7 border-transparent bg-transparent rounded-md hover:bg-amber-300 hover:text-amber-300"
+            >
+              <Plus />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

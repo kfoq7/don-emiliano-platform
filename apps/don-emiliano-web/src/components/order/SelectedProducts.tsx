@@ -1,9 +1,9 @@
-import { productItems, useProductItemsTotal } from '@/stores/order'
+import { cartItems, useCartItemsTotal } from '@/stores/order'
 import { useStore } from '@nanostores/preact'
 
 export default function SelectedProduct() {
-  const totalPrice = useProductItemsTotal()
-  const selectedProducts = useStore(productItems)
+  const totalPrice = useCartItemsTotal()
+  const selectedProducts = useStore(cartItems)
 
   return (
     <div>

@@ -1,8 +1,9 @@
 import { useStore } from '@nanostores/preact'
 import { persistentMap } from '@nanostores/persistent'
 import { type ProductSelected } from '@/types/Product'
+import type { CartItem } from '@/types/Order'
 
-export const productItems = persistentMap<Record<string, ProductSelected & { quantity: number }>>(
+export const cartItems = persistentMap<Record<string, CartItem>>(
   'productItems',
   {},
   {
@@ -12,48 +13,48 @@ export const productItems = persistentMap<Record<string, ProductSelected & { qua
   },
 )
 
-export function addProductItem(item: ProductSelected) {
+export function addCartItem(item: ProductSelected) {
   const itemId = `${item.id}`
-  const existingEntry = productItems.get()[itemId]
+  const existingEntry = cartItems.get()[itemId]
   if (existingEntry) {
-    productItems.setKey(itemId, {
+    cartItems.setKey(itemId, {
       ...existingEntry,
       quantity: existingEntry.quantity + 1,
     })
   } else {
-    productItems.setKey(itemId, { ...item, quantity: 1 })
+    cartItems.setKey(itemId, { ...item, quantity: 1 })
   }
 }
 
-export function increaseProductItem(id: number) {
+export function increaseCartItem(id: number) {
   const itemId = `${id}`
-  const existingEntry = productItems.get()[itemId]
+  const existingEntry = cartItems.get()[itemId]
   if (existingEntry) {
-    productItems.setKey(itemId, {
+    cartItems.setKey(itemId, {
       ...existingEntry,
       quantity: existingEntry.quantity + 1,
     })
   }
 }
 
-export function decreaseProductItem(id: number) {
+export function decreaseCartItem(id: number) {
   const itemId = `${id}`
-  const existingEntry = productItems.get()[itemId]
+  const existingEntry = cartItems.get()[itemId]
   if (existingEntry) {
     if (existingEntry.quantity > 1) {
-      productItems.setKey(itemId, {
+      cartItems.setKey(itemId, {
         ...existingEntry,
         quantity: existingEntry.quantity - 1,
       })
     } else {
-      productItems.setKey(itemId, undefined)
+      cartItems.setKey(itemId, undefined)
     }
   }
 }
 
-export function removeProductItem(id: number) {
+export function removeCartItem(id: number) {
   const itemId = `${id}`
-  productItems.setKey(itemId, undefined)
+  cartItems.setKey(itemId, undefined)
 }
 
 // export function getProductItemsTotal(): number {
@@ -61,7 +62,7 @@ export function removeProductItem(id: number) {
 //   return Object.values(items).reduce((total, item) => total + item.price * item.quantity, 0)
 // }
 
-export function useProductItemsTotal(): number {
-  const items = useStore(productItems)
+export function useCartItemsTotal(): number {
+  const items = useStore(cartItems)
   return Object.values(items).reduce((total, item) => total + item.price * item.quantity, 0)
 }

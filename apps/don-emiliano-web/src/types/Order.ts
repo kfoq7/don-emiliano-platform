@@ -1,6 +1,10 @@
 import type { Product } from './Product'
 
-export type Order = {
+export interface CartItem extends Product {
+  quantity: number
+}
+
+export interface Order {
   totalPrice: number
-  items: Partial<Product & { quantity: number }>[]
+  items: Partial<CartItem>[]
 }

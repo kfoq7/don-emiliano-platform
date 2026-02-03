@@ -1,4 +1,4 @@
-export type Product = {
+export interface Product {
   id: number
   name: string
   description: string
@@ -7,6 +7,6 @@ export type Product = {
   image?: string
 }
 
-export type ProductSelected = Omit<Product, 'image'> & {
+export interface ProductSelected extends Omit<Product, 'image'> {
   observation?: string
 }
