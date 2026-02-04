@@ -1,6 +1,7 @@
 import { useStore } from '@nanostores/preact'
-import { cartItems } from '@/stores/order'
+import { cartItems, decreaseCartItem, increaseCartItem } from '@/stores/order'
 import { useHydration } from '@/lib/hooks/hydration'
+import { Minus, Plus, Remove } from '../icons/react-icons'
 
 export default function OrderCartList() {
   const $products = useStore(cartItems)
@@ -9,24 +10,45 @@ export default function OrderCartList() {
   if (!hydrated) {
     return (
       <div className="h-120 overflow-y-scroll flex items-center justify-center">
-        <span className="text-gray-500">Cargondo orden...</span>
+        <span className="text-gray-500">Cargando orden...</span>
       </div>
     )
   }
 
   return (
     <div className="h-70 overflow-y-auto">
-      <div className="my-2 px-3 h-full">
+      <div className="my-2 px-3 h-full space-y-3">
         {Object.values($products).length === 0 ? (
-          <div className="flex items-center justify-center h-full">
-            <span className="text-gray-500">No hay productos seleccionados.</span>{' '}
+          <div className="flex flex-col items-center justify-center h-full">
+            <span className="text-gray-500 text-lg font-medium">Tu carrito está vacío</span>
+            <span className="text-gray-400 text-sm">Agrega productos para comenzar</span>
           </div>
         ) : (
-          Object.values($products).map(({ id, name, quantity }) => (
-            <div key={id} className="flex items-center justify-between py-4">
-              <div className="font-semibold text-lg">{name}</div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-700">Cantidad: {quantity}</span>
+          Object.values($products).map(({ id, name, price, quantity }) => (
+            <div key={id} className="flex items-center gap-3 px-2 py-3 rounded-lg bg-red-200/40">
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-sm ">{name}</p>
+                <p className="text-sm">S/ {price} c/u</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => decreaseCartItem(id)}
+                  className="border border-gray-300/80 drop-shadow-md rounded-md p-0.5"
+                >
+                  <Minus />
+                </button>
+                <span className="text-sm text-gray-700">{quantity}</span>
+                <button
+                  onClick={() => increaseCartItem(id)}
+                  className="border border-gray-300/80 drop-shadow-md rounded-md p-0.5"
+                >
+                  <Plus />
+                </button>
+
+                <div class="text-right">S/ {price * quantity}</div>
+                <div class="rounded-full p-1 border border-gray-200 bg-gray-300 cursor-pointer hover:border-red-200 hover:bg-red-300">
+                  <Remove />
+                </div>
               </div>
             </div>
           ))
