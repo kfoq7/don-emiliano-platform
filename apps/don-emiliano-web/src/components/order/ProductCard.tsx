@@ -15,7 +15,7 @@ export default function ProductCard({ product, cartItem }: Props) {
           <img
             src={product.image}
             alt={product.name}
-            className="w-16 h-auto object-cover rounded"
+            className="w-100 h-auto object-cover rounded"
           />
         )}
 

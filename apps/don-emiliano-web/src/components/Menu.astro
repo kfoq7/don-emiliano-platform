@@ -4,7 +4,7 @@ import OrderCartList from './order/OrderCartList.tsx'
 import OrderCard from '@/components/OrderCard.astro'
 ---
 
-<section class="pt-10">
+<section class="pt-4">
   <div class="grid grid-cols-1 lg:grid-cols-[auto_450px]">
     <div>
       <OrderMenu />
@@ -13,21 +13,35 @@ import OrderCard from '@/components/OrderCard.astro'
     <div class="hidden md:block">
       <OrderCard title="Productos seleccionados">
         <OrderCartList client:load />
-      </OrderCard>
 
-      <OrderCard title="Resumen de pago">
         <div class="my-2 flex flex-col justify-center gap-x-4">
-          <span>Subtotal: 183</span>
-          <span>Delivery: 5</span>
+          <h3 class="text-lg font-semibold">Resumen de pago</h3>
+          <p>Subtotal: <span id="order-subtotal-price"></span></p>
+          <p>Delivery: 5</p>
+        </div>
+
+        <div class="py-1.5">
+          <p class="font-bold text-lg">
+            Total:
+            <span id="order-total-price" class="font-semibold text-right"></span>
+          </p>
+        </div>
+
+        <div class="my-4 space-y-2">
+          <button
+            id="order-btn"
+            class="px-2 py-1 bg-amber-300 text-white rounded-md w-full font-medium cursor-pointer"
+          >
+            Ordernar
+          </button>
+          <button
+            id="empty-cart-btn"
+            class="px-2 py-1 border-2 border-amber-300 rounded-md w-full font-medium cursor-pointer"
+          >
+            Vacíar carrito
+          </button>
         </div>
       </OrderCard>
-
-      <div
-        class="px-2 py-1.5 flex items-center justify-between rounded-md shadow-sm border border-gray-200/40"
-      >
-        <span class="font-semibold"> Total: </span>
-        <span id="order-total-price" class="font-bold text-lg"> 300 </span>
-      </div>
     </div>
   </div>
 </section>
@@ -35,13 +49,26 @@ import OrderCard from '@/components/OrderCard.astro'
 <script>
   import { cartItems } from '@/stores/order'
 
+  const orderSubtotalPrice = document.getElementById('order-subtotal-price')
   const orderTotalPrice = document.getElementById('order-total-price')
-  if (orderTotalPrice) {
+
+  if (orderTotalPrice && orderSubtotalPrice) {
     cartItems.listen(items => {
       const products = Object.values(items)
       const total = products.reduce((total, product) => total + product.price * product.quantity, 0)
 
-      orderTotalPrice.innerHTML = `${total}`
+      orderSubtotalPrice.innerHTML = `${total}`
+      orderTotalPrice.innerHTML = `${total + 5}`
     })
+  }
+
+  const emptyCart = document.getElementById('empty-cart-btn')
+  if (emptyCart) {
+    emptyCart.addEventListener('click', () => cartItems.set({}))
+  }
+
+  const orderBtn = document.getElementById('order-btn')
+  if (orderBtn) {
+    orderBtn.addEventListener('click', () => (document.location.href = '/completa-orden'))
   }
 </script>

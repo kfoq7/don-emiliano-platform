@@ -4,21 +4,24 @@
     "name": "1 KG. DE CHICHARRÓN",
     "description": "Acompañado con camote y sarsa criolla",
     "category": "porciones",
-    "price": 120
+    "price": 120,
+    "image": "/img/don-emiliano-logo.webp"
   },
   {
     "id": 2,
     "name": "1/2 KG. DE CHICHARRÓN",
     "description": "Acompañado con camote y sarsa criolla",
     "category": "porciones",
-    "price": 62
+    "price": 62,
+    "image": "/img/don-emiliano-logo.webp"
   },
   {
     "id": 3,
     "name": "1/4 KG. DE CHICHARRÓN",
     "description": "Acompañado con camote y sarsa criolla",
     "category": "porciones",
-    "price": 35
+    "price": 35,
+    "image": "/img/don-emiliano-logo.webp"
   },
   {
     "id": 4,
