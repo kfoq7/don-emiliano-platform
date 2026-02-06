@@ -31,9 +31,11 @@ description ??= defaultDescription
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>
-    <Header />
-    <slot />
-    <Footer />
+    <div class="min-h-screen">
+      <Header />
+      <slot />
+      <Footer />
+    </div>
   </body>
 </html>
 

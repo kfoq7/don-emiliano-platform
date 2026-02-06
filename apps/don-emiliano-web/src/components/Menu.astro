@@ -1,13 +1,14 @@
 ---
-import OrderMenu from '@/components/order/OrderMenu.astro'
 import OrderCartList from './order/OrderCartList.tsx'
 import OrderCard from '@/components/OrderCard.astro'
+import Order from './order/Order.tsx'
+import CategoryFilters from './order/CategoryFilters.tsx'
 ---
 
-<section class="pt-4">
-  <div class="grid grid-cols-1 lg:grid-cols-[auto_450px]">
-    <div>
-      <OrderMenu />
+<section class="w-full">
+  <div class="grid grid-cols-1 gap-4 lg:grid-cols-[auto_450px]">
+    <div class="pt-4">
+      <div><Order client:load /></div>
     </div>
 
     <div class="hidden md:block">

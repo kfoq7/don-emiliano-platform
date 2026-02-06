@@ -1,7 +1,27 @@
-import { map } from 'nanostores'
+import { atom, map } from 'nanostores'
 import productsData from '@/lib/products.json'
 
 export const productsStore = map<Record<number, (typeof productsData)[number]>>({})
+
+// TODO: move to JSON statci file or retrive from database, and parsert to TitleCase
+// export const categoriesStore = atom<string[]>([
+//   'porciones',
+//   'bebidas calientes',
+//   'guarniciones',
+//   'jugos',
+//   'frappes',
+//   'caldo',
+// ])
+export const categories = [
+  'porciones',
+  'bebidas calientes',
+  'guarniciones',
+  'jugos',
+  'frappes',
+  'caldo',
+] as const
+
+export const selectedCategoryAtom = atom<(typeof categories)[number]>('porciones')
 
 productsData.forEach(product => {
   productsStore.setKey(product.id, product)

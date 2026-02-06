@@ -28,14 +28,16 @@
     "name": "1/8 KG. DE CHICHARRÓN",
     "description": "Acompañado con camote y sarsa criolla",
     "category": "porciones",
-    "price": 22
+    "price": 22,
+    "image": "/img/don-emiliano-logo.webp"
   },
   {
     "id": 5,
     "name": "PORCIÓN DE RELLENO",
     "description": "Acompañado con camote y sarsa criolla",
     "category": "porciones",
-    "price": 16
+    "price": 16,
+    "image": "/img/don-emiliano-logo.webp"
   },
   {
     "id": 6,
