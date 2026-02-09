@@ -1,6 +1,47 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-primary: #ff5733;
+  --color-primary: #ff5d00;
+  --color-secondary: #edffe4;
+  --color-brand-indigo: #370fa7;
+  --color-brand-green: #13e136;
+  --color-brand-pink: #ed1f4e;
+  --color-brand-yellow: #ffd73f;
   --spacing-middle: 1260px;
+
+  /* Orange Expansion */
+  --color-action-extralight: #ffdbc7;
+  --color-action: #ff5d00;
+  --color-action-dark: #b34100;
+  --color-action-hover: #ff7a33;
+  --color-action-pressed: #cc4a00;
+  --color-action-disabled: #ffbfa3;
+
+  /* Mint/Green Expansion */
+  --color-surface-mint: #edffe4;
+  --color-mint-bold: #c1f2b0;
+  --color-mint-deep: #4a5d45;
+  --color-mint-hover: #d9ffcc;
+  --color-success: #13e136;
+  --color-success-light: #a3f5b0;
+
+  /* Neutrals */
+  --color-ink: #1a1a1a;
+  --color-ink-muted: #666666;
+  --color-ink-subtle: #999999;
+  --color-border-light: #e5e5e5;
+  --color-border: #cccccc;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f5f5f5;
+  --color-surface-pressed: #ebebeb;
+
+  /* Interactive States */
+  --color-selected: #fff5f0;
+  --color-selected-border: #ff5d00;
+  --color-focus-ring: #ff5d0040;
+
+  /* Typography */
+  --color-heading: #1a1a1a;
+  --color-title-accent: #370fa7;
+  --color-subtitle: #4a5d45;
 }

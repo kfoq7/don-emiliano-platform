@@ -3,7 +3,7 @@
     "id": 1,
     "name": "1 KG. DE CHICHARRÓN",
     "description": "Acompañado con camote y sarsa criolla",
-    "category": "porciones",
+    "category": "PORCIONES",
     "price": 120,
     "image": "/img/don-emiliano-logo.webp"
   },
@@ -11,7 +11,7 @@
     "id": 2,
     "name": "1/2 KG. DE CHICHARRÓN",
     "description": "Acompañado con camote y sarsa criolla",
-    "category": "porciones",
+    "category": "PORCIONES",
     "price": 62,
     "image": "/img/don-emiliano-logo.webp"
   },
@@ -19,7 +19,7 @@
     "id": 3,
     "name": "1/4 KG. DE CHICHARRÓN",
     "description": "Acompañado con camote y sarsa criolla",
-    "category": "porciones",
+    "category": "PORCIONES",
     "price": 35,
     "image": "/img/don-emiliano-logo.webp"
   },
@@ -27,7 +27,7 @@
     "id": 4,
     "name": "1/8 KG. DE CHICHARRÓN",
     "description": "Acompañado con camote y sarsa criolla",
-    "category": "porciones",
+    "category": "PORCIONES",
     "price": 22,
     "image": "/img/don-emiliano-logo.webp"
   },
@@ -35,7 +35,7 @@
     "id": 5,
     "name": "PORCIÓN DE RELLENO",
     "description": "Acompañado con camote y sarsa criolla",
-    "category": "porciones",
+    "category": "PORCIONES",
     "price": 16,
     "image": "/img/don-emiliano-logo.webp"
   },
@@ -43,91 +43,91 @@
     "id": 6,
     "name": "PORCIÓN DE CAMOTE",
     "description": "Porción de Camote",
-    "category": "guarniciones",
+    "category": "GUARNICIONES",
     "price": 8
   },
   {
     "id": 7,
     "name": "PORCIÓN DE SARSA CRIOLLA",
     "description": "Porción de Sarsa Criolla",
-    "category": "guarniciones",
+    "category": "GUARNICIONES",
     "price": 5
   },
   {
     "id": 8,
     "name": "PAN UNIDAD",
     "description": "Pan Unidad",
-    "category": "guarniciones",
+    "category": "GUARNICIONES",
     "price": 2
   },
   {
     "id": 9,
     "name": "FRESA CON LECHE",
     "description": "Jugo de Fresa con Leche",
-    "category": "jugos",
+    "category": "JUGOS",
     "price": 16
   },
   {
     "id": 10,
     "name": "ESPECIAL",
     "description": "Jugo Especial",
-    "category": "jugos",
+    "category": "JUGOS",
     "price": 13
   },
   {
     "id": 11,
     "name": "SURTIDO",
     "description": "Jugo Surtido",
-    "category": "jugos",
+    "category": "JUGOS",
     "price": 11
   },
   {
     "id": 12,
     "name": "PAPAYA",
     "description": "Jugo de Papaya",
-    "category": "jugos",
+    "category": "JUGOS",
     "price": 11
   },
   {
     "id": 13,
     "name": "PINA",
     "description": "Jugo de Piña",
-    "category": "jugos",
+    "category": "JUGOS",
     "price": 11
   },
   {
     "id": 14,
     "name": "LIMONADA CON HIERBABUENA",
     "description": "Limonada con Hierbabuena",
-    "category": "jugos",
+    "category": "JUGOS",
     "price": 11
   },
   {
     "id": 15,
     "name": "FRAPPE DE 12 ONZ",
     "description": "Sabores: Cafe, Moca, Fresa, Chocolate, Menta, Lucuma",
-    "category": "frappes",
+    "category": "FRAPPES",
     "price": 12
   },
   {
     "id": 16,
     "name": "FRAPPE DE 16 ONZ",
     "description": "Sabores: Cafe, Moca, Fresa, Chocolate, Menta, Lucuma",
-    "category": "frappes",
+    "category": "FRAPPES",
     "price": 16
   },
   {
     "id": 17,
     "name": "Patasca",
     "description": "Domingo de Patasca",
-    "category": "caldo",
+    "category": "CALDO",
     "price": 25
   },
   {
     "id": 18,
     "name": "Cafe",
     "description": "Bedida Caliente de Cafe",
-    "category": "bebidas calientes",
+    "category": "BEBIDAS CALIENTES",
     "price": 6
   }
 ]

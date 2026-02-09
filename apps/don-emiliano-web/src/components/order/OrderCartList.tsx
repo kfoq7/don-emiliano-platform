@@ -26,7 +26,10 @@ export default function OrderCartList() {
         <div className="h-70 overflow-y-auto">
           <div className="my-2 h-full space-y-3">
             {Object.values($products).map(({ id, name, price, quantity }) => (
-              <div key={id} className="flex items-center gap-3 px-2 py-3 rounded-lg bg-red-200/40">
+              <div
+                key={id}
+                className="flex items-center gap-3 px-2 py-3 rounded-lg bg-action-extralight"
+              >
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm ">{name}</p>
                   <p className="text-sm">S/ {price} c/u</p>

@@ -32,14 +32,14 @@ export default function ProductCard({ product, cartItem }: Props) {
 
         {quantity === 0 ? (
           <button
-            className="size-8 w-full flex items-center justify-center gap-2  bg-amber-500 rounded-md cursor-pointer"
+            className="size-8 w-full flex items-center justify-center gap-2 bg-action rounded-md cursor-pointer text-white"
             onClick={() => addCartItem(product)}
           >
-            <Plus />
+            <Plus className="fill-white" />
             Agregar
           </button>
         ) : (
-          <div class="size-8 flex items-center justify-between rounded-md w-full bg-amber-200">
+          <div class="size-8 flex items-center justify-between rounded-md w-full bg-action-extralight">
             <button
               onClick={() => decreaseCartItem(product.id)}
               class="flex items-center justify-center size-7 border-transparent bg-transparent rounded-md hover:bg-amber-300 hover:text-amber-300"

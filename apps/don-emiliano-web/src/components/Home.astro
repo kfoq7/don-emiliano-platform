@@ -1,12 +1,23 @@
+---
+import DeliveryIcon from '@/components/icons/Delivery.astro'
+import BagIcon from '@/components/icons/Bag.astro'
+---
+
 <section class="min-h-screen flex flex-col items-center justify-center">
   <div class="flex justify-center">
     <img class="w-136 h-auto" src="img/logo AI2-logopng-04.png" />
   </div>
   <div class="mt-4 py-6 flex flex-col items-center gap-5 md:flex-row">
     <div class="flex items-center justify-center gap-3 text-lg">
-      <button id="pickup-store" class="">Recojo en tienda</button>
+      <button id="pickup-store" class="flex items-center justify-center gap-2">
+        <BagIcon className="size-6" />
+        <span class="text-xl tracking-tighter"> Recojo en tienda </span>
+      </button>
       <div aria-hidden="true" class="w-0.5 h-6 bg-gray-500"></div>
-      <button id="delivery">Delivery</button>
+      <button id="delivery" class="flex items-center justify-center gap-2">
+        <DeliveryIcon className="w-8" />
+        <span class="text-xl">Delivery </span>
+      </button>
     </div>
     <div>
       <a

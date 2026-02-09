@@ -1,4 +1,3 @@
-import { useState } from 'preact/hooks'
 import { useStore } from '@nanostores/preact'
 import { productsStore, selectedCategoryAtom } from '@/stores/products.ts'
 import ProductCard from './ProductCard.tsx'

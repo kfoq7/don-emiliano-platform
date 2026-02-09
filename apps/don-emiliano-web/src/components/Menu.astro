@@ -1,6 +1,7 @@
 ---
 import OrderCartList from './order/OrderCartList.tsx'
 import OrderCard from '@/components/OrderCard.astro'
+import TrashIcon from '@/components/icons/Trash.astro'
 import Order from './order/Order.tsx'
 import CategoryFilters from './order/CategoryFilters.tsx'
 ---
@@ -31,14 +32,15 @@ import CategoryFilters from './order/CategoryFilters.tsx'
         <div class="my-4 space-y-2">
           <button
             id="order-btn"
-            class="px-2 py-1 bg-amber-300 text-white rounded-md w-full font-medium cursor-pointer"
+            class="px-2 py-1 bg-primary text-white rounded-md w-full font-medium cursor-pointer"
           >
-            Ordernar
+            Realizar mi pedido
           </button>
           <button
             id="empty-cart-btn"
-            class="px-2 py-1 border-2 border-amber-300 rounded-md w-full font-medium cursor-pointer"
+            class="flex items-center justify-center px-2 py-1 border-2 border-gray-300 rounded-md w-full font-medium cursor-pointer"
           >
+            <TrashIcon className="w-8" />
             Vacíar carrito
           </button>
         </div>

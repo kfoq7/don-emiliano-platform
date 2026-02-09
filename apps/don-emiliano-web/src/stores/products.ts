@@ -13,15 +13,15 @@ export const productsStore = map<Record<number, (typeof productsData)[number]>>(
 //   'caldo',
 // ])
 export const categories = [
-  'porciones',
-  'bebidas calientes',
-  'guarniciones',
-  'jugos',
-  'frappes',
-  'caldo',
+  'PORCIONES',
+  'BEBIDAS CALIENTES',
+  'GUARNICIONES',
+  'JUGOS',
+  'FRAPPES',
+  'CALDOS',
 ] as const
 
-export const selectedCategoryAtom = atom<(typeof categories)[number]>('porciones')
+export const selectedCategoryAtom = atom<(typeof categories)[number]>('PORCIONES')
 
 productsData.forEach(product => {
   productsStore.setKey(product.id, product)
