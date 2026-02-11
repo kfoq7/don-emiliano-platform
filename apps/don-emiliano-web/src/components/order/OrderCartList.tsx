@@ -28,7 +28,7 @@ export default function OrderCartList() {
             {Object.values($products).map(({ id, name, price, quantity }) => (
               <div
                 key={id}
-                className="flex items-center gap-3 px-2 py-3 rounded-lg bg-action-extralight"
+                className="flex items-center gap-3 px-2 py-3 rounded-lg bg-action-extralight/40"
               >
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm ">{name}</p>
@@ -37,7 +37,7 @@ export default function OrderCartList() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => decreaseCartItem(id)}
-                    className="border border-gray-300/80 drop-shadow-md rounded-md p-0.5"
+                    className="border border-gray-300/80 drop-shadow-md rounded-md p-0.5 hover:bg-amber-300"
                   >
                     <Minus />
                   </button>

@@ -4,7 +4,7 @@ import { type ProductSelected } from '@/types/Product'
 import type { CartItem } from '@/types/Order'
 
 export const cartItems = persistentMap<Record<string, CartItem>>(
-  'productItems',
+  'cartItems',
   {},
   {
     encode: JSON.stringify,

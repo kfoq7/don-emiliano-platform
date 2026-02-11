@@ -31,16 +31,33 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
   <input aria-hidden="true" type="hidden" name={`${name}-lat`} class="lat-input" value={lat} />
   <input aria-hidden="true" type="hidden" name={`${name}-lng`} class="lng-input" value={lng} />
 
-  <div class="mt-4 mx-6 gap-2 flex flex-col md:flex-none items-center">
+  <div class="mt-4 mx-6 gap-2 flex flex-col md:flex-none items-center w-full max-w-md">
+    <div class="w-full relative">
+      <input
+        id="location-search"
+        aria-label="Search for a location in Lima, Peru"
+        type="text"
+        placeholder="Buscar dirección en Lima..."
+        class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none"
+      />
+      <div
+        id="search-results"
+        class="hidden absolute z-50 w-full mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+      >
+      </div>
+    </div>
+
     <input
       aria-label="Get address"
       type="text"
       class="px-1.5 py-0.5 border-2 border-gray-300 rounded-lg"
+      readonly
     />
 
     <input
       aria-label="Get the user specific number"
       type="text"
+      placeholder="Número, piso, etc."
       class="px-1.5 py-0.5 border-2 border-gray-300 rounded-lg"
     />
 
@@ -70,6 +87,7 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
 
 <script>
   import { location } from '@/stores/location'
+  import { debounce } from '@/lib/utils/debounce'
 
   const L = window.L
 
@@ -81,6 +99,41 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
       iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
       shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
     })
+  }
+
+  // Search location using Nominatim API
+  async function searchLocation(query: string): Promise<any[]> {
+    if (!query || query.trim().length < 3) return []
+
+    try {
+      // Lima, Peru bounding box
+      const minlon = -77.2
+      const minlat = -12.3
+      const maxlon = -76.7
+      const maxlat = -11.7
+
+      const url = new URL('https://nominatim.openstreetmap.org/search')
+      url.searchParams.set('q', `${query}, Lima, Peru, Comas`)
+      url.searchParams.set('format', 'json')
+      url.searchParams.set('limit', '5')
+      url.searchParams.set('countrycodes', 'pe')
+      url.searchParams.set('bounded', '1')
+      url.searchParams.set('viewbox', `${minlon},${maxlat},${maxlon},${minlat}`)
+      console.log(url.toString())
+
+      const response = await fetch(url.toString(), {
+        headers: {
+          'Accept-Language': 'es',
+        },
+      })
+
+      if (!response.ok) throw new Error('Search failed')
+
+      return await response.json()
+    } catch (error) {
+      console.error('Error searching location:', error)
+      return []
+    }
   }
 
   const initializeMap = (container: Element) => {
@@ -114,11 +167,8 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
         className: 'restaurant-icon-marker',
       })
 
+      // Load Restaturant Icon
       L.marker([lat, lng], { icon: restaurantIcon }).addTo(map)
-      // .bindPopup(
-      //   '<div style="text-align: center; padding: 8px;"><strong style="color: #f8b134;">📍 Tu ubicación</strong></div>',
-      //   { className: 'user-popup' },
-      // )
 
       // Add initial marker if coordinates are not default
       let marker: L.Marker | null = null
@@ -129,18 +179,21 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
       const lngInput = container.querySelector('.lng-input') as HTMLInputElement
       const latDisplay = container.querySelector('.lat-display')
       const lngDisplay = container.querySelector('.lng-display')
+      const searchInput = container.querySelector('#location-search') as HTMLInputElement
+      const searchResults = container.querySelector('#search-results') as HTMLDivElement
+      const addressInput = container.querySelectorAll('input[type="text"]')[1] as HTMLInputElement
 
-      // Handle map clicks
-      map.on('click', (e: L.LeafletMouseEvent) => {
-        const newLat = e.latlng.lat
-        const newLng = e.latlng.lng
-
+      // Update location helper
+      const updateLocation = (newLat: number, newLng: number, displayName?: string) => {
         // Update or create marker
         if (marker) {
-          marker.setLatLng(e.latlng)
+          marker.setLatLng([newLat, newLng])
         } else {
-          marker = L.marker(e.latlng).addTo(map)
+          marker = L.marker([newLat, newLng]).addTo(map)
         }
+
+        // Center map on new location
+        map.setView([newLat, newLng], 17)
 
         // Update hidden inputs
         if (latInput) latInput.value = newLat.toString()
@@ -149,13 +202,17 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
         const latFixed = newLat.toFixed(6)
         const lngFixed = newLng.toFixed(6)
 
-        // Update display ONLY DEVOPLMENT MODE
+        // Update display
         if (latDisplay) latDisplay.textContent = latFixed
         if (lngDisplay) lngDisplay.textContent = lngFixed
 
+        // Update address input if display name is provided
+        if (displayName && addressInput) {
+          addressInput.value = displayName
+        }
+
         // Update local state coord
-        // location.set({ lat: latFixed, lng: lngFixed })
-        console.log(location.get())
+        location.set({ lat: latFixed, lng: lngFixed })
 
         container.dispatchEvent(
           new CustomEvent('location-change', {
@@ -163,7 +220,81 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
             bubbles: true,
           }),
         )
+      }
+
+      // Handle map clicks
+      map.on('click', (e: L.LeafletMouseEvent) => {
+        updateLocation(e.latlng.lat, e.latlng.lng)
       })
+
+      // Search functionality with debounce
+      const handleSearch = debounce(async (query: string) => {
+        if (!searchResults) return
+
+        const results = await searchLocation(query)
+
+        if (results.length === 0) {
+          searchResults.innerHTML =
+            '<div class="p-3 text-gray-500 text-sm">No se encontraron resultados</div>'
+          searchResults.classList.remove('hidden')
+          return
+        }
+
+        searchResults.innerHTML = results
+          .map(
+            result => `
+          <button
+            type="button"
+            class="search-result-item w-full text-left p-3 hover:bg-gray-100 border-b last:border-b-0 transition-colors"
+            data-lat="${result.lat}"
+            data-lon="${result.lon}"
+            data-display-name="${result.display_name}"
+          >
+            <div class="font-medium text-sm">${result.display_name}</div>
+          </button>
+        `,
+          )
+          .join('')
+
+        searchResults.classList.remove('hidden')
+
+        // Add click handlers to results
+        searchResults.querySelectorAll('.search-result-item').forEach(item => {
+          item.addEventListener('click', () => {
+            const resultLat = parseFloat(item.getAttribute('data-lat') || '0')
+            const resultLon = parseFloat(item.getAttribute('data-lon') || '0')
+            const displayName = item.getAttribute('data-display-name') || ''
+
+            updateLocation(resultLat, resultLon, displayName)
+
+            // Update search input and hide results
+            if (searchInput) searchInput.value = displayName
+            searchResults.classList.add('hidden')
+          })
+        })
+      }, 500)
+
+      // Search input event listener
+      if (searchInput) {
+        searchInput.addEventListener('input', e => {
+          const query = (e.target as HTMLInputElement).value
+          if (query.trim().length >= 3) {
+            handleSearch(query)
+          } else {
+            searchResults?.classList.add('hidden')
+          }
+        })
+
+        // Close results when clicking outside
+        document.addEventListener('click', e => {
+          if (
+            !searchInput.contains(e.target as Node) &&
+            !searchResults?.contains(e.target as Node)
+          ) {
+            searchResults?.classList.add('hidden')
+          }
+        })
+      }
 
       // Store map instance on container for external access
       ;(container as any).__leafletMap = map
@@ -186,13 +317,6 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
   } else {
     initialize()
   }
-  //
-  // document.addEventListener('astro:page-load', () => {
-  //   const $map = document.querySelector('#map-picker') as HTMLDivElement | null
-  //   if (!$map) return
-  //
-  //   initialize()
-  // })
 </script>
 
 <script is:inline define:vars={{ lat, lng, zoom, uniqueId }}>

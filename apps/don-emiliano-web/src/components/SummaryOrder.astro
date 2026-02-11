@@ -1,6 +1,6 @@
 ---
-// import ArrowLeftIcon from '@/components/icons/ArrowLeft.astro'
 import OrderForm from '@/components/order/OrderForm.tsx'
+import MapPicker from './MapPicker.astro'
 ---
 
 <div class="pt-28">
@@ -8,5 +8,7 @@ import OrderForm from '@/components/order/OrderForm.tsx'
     <h2 class="text-4xl font-bold text-balance md:leading-[1.16]">Completa tu pedido</h2>
   </div>
 
-  <OrderForm />
+  <OrderForm client:load />
+
+  <div class="mt-4 w-full"><MapPicker /></div>
 </div>

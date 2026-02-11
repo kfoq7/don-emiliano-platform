@@ -1,8 +1,8 @@
 import { persistentAtom, persistentBoolean } from '@nanostores/persistent'
 
 export type Location = {
-  lat: number
-  lng: number
+  lat: string
+  lng: string
 }
 
 export const delivery = persistentBoolean('delivery', false)
