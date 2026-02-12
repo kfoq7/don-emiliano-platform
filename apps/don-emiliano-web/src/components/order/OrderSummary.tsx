@@ -4,7 +4,7 @@ import { Divider } from '@/components/ui/Diverder'
 import { cartItems, useCartItemsTotal } from '@/stores/order'
 import { delivery } from '@/stores/location'
 
-export default function OrderForm() {
+export default function OrderSummary() {
   const [mounted, setMounted] = useState(false)
   const $products = useStore(cartItems)
   const $isDelivery = useStore(delivery)
@@ -46,18 +46,20 @@ export default function OrderForm() {
             ))}
             <Divider />
             <div className="flex items-center justify-between">
-              <span>Subtotal</span>
+              <span className="text-gray-800/50">Subtotal</span>
               <span>S/ {totalPrice}</span>
             </div>
             {$isDelivery && (
               <div className="flex items-center justify-between">
-                <span>Delivery</span>
+                <span className="text-action tracking-tighter">Delivery</span>
                 <span>S/ 5.00</span>
               </div>
             )}
             <div className="flex items-center justify-between">
-              <span>Total</span>
-              <span>S/ {$isDelivery ? totalPrice + 5 : totalPrice}</span>
+              <span class="text-xl font-bold text-red-500">Total</span>
+              <span class="text-xl font-bold text-red-500">
+                S/ {$isDelivery ? totalPrice + 5 : totalPrice}
+              </span>
             </div>
           </div>
         </div>

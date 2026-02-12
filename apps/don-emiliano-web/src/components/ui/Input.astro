@@ -1,0 +1,16 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+export interface Props extends HTMLAttributes<'input'> {}
+
+const { class: className, type = 'text', ...props } = Astro.props
+---
+
+<input
+  type={type}
+  class:list={[
+    'w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:border-primary/80 focus:outline-none',
+    className,
+  ]}
+  {...props}
+/>
