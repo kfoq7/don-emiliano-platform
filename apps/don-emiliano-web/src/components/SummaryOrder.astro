@@ -1,44 +1,159 @@
 ---
 import OrderSummary from '@/components/order/OrderSummary.tsx'
-import MapPicker from './MapPicker.astro'
 import Label from './ui/Label.astro'
 import Input from './ui/Input.astro'
+import LocationModal from './LocationModal.astro'
+// import { Icon } from 'astro-icon/components'
 ---
 
-<div class="pt-28">
-  <div>
-    <h2 class="text-4xl font-bold text-balance md:leading-[1.16]">Completa tu pedido</h2>
-  </div>
+<section class="pt-28 pb-12">
+  <div class="container mx-auto px-4">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1
+        class="text-4xl md:text-5xl font-bold text-balance leading-tight md:leading-[1.16] text-gray-900"
+      >
+        Completa tu pedido
+      </h1>
+      <p class="mt-2 text-gray-600">Revisa tu orden y completa la información de entrega</p>
+    </div>
 
-  <OrderSummary client:load />
+    <!-- Order Summary -->
+    <OrderSummary client:load />
 
-  <div class="mt-3">
-    <h2 class="text-2xl font-bold text-black tracking-tighter mb-3">Resumen de pago</h2>
+    <!-- Customer Information Form -->
+    <div class="mt-8">
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight mb-6">
+        Información de contacto
+      </h2>
 
-    <div class="grid gap-4 sm:grid-cols-2">
-      <div class="space-y-2">
-        <Label for="name" class="flex items-center gap-2"> Nombre Completo </Label>
-        <Input id="name" name="name" placeholder="Don Emiliano" required />
-      </div>
-      <div class="space-y-2">
-        <Label for="name" class="flex items-center gap-2"> Número de Celular </Label>
-        <Input id="name" name="name" placeholder="+51 999 999 999" required />
-      </div>
+      <form id="order-form" class="space-y-6">
+        <!-- Contact Details -->
+        <div class="grid gap-6 sm:grid-cols-2">
+          <!-- Full Name -->
+          <div class="space-y-2">
+            <Label for="fullname" class="flex items-center gap-2">
+              <!-- <Icon name="mdi:account" class="w-4 h-4 text-gray-500" /> -->
+              Nombre Completo
+            </Label>
+            <Input
+              id="fullname"
+              name="fullname"
+              type="text"
+              placeholder="Ej: Juan Pérez"
+              required
+              autocomplete="name"
+            />
+          </div>
 
-      <a id="location" class="text-sm text-gray-600">Menu</a>
-      <MapPicker />
+          <!-- Phone Number -->
+          <div class="space-y-2">
+            <Label for="phone" class="flex items-center gap-2">
+              <!-- <Icon name="mdi:phone" class="w-4 h-4 text-gray-500" /> -->
+              Número de Celular
+            </Label>
+            <Input
+              id="phone"
+              name="phone"
+              type="tel"
+              placeholder="+51 999 999 999"
+              required
+              autocomplete="tel"
+              pattern="[+]?[0-9\s\-()]+"
+            />
+          </div>
+        </div>
+
+        <!-- Delivery Location -->
+        <div class="space-y-3">
+          <Label class="flex items-center gap-2 mb-0">
+            <!-- <Icon name="mdi:map-marker" class="w-4 h-4 text-gray-500" /> -->
+            Ubicación de entrega
+          </Label>
+
+          <div class="flex items-center gap-3">
+            <button
+              type="button"
+              id="select-location-btn"
+              class="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-4 rounded-lg border-2 border-gray-300 transition-colors duration-200 flex items-center justify-center gap-2"
+            >
+              <span id="location-text">Seleccionar ubicación en el mapa</span>
+            </button>
+
+            <a
+              id="location-link"
+              class="text-sm text-action hover:text-action-dark hover:underline transition-colors hidden whitespace-nowrap"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver en Maps
+              <!-- <Icon name="mdi:open-in-new" class="w-3 h-3 inline ml-1" /> -->
+            </a>
+          </div>
+
+          <p class="text-xs text-gray-500">
+            Haz clic en el botón para seleccionar tu ubicación y calcular el delivery
+          </p>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+          <button
+            type="submit"
+            class="w-full bg-action hover:bg-action-dark text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+          >
+            Confirmar pedido
+          </button>
+        </div>
+      </form>
     </div>
   </div>
-</div>
+</section>
+
+<!-- Location Modal -->
+<LocationModal />
 
 <script>
   import { location } from '@/stores/location'
 
-  const locationDiv = document.getElementById('location') as HTMLAnchorElement
+  const locationLink = document.getElementById('location-link') as HTMLAnchorElement
+  const locationText = document.getElementById('location-text') as HTMLAnchorElement
+  const selectlocationbtn = document.getElementById('select-location-btn') as HTMLButtonElement
+
+  // open modal
+  // selectlocationbtn?.addEventListener('click', () => {
+  //   ;(window as any).openLocatioModal?.()
+  // })
+
+  // Listen to location changes
   location.listen(value => {
-    if (locationDiv && value && value.lat && value.lng) {
-      locationDiv.href = `https://www.google.com/maps?q=${value.lat},${value.lng}&hl=es`
-      locationDiv.target = '_blank'
+    if (value?.lat && value?.lng) {
+      if (locationLink) {
+        locationLink.href = `https://www.google.com/maps?q=${value.lat},${value.lng}&hl=es`
+        locationLink.classList.remove('hidden')
+      }
+      if (locationText) {
+        locationText.textContent = '📍 Ubicación seleccionada'
+      }
+    } else {
+      if (locationLink) {
+        locationLink.classList.add('hidden')
+      }
+      if (locationText) {
+        locationText.textContent = 'Seleccionar ubicación en el mapa'
+      }
     }
+  })
+
+  // Form submission handler
+  const form = document.getElementById('order-form') as HTMLFormElement
+  form?.addEventListener('submit', e => {
+    e.preventDefault()
+
+    const formData = new FormData(form)
+    const data = Object.fromEntries(formData)
+
+    console.log('Order data:', data)
+    // TODO: Implement order submission logic
   })
 </script>
