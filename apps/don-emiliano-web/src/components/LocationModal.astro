@@ -64,14 +64,24 @@ import MapPicker from './MapPicker.astro'
   }
 
   // Open modal function (exposed globally)
-  const openModal = () => {
-    modal?.classList.remove('hidden')
-    modal?.classList.add('flex')
+  function openModal() {
+    const modal = document.getElementById('location-modal')
+    if (modal) {
+      modal.classList.remove('hidden')
+      modal.classList.add('flex')
+
+      // Dispatch event to initialize map
+      const mapContainer = modal.querySelector('.map-picker-container')
+      if (mapContainer) {
+        mapContainer.dispatchEvent(new CustomEvent('modal-opened'))
+      }
+    }
   }
 
   // Attach to window for external access
   if (typeof window !== 'undefined') {
-    ;(window as any).openLocationModal = openModal(window as any).closeLocationModal = closeModal
+    ;(window as any).openLocationModal = openModal
+    ;(window as any).closeLocationModal = closeModal
   }
 
   // Close modal handlers

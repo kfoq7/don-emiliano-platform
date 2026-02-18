@@ -75,7 +75,7 @@ import LocationModal from './LocationModal.astro'
             <button
               type="button"
               id="select-location-btn"
-              class="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-4 rounded-lg border-2 border-gray-300 transition-colors duration-200 flex items-center justify-center gap-2"
+              class="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-4 rounded-lg border-2 border-gray-300 transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer"
             >
               <span id="location-text">Seleccionar ubicación en el mapa</span>
             </button>
@@ -121,9 +121,9 @@ import LocationModal from './LocationModal.astro'
   const selectlocationbtn = document.getElementById('select-location-btn') as HTMLButtonElement
 
   // open modal
-  // selectlocationbtn?.addEventListener('click', () => {
-  //   ;(window as any).openLocatioModal?.()
-  // })
+  selectlocationbtn?.addEventListener('click', () => {
+    ;(window as any).openLocationModal()
+  })
 
   // Listen to location changes
   location.listen(value => {

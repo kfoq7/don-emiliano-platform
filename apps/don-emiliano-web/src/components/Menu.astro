@@ -8,7 +8,9 @@ import Order from './order/Order.tsx'
 <section class="w-full">
   <div class="grid grid-cols-1 gap-4 lg:grid-cols-[auto_450px]">
     <div class="pt-4">
-      <div><Order client:load /></div>
+      <div>
+        <Order client:load />
+      </div>
     </div>
 
     <div class="hidden md:block">
@@ -71,6 +73,6 @@ import Order from './order/Order.tsx'
 
   const orderBtn = document.getElementById('order-btn')
   if (orderBtn) {
-    orderBtn.addEventListener('click', () => (document.location.href = '/completa-orden'))
+    orderBtn.addEventListener('click', () => (document.location.href = '/completa-tu-orden'))
   }
 </script>
