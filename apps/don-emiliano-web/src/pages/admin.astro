@@ -1,5 +1,6 @@
 ---
 import LayoutAdmin from '@/layouts/LayoutAdmin.astro'
+import { toTitleCase } from '@/lib/utils/to-title-case'
 import type { Product } from '@/types/Product'
 // import { isAdmin } from '@/utils/admin'
 
@@ -14,19 +15,133 @@ import type { Product } from '@/types/Product'
 
 const API_URL = import.meta.env.PUBLIC_API_URL
 
-const response = await fetch(`${API_URL}/products`, { method: 'GET' })
-const data = (await response.json()) as Product[]
+// const response = await fetch(`${API_URL}/products`, { method: 'GET' })
+// const data = (await response.json()) as Product[]
+const categories = [
+  {
+    id: 1,
+    name: 'PORCIONES',
+    products: [
+      { id: 1, name: 'Porción de Pizza', price: 45 },
+      { id: 2, name: 'Porción de Lasaña', price: 50 },
+    ],
+  },
+  {
+    id: 2,
+    name: 'BEBIDAS',
+    products: [
+      { id: 3, name: 'Coca Cola', price: 25 },
+      { id: 4, name: 'Agua', price: 20 },
+    ],
+  },
+].map(({ name, ...restData }) => ({ ...restData, name: toTitleCase(name) }))
 ---
 
 <LayoutAdmin>
-  <h1>Bienvinido de nuevo {}</h1>
-  <div>
-    {
-      data.map(({ id, name, description, price }) => (
-        <div>
-          {id} {name} {description} {price}
+  <div class="max-w-5xl mx-auto px-4">
+    <h1 class="text-2xl font-bold mb-6">Bienvenido de nuevo</h1>
+    <div>
+      <h2 class="text-xl font-semibold mb-4">Menú</h2>
+    </div>
+
+    <section class="mt-10 py-2">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-[250px_1fr]">
+        <!-- Categories Sidebar -->
+        <div class="space-y-2">
+          {
+            categories.map((category, index) => (
+              <button
+                data-category-id={category.id}
+                class={`category-btn w-full border px-4 py-3 rounded-md text-left transition-colors ${
+                  index === 0
+                    ? 'bg-orange-500 text-white border-orange-600'
+                    : 'bg-orange-100 hover:bg-orange-200 border-orange-300 text-gray-800'
+                }`}
+              >
+                <h2 class="font-semibold text-balance text-lg">{category.name}</h2>
+              </button>
+            ))
+          }
         </div>
-      ))
-    }
+
+        <!-- Products Display -->
+        <div class="space-y-6">
+          {
+            categories.map((category, index) => (
+              <div
+                data-category-content={category.id}
+                class={`category-content border border-gray-200 rounded-lg overflow-hidden ${
+                  index === 0 ? '' : 'hidden'
+                }`}
+              >
+                <div class="bg-orange-500 text-white px-4 py-3">
+                  <h3 class="font-semibold text-lg">{category.name}</h3>
+                </div>
+
+                <div class="bg-white divide-y divide-gray-200">
+                  {category.products.map(product => (
+                    <div class="px-4 py-3 hover:bg-gray-50 transition-colors">
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3 flex-1">
+                          <input
+                            type="radio"
+                            name={`product-${category.id}`}
+                            value={product.id}
+                            id={`product-${product.id}`}
+                            class="w-4 h-4 text-orange-600 focus:ring-orange-500"
+                          />
+                          <label for={`product-${product.id}`} class="flex-1 cursor-pointer">
+                            <h4 class="font-medium text-gray-900">{product.name}</h4>
+                          </label>
+                        </div>
+                        <span class="font-semibold text-orange-600">${product.price}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
   </div>
 </LayoutAdmin>
+
+<script>
+  const categoryButtons = document.querySelectorAll('.category-btn')
+  const categoryContents = document.querySelectorAll('.category-content')
+
+  categoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const categoryId = button.getAttribute('data-category-id')
+
+      // Update button styles
+      categoryButtons.forEach(btn => {
+        btn.classList.remove('bg-orange-500', 'text-white', 'border-orange-600')
+        btn.classList.add(
+          'bg-orange-100',
+          'hover:bg-orange-200',
+          'border-orange-300',
+          'text-gray-800',
+        )
+      })
+      button.classList.remove(
+        'bg-orange-100',
+        'hover:bg-orange-200',
+        'border-orange-300',
+        'text-gray-800',
+      )
+      button.classList.add('bg-orange-500', 'text-white', 'border-orange-600')
+
+      // Show selected category content
+      categoryContents.forEach(content => {
+        if (content.getAttribute('data-category-content') === categoryId) {
+          content.classList.remove('hidden')
+        } else {
+          content.classList.add('hidden')
+        }
+      })
+    })
+  })
+</script>

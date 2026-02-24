@@ -1,6 +1,9 @@
 import { type Order } from '@/types/Order'
+import { type Location } from '@/stores/location'
 
-export const createOrderMesesage = ({ items, totalPrice }: Order) => {
+type OrderFull = Order & { location: Location }
+
+export const createOrderMesesage = ({ items, totalPrice, location }: OrderFull) => {
   // 1. Create an array of strings, one for each item
   const itemStrings = items.map(({ name, price }) => ` * ${name}: S/.${price}`)
 
@@ -8,7 +11,10 @@ export const createOrderMesesage = ({ items, totalPrice }: Order) => {
   const productList = itemStrings.join('\n')
 
   // 3. Return the final, clean message
-  return `*Tu orden*
+  return `
+*Tu orden*
+
+Mi ubicación: https://www.google.com/maps?q=${location.lat},${location.lng}&hl=es
 
 Productos Seleccionados:
 ${productList}
