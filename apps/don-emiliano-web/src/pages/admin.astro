@@ -1,7 +1,10 @@
 ---
 import LayoutAdmin from '@/layouts/LayoutAdmin.astro'
 import { toTitleCase } from '@/lib/utils/to-title-case'
-import type { Product } from '@/types/Product'
+import ToggleSwitch from '@/components/ui/ToggleSwitch.astro'
+import ArrowRight from '@/components/icons/ArrowRight.astro'
+// import type { Product } from '@/types/Product'
+
 // import { isAdmin } from '@/utils/admin'
 
 // if (!Astro.locals.user) {
@@ -34,33 +37,52 @@ const categories = [
       { id: 4, name: 'Agua', price: 20 },
     ],
   },
+  {
+    id: 3,
+    name: 'FRAPPES',
+    products: [
+      { id: 5, name: 'Coca Cola', price: 25 },
+      { id: 6, name: 'Agua', price: 20 },
+    ],
+  },
 ].map(({ name, ...restData }) => ({ ...restData, name: toTitleCase(name) }))
 ---
 
 <LayoutAdmin>
   <div class="max-w-5xl mx-auto px-4">
     <h1 class="text-2xl font-bold mb-6">Bienvenido de nuevo</h1>
-    <div>
+
+    <div class="my-2">
       <h2 class="text-xl font-semibold mb-4">Menú</h2>
     </div>
 
-    <section class="mt-10 py-2">
+    <section class="mt-4 py-2">
       <div class="grid grid-cols-1 gap-4 md:grid-cols-[250px_1fr]">
         <!-- Categories Sidebar -->
         <div class="space-y-2">
           {
-            categories.map((category, index) => (
-              <button
-                data-category-id={category.id}
-                class={`category-btn w-full border px-4 py-3 rounded-md text-left transition-colors ${
-                  index === 0
-                    ? 'bg-orange-500 text-white border-orange-600'
-                    : 'bg-orange-100 hover:bg-orange-200 border-orange-300 text-gray-800'
-                }`}
-              >
-                <h2 class="font-semibold text-balance text-lg">{category.name}</h2>
-              </button>
-            ))
+            (
+              <div class="space-y-2">
+                {categories.map((category, index) => (
+                  <button
+                    data-category-id={category.id}
+                    class={`category-btn w-full border border-gray-800/80 px-4 py-3 rounded-md text-left transition-colors ${
+                      index === 0 ? 'text-orange-600' : 'text-gray-800'
+                    }`}
+                  >
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <h2 class="font-semibold text-balance text-lg">{category.name}</h2>
+                        <p class="text-sm">Productos {category.products.length}</p>
+                      </div>
+                      <div class="mr-2">
+                        <ArrowRight />
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )
           }
         </div>
 
@@ -80,16 +102,11 @@ const categories = [
 
                 <div class="bg-white divide-y divide-gray-200">
                   {category.products.map(product => (
-                    <div class="px-4 py-3 hover:bg-gray-50 transition-colors">
+                    <div class="px-4 py-6 hover:bg-gray-50 transition-colors">
                       <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3 flex-1">
-                          <input
-                            type="radio"
-                            name={`product-${category.id}`}
-                            value={product.id}
-                            id={`product-${product.id}`}
-                            class="w-4 h-4 text-orange-600 focus:ring-orange-500"
-                          />
+                          <ToggleSwitch id={product.id} />
+
                           <label for={`product-${product.id}`} class="flex-1 cursor-pointer">
                             <h4 class="font-medium text-gray-900">{product.name}</h4>
                           </label>
@@ -118,21 +135,11 @@ const categories = [
 
       // Update button styles
       categoryButtons.forEach(btn => {
-        btn.classList.remove('bg-orange-500', 'text-white', 'border-orange-600')
-        btn.classList.add(
-          'bg-orange-100',
-          'hover:bg-orange-200',
-          'border-orange-300',
-          'text-gray-800',
-        )
+        btn.classList.remove('border', 'border-orange-600', 'text-orange-600')
+        btn.classList.add('text-gray-800', 'border', 'border-gray-800/80')
       })
-      button.classList.remove(
-        'bg-orange-100',
-        'hover:bg-orange-200',
-        'border-orange-300',
-        'text-gray-800',
-      )
-      button.classList.add('bg-orange-500', 'text-white', 'border-orange-600')
+      button.classList.remove('text-gray-800')
+      button.classList.add('border', 'border-orange-600', 'text-orange-600')
 
       // Show selected category content
       categoryContents.forEach(content => {
