@@ -19,12 +19,13 @@ public interface IProductController {
   @GetMapping
   public ResponseEntity<List<ProductDto>> getAllProducts();
 
+  @GetMapping("/category")
+  public ResponseEntity<List<CategoryDto>> getAllCategories();
+
   @PostMapping
-  ResponseEntity<ProductDto> createProduct(
-      @Valid() @RequestBody() CreateProductDto product);
+  public ResponseEntity<ProductDto> createProduct(@Valid() @RequestBody() CreateProductDto product);
 
   @PostMapping("/category")
-  ResponseEntity<CategoryDto> createCategory(
-      @Valid() @RequestBody() CreateCategoryDto category);
+  public ResponseEntity<CategoryDto> createCategory(@Valid() @RequestBody() CreateCategoryDto category);
 
 }

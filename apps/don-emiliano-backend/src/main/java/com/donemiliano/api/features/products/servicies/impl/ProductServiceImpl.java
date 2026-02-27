@@ -10,14 +10,13 @@ import com.donemiliano.api.features.products.dto.ProductDto;
 import com.donemiliano.api.features.products.entities.CategoryEntity;
 import com.donemiliano.api.features.products.repositories.CategoryRepository;
 import com.donemiliano.api.features.products.repositories.ProductRepository;
-import com.donemiliano.api.features.products.servicies.ICategoryService;
 import com.donemiliano.api.features.products.servicies.IProductService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements IProductService, ICategoryService {
+public class ProductServiceImpl implements IProductService {
 
   private final ProductRepository productRepository;
   private final CategoryRepository categoryRepository;
@@ -56,4 +55,5 @@ public class ProductServiceImpl implements IProductService, ICategoryService {
         savedCategory.getDescription(),
         savedCategory.getIsActive());
   }
+
 }

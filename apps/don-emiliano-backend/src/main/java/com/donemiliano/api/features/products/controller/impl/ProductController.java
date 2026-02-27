@@ -28,6 +28,11 @@ public class ProductController implements IProductController {
   }
 
   @Override
+  public ResponseEntity<List<CategoryDto>> getAllCategories() {
+    return ResponseEntity.ok(productService.getAllCategories());
+  }
+
+  @Override
   public ResponseEntity<ProductDto> createProduct(CreateProductDto productDto) {
     // TODO Auto-generated method stub
     return null;
@@ -35,7 +40,7 @@ public class ProductController implements IProductController {
 
   @Override
   public ResponseEntity<CategoryDto> createCategory(CreateCategoryDto category) {
-    return null;
+    return ResponseEntity.ok(productService.createCategory(category));
   }
 
 }
