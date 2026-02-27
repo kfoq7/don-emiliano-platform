@@ -114,7 +114,10 @@ import LocationModal from './LocationModal.astro'
 <LocationModal />
 
 <script>
-  import { location } from '@/stores/location'
+  import { createOrderMesesage } from '@/lib/utils/create-order-message'
+  import { location, delivery } from '@/stores/location'
+  import { cartItems } from '@/stores/order'
+  // import { cart } from '@/stores/cart'
 
   const locationLink = document.getElementById('location-link') as HTMLAnchorElement
   const locationText = document.getElementById('location-text') as HTMLAnchorElement
@@ -151,9 +154,43 @@ import LocationModal from './LocationModal.astro'
     e.preventDefault()
 
     const formData = new FormData(form)
-    const data = Object.fromEntries(formData)
+    const fullname = formData.get('fullname') as string
+    const phone = formData.get('phone') as string
 
-    console.log('Order data:', data)
-    // TODO: Implement order submission logic
+    // Get current cart and location data
+    const currentCart = cartItems.get()
+    const currentLocation = location.get()
+    const isDelivery = delivery.get()
+
+    // Validate location is selected
+    if (!currentLocation?.lat || !currentLocation?.lng) {
+      alert('Por favor selecciona una ubicación de entrega')
+      return
+    }
+
+    console.log('currentCart', currentCart.items)
+
+    // Create order message
+    const message = createOrderMesesage({
+      items: Object.values(currentCart),
+      totalPrice: Object.values(currentCart).reduce(
+        (total, item) => total + item.price * item.quantity,
+        0,
+      ),
+      location: currentLocation,
+      isDelivery,
+    })
+
+    // Add customer info to message
+    const fullMessage = `Hola! Soy *${fullname}*\nTeléfono: ${phone}\n${message}`
+
+    // WhatsApp business number (replace with actual number)
+    const whatsappNumber = '51994932432'
+
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(fullMessage)}`
+
+    // Open WhatsApp
+    window.open(whatsappUrl, '_blank')
   })
 </script>

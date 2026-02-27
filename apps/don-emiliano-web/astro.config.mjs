@@ -13,6 +13,7 @@ export default defineConfig({
   output: 'server',
   server: {
     host: true,
+    allowedHosts: true,
   },
   vite: {
     plugins: [tailwindcss()],
