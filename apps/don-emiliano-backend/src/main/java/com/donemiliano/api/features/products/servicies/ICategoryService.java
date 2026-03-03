@@ -9,6 +9,8 @@ public interface ICategoryService {
 
   List<CategoryDto> getAllCategories();
 
+  // CategoryDto getCategoryById(Long id);
+
   CategoryDto createCategory(CreateCategoryDto createCategoryDto);
 
 }

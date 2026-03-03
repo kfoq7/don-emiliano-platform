@@ -27,7 +27,7 @@ public class ProductEntity {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")
   @SequenceGenerator(name = "product_id_seq", sequenceName = "product_id_seq", allocationSize = 1)
   @Column(name = "id", updatable = false, nullable = false)
-  private Integer id;
+  private Long id;
 
   @Column(nullable = false)
   private String name;
@@ -36,7 +36,7 @@ public class ProductEntity {
   private String description;
 
   @Column(nullable = false)
-  private Double price;
+  private Float price;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "category_id", nullable = false)

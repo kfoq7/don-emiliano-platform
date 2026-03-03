@@ -28,7 +28,7 @@ public class CategoryEntity {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_id_seq")
   @SequenceGenerator(name = "category_id_seq", sequenceName = "category_id_seq", allocationSize = 1)
   @Column(name = "id", updatable = false, nullable = false)
-  private Integer id;
+  private Long id;
 
   @Column(nullable = false, unique = true)
   private String name;
@@ -40,7 +40,7 @@ public class CategoryEntity {
   @Builder.Default
   private Boolean isActive = true;
 
-  @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST, orphanRemoval = true)
+  @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<ProductEntity> products;
 
 }

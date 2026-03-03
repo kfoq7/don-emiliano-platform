@@ -1,6 +1,9 @@
 package com.donemiliano.api.features.products.dto;
 
+import io.swagger.v3.oas.models.security.SecurityScheme.In;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +28,10 @@ public class CreateProductDto {
 
   @NotBlank(message = "{validation.product.price.notBlank}")
   @Size(min = 1, message = "{validation.product.price.size}")
-  private Double price;
+  private Float price;
 
+  @NotNull(message = "{validation.product.categoryId.notNull}")
+  @Positive(message = "{validation.product.categoryId.positive}")
   private Long categoryId;
 
 }
