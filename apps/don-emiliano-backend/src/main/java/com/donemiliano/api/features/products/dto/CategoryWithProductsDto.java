@@ -1,24 +1,22 @@
 package com.donemiliano.api.features.products.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true)
-public class CategoryDto {
+public class CategoryWithProductsDto extends CategoryDto {
 
-  private Long id;
-
-  private String name;
-
-  private String description;
-
-  private Boolean isActive;
+  List<ProductDto> products;
 
 }

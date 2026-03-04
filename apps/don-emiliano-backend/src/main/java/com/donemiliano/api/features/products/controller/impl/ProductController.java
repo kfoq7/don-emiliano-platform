@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.donemiliano.api.features.products.controller.IProductController;
 import com.donemiliano.api.features.products.dto.CategoryDto;
+import com.donemiliano.api.features.products.dto.CategoryWithProductsDto;
 import com.donemiliano.api.features.products.dto.CreateCategoryDto;
 import com.donemiliano.api.features.products.dto.CreateProductDto;
 import com.donemiliano.api.features.products.dto.ProductDto;
+import com.donemiliano.api.features.products.dto.ProductWithCategoryDto;
+import com.donemiliano.api.features.products.dto.UpdateProductDto;
 import com.donemiliano.api.features.products.servicies.IProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +26,7 @@ public class ProductController implements IProductController {
   private final IProductService productService;
 
   @Override
-  public ResponseEntity<List<ProductDto>> getAllProducts() {
+  public ResponseEntity<List<ProductWithCategoryDto>> getAllProducts() {
     return ResponseEntity.ok(productService.getAllProducts());
   }
 
@@ -33,14 +36,23 @@ public class ProductController implements IProductController {
   }
 
   @Override
+  public ResponseEntity<List<CategoryWithProductsDto>> getAllCategoriesWithProducts() {
+    return ResponseEntity.ok(productService.getAllCategoriesWithProducts());
+  }
+
+  @Override
   public ResponseEntity<ProductDto> createProduct(CreateProductDto productDto) {
-    // TODO Auto-generated method stub
-    return null;
+    return ResponseEntity.ok(productService.createProduct(productDto));
   }
 
   @Override
   public ResponseEntity<CategoryDto> createCategory(CreateCategoryDto category) {
     return ResponseEntity.ok(productService.createCategory(category));
+  }
+
+  @Override
+  public ResponseEntity<ProductDto> updateProduct(Long id, UpdateProductDto product) {
+    return ResponseEntity.ok(productService.updateProduct(id, product));
   }
 
 }
