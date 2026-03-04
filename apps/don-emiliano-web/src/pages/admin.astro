@@ -4,6 +4,8 @@ import { toTitleCase } from '@/lib/utils/to-title-case'
 import ToggleSwitch from '@/components/ui/ToggleSwitch.astro'
 import ArrowRight from '@/components/icons/ArrowRight.astro'
 // import type { Product } from '@/types/Product'
+//
+import products from '@/lib/products.json'
 
 // import { isAdmin } from '@/utils/admin'
 
@@ -20,32 +22,33 @@ const API_URL = import.meta.env.PUBLIC_API_URL
 
 // const response = await fetch(`${API_URL}/products`, { method: 'GET' })
 // const data = (await response.json()) as Product[]
-const categories = [
-  {
-    id: 1,
-    name: 'PORCIONES',
-    products: [
-      { id: 1, name: 'Porción de Pizza', price: 45 },
-      { id: 2, name: 'Porción de Lasaña', price: 50 },
-    ],
-  },
-  {
-    id: 2,
-    name: 'BEBIDAS',
-    products: [
-      { id: 3, name: 'Coca Cola', price: 25 },
-      { id: 4, name: 'Agua', price: 20 },
-    ],
-  },
-  {
-    id: 3,
-    name: 'FRAPPES',
-    products: [
-      { id: 5, name: 'Coca Cola', price: 25 },
-      { id: 6, name: 'Agua', price: 20 },
-    ],
-  },
-].map(({ name, ...restData }) => ({ ...restData, name: toTitleCase(name) }))
+// const categories =
+// const categories = [
+//   {
+//     id: 1,
+//     name: 'PORCIONES',
+//     products: [
+//       { id: 1, name: 'Porción de Pizza', price: 45 },
+//       { id: 2, name: 'Porción de Lasaña', price: 50 },
+//     ],
+//   },
+//   {
+//     id: 2,
+//     name: 'BEBIDAS',
+//     products: [
+//       { id: 3, name: 'Coca Cola', price: 25 },
+//       { id: 4, name: 'Agua', price: 20 },
+//     ],
+//   },
+//   {
+//     id: 3,
+//     name: 'FRAPPES',
+//     products: [
+//       { id: 5, name: 'Coca Cola', price: 25 },
+//       { id: 6, name: 'Agua', price: 20 },
+//     ],
+//   },
+// ].map(({ name, ...restData }) => ({ ...restData, name: toTitleCase(name) }))
 ---
 
 <LayoutAdmin>
