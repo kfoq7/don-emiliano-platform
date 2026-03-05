@@ -5,12 +5,10 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class CreateCategoryDto {
 
   @NotBlank(message = "{validation.category.name.notBlank}")

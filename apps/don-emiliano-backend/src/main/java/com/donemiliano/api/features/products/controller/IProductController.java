@@ -42,4 +42,9 @@ public interface IProductController {
       @Parameter(required = true) @PathVariable(name = "id") Long id,
       @Valid() @RequestBody() UpdateProductDto product);
 
+  @PutMapping("/category/{id}")
+  public ResponseEntity<CategoryDto> updateCategory(
+      @Parameter(required = true) @PathVariable(name = "id") Long id,
+      @Valid() @RequestBody() CreateCategoryDto category);
+
 }

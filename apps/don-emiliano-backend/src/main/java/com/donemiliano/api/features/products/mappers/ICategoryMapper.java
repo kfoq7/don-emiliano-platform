@@ -3,6 +3,7 @@ package com.donemiliano.api.features.products.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -22,6 +23,8 @@ public interface ICategoryMapper {
   CategoryDto toDto(CategoryEntity entity);
 
   CategoryEntity toCreateEntity(CreateCategoryDto dto);
+
+  CategoryEntity updateEntityFromDto(@MappingTarget CategoryEntity entity, CreateCategoryDto dto);
 
   @Mapping(target = "products", source = "products")
   CategoryWithProductsDto toDtoWithProducts(CategoryEntity entity);

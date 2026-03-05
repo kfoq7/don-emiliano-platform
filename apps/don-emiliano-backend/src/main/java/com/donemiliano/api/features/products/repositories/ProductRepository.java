@@ -13,9 +13,9 @@ import com.donemiliano.api.features.products.entities.ProductEntity;
 public interface ProductRepository
     extends JpaRepository<ProductEntity, Long>, JpaSpecificationExecutor<ProductEntity> {
 
-  @Override
   @EntityGraph(attributePaths = { "category" })
-  List<ProductEntity> findAll();
+  @Query("SELECT p FROM ProductEntity p")
+  List<ProductEntity> findAllWithCategory();
 
   @EntityGraph(attributePaths = { "category" })
   @Query("SELECT p FROM ProductEntity p WHERE p.id = :id")

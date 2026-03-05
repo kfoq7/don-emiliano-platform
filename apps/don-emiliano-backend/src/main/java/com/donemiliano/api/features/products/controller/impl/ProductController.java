@@ -55,4 +55,9 @@ public class ProductController implements IProductController {
     return ResponseEntity.ok(productService.updateProduct(id, product));
   }
 
+  @Override
+  public ResponseEntity<CategoryDto> updateCategory(Long id, CreateCategoryDto category) {
+    return ResponseEntity.ok(productService.updateCategory(id, category));
+  }
+
 }
