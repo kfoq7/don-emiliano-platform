@@ -5,9 +5,21 @@ import BagIcon from '@/components/icons/Bag.astro'
 
 <section class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
   <!-- Decorative background -->
-  <div class="absolute inset-0 bg-gradient-to-br from-orange-50 via-white to-green-50/30" aria-hidden="true"></div>
-  <div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" aria-hidden="true"></div>
-  <div class="absolute bottom-0 left-0 w-80 h-80 bg-surface-mint/50 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4" aria-hidden="true"></div>
+  <div
+    class="absolute inset-0 bg-gradient-to-br from-orange-50 via-white to-green-50/30"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="absolute bottom-0 left-0 w-80 h-80 bg-surface-mint/50 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4"
+    aria-hidden="true"
+  >
+  </div>
 
   <div class="relative z-10 flex flex-col items-center px-4">
     <!-- Logo with entrance animation -->
@@ -20,14 +32,18 @@ import BagIcon from '@/components/icons/Bag.astro'
     </div>
 
     <!-- Tagline -->
-    <p class="mt-2 text-ink-muted text-sm sm:text-base text-center max-w-md animate-fade-in-up stagger-1">
+    <p
+      class="mt-2 text-ink-muted text-sm sm:text-base text-center max-w-md animate-fade-in-up stagger-1"
+    >
       El mejor chicharron criollo de Lima
     </p>
 
     <!-- Delivery mode toggle + CTA -->
     <div class="mt-8 flex flex-col items-center gap-6 animate-fade-in-up stagger-2">
       <!-- Toggle buttons -->
-      <div class="flex items-center bg-surface-hover rounded-full p-1 border border-border-light shadow-sm">
+      <div
+        class="flex items-center bg-surface-hover rounded-full p-1 border border-border-light shadow-sm"
+      >
         <button
           id="pickup-store"
           class="delivery-toggle-btn flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer"
@@ -52,58 +68,68 @@ import BagIcon from '@/components/icons/Bag.astro'
         class="group inline-flex items-center gap-2 bg-primary text-white px-8 py-3.5 rounded-full font-bold text-lg tracking-wide shadow-lg hover:shadow-xl hover:bg-action-hover active:bg-action-pressed transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
       >
         <span>Hacer mi pedido</span>
-        <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        <svg
+          class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
         </svg>
       </a>
     </div>
 
     <!-- Scroll hint -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-      <div class="flex flex-col items-center gap-1 text-ink-subtle">
-        <span class="text-xs">Desliza</span>
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-      </div>
-    </div>
+    <!--   <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float"> -->
+    <!--     <div class="flex flex-col items-center gap-1 text-ink-subtle"> -->
+    <!--       <span class="text-xs">Desliza</span> -->
+    <!--       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> -->
+    <!--         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /> -->
+    <!--       </svg> -->
+    <!--     </div> -->
+    <!--   </div> -->
+    <!-- </div> -->
   </div>
+
+  <script>
+    import { delivery } from '@/stores/location'
+
+    const $pickupStore = document.getElementById('pickup-store')
+    const $delivery = document.getElementById('delivery')
+
+    function setActiveState(activeBtn: HTMLElement | null, inactiveBtn: HTMLElement | null) {
+      if (activeBtn) {
+        activeBtn.dataset.active = 'true'
+        activeBtn.classList.add('bg-primary', 'text-white', 'shadow-md')
+        activeBtn.classList.remove('text-ink-muted', 'hover:bg-gray-100')
+      }
+      if (inactiveBtn) {
+        inactiveBtn.dataset.active = 'false'
+        inactiveBtn.classList.remove('bg-primary', 'text-white', 'shadow-md')
+        inactiveBtn.classList.add('text-ink-muted', 'hover:bg-gray-100')
+      }
+    }
+
+    // Initialize both as inactive
+    if ($pickupStore) $pickupStore.classList.add('text-ink-muted', 'hover:bg-gray-100')
+    if ($delivery) $delivery.classList.add('text-ink-muted', 'hover:bg-gray-100')
+
+    if ($pickupStore) {
+      $pickupStore.addEventListener('click', () => {
+        delivery.set(false)
+        setActiveState($pickupStore, $delivery)
+      })
+    }
+
+    if ($delivery) {
+      $delivery.addEventListener('click', () => {
+        delivery.set(true)
+        setActiveState($delivery, $pickupStore)
+      })
+    }
+  </script>
 </section>
-
-<script>
-  import { delivery } from '@/stores/location'
-
-  const $pickupStore = document.getElementById('pickup-store')
-  const $delivery = document.getElementById('delivery')
-
-  function setActiveState(activeBtn: HTMLElement | null, inactiveBtn: HTMLElement | null) {
-    if (activeBtn) {
-      activeBtn.dataset.active = 'true'
-      activeBtn.classList.add('bg-primary', 'text-white', 'shadow-md')
-      activeBtn.classList.remove('text-ink-muted', 'hover:bg-gray-100')
-    }
-    if (inactiveBtn) {
-      inactiveBtn.dataset.active = 'false'
-      inactiveBtn.classList.remove('bg-primary', 'text-white', 'shadow-md')
-      inactiveBtn.classList.add('text-ink-muted', 'hover:bg-gray-100')
-    }
-  }
-
-  // Initialize both as inactive
-  if ($pickupStore) $pickupStore.classList.add('text-ink-muted', 'hover:bg-gray-100')
-  if ($delivery) $delivery.classList.add('text-ink-muted', 'hover:bg-gray-100')
-
-  if ($pickupStore) {
-    $pickupStore.addEventListener('click', () => {
-      delivery.set(false)
-      setActiveState($pickupStore, $delivery)
-    })
-  }
-
-  if ($delivery) {
-    $delivery.addEventListener('click', () => {
-      delivery.set(true)
-      setActiveState($delivery, $pickupStore)
-    })
-  }
-</script>
