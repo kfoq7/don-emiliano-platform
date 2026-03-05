@@ -1,7 +1,0 @@
-package com.donemiliano.api.features.products.dto;
-
-public class CategoryWithProductsDto extends CategoryDto {
-
-  private static final long serialVersionUID = 1L;
-
-}

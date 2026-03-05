@@ -13,4 +13,6 @@ public interface ICategoryService {
 
   CategoryDto createCategory(CreateCategoryDto createCategoryDto);
 
+  CategoryDto updateCategory(Long id, CreateCategoryDto createCategoryDto);
+
 }

@@ -34,7 +34,7 @@ public class ProductService implements IProductService {
   @Override
   @Transactional(readOnly = true)
   public List<ProductWithCategoryDto> getAllProducts() {
-    return productRepository.findAll().stream()
+    return productRepository.findAllWithCategory().stream()
         .map(productMapper::toDtoWithCategory)
         .toList();
   }
@@ -91,6 +91,17 @@ public class ProductService implements IProductService {
     ProductEntity updatedProduct = productRepository.save(product);
 
     return productMapper.toDtoWithCategory(updatedProduct);
+  }
+
+  @Override
+  public CategoryDto updateCategory(Long id, CreateCategoryDto createCategoryDto) {
+    CategoryEntity category = categoryRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Category not found"));
+
+    categoryMapper.updateEntityFromDto(category, createCategoryDto);
+    CategoryEntity updatedCategory = categoryRepository.save(category);
+
+    return categoryMapper.toDto(updatedCategory);
   }
 
 }
