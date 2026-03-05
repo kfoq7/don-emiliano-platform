@@ -3,109 +3,204 @@ import OrderSummary from '@/components/order/OrderSummary.tsx'
 import Label from './ui/Label.astro'
 import Input from './ui/Input.astro'
 import LocationModal from './LocationModal.astro'
-// import { Icon } from 'astro-icon/components'
 ---
 
-<section class="pt-28 pb-12">
-  <div class="container mx-auto px-4">
+<section class="pt-8 pb-16">
+  <div class="container mx-auto px-4 max-w-3xl">
     <!-- Header -->
-    <div class="mb-8">
-      <h1
-        class="text-4xl md:text-5xl font-bold text-balance leading-tight md:leading-[1.16] text-gray-900"
+    <div class="mb-8 animate-fade-in">
+      <a
+        href="/haz-tu-pedido"
+        class="inline-flex items-center gap-1.5 text-sm text-ink-muted hover:text-primary transition-colors mb-4"
       >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"
+          ></path>
+        </svg>
+        Volver al menu
+      </a>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-heading leading-tight">
         Completa tu pedido
       </h1>
-      <p class="mt-2 text-gray-600">Revisa tu orden y completa la información de entrega</p>
+      <p class="mt-2 text-ink-muted">Revisa tu orden y completa la informacion de entrega</p>
+    </div>
+
+    <!-- Progress steps -->
+    <div class="flex items-center gap-3 mb-8 animate-fade-in-up stagger-1" aria-hidden="true">
+      <div class="flex items-center gap-2">
+        <div
+          class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold"
+        >
+          1
+        </div>
+        <span class="text-sm font-medium text-heading hidden sm:inline">Pedido</span>
+      </div>
+      <div class="flex-1 h-0.5 bg-primary rounded-full"></div>
+      <div class="flex items-center gap-2">
+        <div
+          class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold"
+        >
+          2
+        </div>
+        <span class="text-sm font-medium text-heading hidden sm:inline">Datos</span>
+      </div>
+      <div class="flex-1 h-0.5 bg-gray-200 rounded-full"></div>
+      <div class="flex items-center gap-2">
+        <div
+          class="w-8 h-8 rounded-full bg-gray-200 text-ink-muted flex items-center justify-center text-sm font-bold"
+        >
+          3
+        </div>
+        <span class="text-sm font-medium text-ink-subtle hidden sm:inline">Confirmar</span>
+      </div>
     </div>
 
     <!-- Order Summary -->
-    <OrderSummary client:load />
+    <div class="animate-fade-in-up stagger-2">
+      <OrderSummary client:load />
+    </div>
 
     <!-- Customer Information Form -->
-    <div class="mt-8">
-      <h2 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight mb-6">
-        Información de contacto
-      </h2>
-
-      <form id="order-form" class="space-y-6">
-        <!-- Contact Details -->
-        <div class="grid gap-6 sm:grid-cols-2">
-          <!-- Full Name -->
-          <div class="space-y-2">
-            <Label for="fullname" class="flex items-center gap-2">
-              <!-- <Icon name="mdi:account" class="w-4 h-4 text-gray-500" /> -->
-              Nombre Completo
-            </Label>
-            <Input
-              id="fullname"
-              name="fullname"
-              type="text"
-              placeholder="Ej: Juan Pérez"
-              required
-              autocomplete="name"
-            />
+    <div class="mt-8 animate-fade-in-up stagger-3">
+      <div class="rounded-xl border border-gray-100 bg-white p-5 sm:p-6 shadow-sm">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-lg bg-brand-indigo/10 flex items-center justify-center">
+            <svg
+              class="w-5 h-5 text-brand-indigo"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
           </div>
-
-          <!-- Phone Number -->
-          <div class="space-y-2">
-            <Label for="phone" class="flex items-center gap-2">
-              <!-- <Icon name="mdi:phone" class="w-4 h-4 text-gray-500" /> -->
-              Número de Celular
-            </Label>
-            <Input
-              id="phone"
-              name="phone"
-              type="tel"
-              placeholder="+51 999 999 999"
-              required
-              autocomplete="tel"
-              pattern="[+]?[0-9\s\-()]+"
-            />
-          </div>
+          <h2 class="text-xl font-bold text-heading">Informacion de contacto</h2>
         </div>
 
-        <!-- Delivery Location -->
-        <div class="space-y-3">
-          <Label class="flex items-center gap-2 mb-0">
-            <!-- <Icon name="mdi:map-marker" class="w-4 h-4 text-gray-500" /> -->
-            Ubicación de entrega
-          </Label>
+        <form id="order-form" class="space-y-5">
+          <!-- Contact Details -->
+          <div class="grid gap-5 sm:grid-cols-2">
+            <!-- Full Name -->
+            <div class="space-y-1.5">
+              <Label for="fullname">Nombre Completo</Label>
+              <Input
+                id="fullname"
+                name="fullname"
+                type="text"
+                placeholder="Ej: Juan Perez"
+                required
+                autocomplete="name"
+              />
+            </div>
 
-          <div class="flex items-center gap-3">
+            <!-- Phone Number -->
+            <div class="space-y-1.5">
+              <Label for="phone">Numero de Celular</Label>
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="+51 999 999 999"
+                required
+                autocomplete="tel"
+                pattern="[+]?[0-9\s\-()]+"
+              />
+            </div>
+          </div>
+
+          <!-- Delivery Location -->
+          <div class="space-y-2">
+            <Label>Ubicacion de entrega</Label>
+
             <button
               type="button"
               id="select-location-btn"
-              class="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-4 rounded-lg border-2 border-gray-300 transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer"
+              class="w-full flex items-center gap-3 bg-white hover:bg-surface-hover text-ink-muted font-medium py-3.5 px-4 rounded-xl border-2 border-dashed border-gray-300 hover:border-primary/40 transition-all duration-200 cursor-pointer group"
             >
-              <span id="location-text">Seleccionar ubicación en el mapa</span>
+              <div
+                class="w-10 h-10 rounded-lg bg-primary/10 group-hover:bg-primary/15 flex items-center justify-center transition-colors shrink-0"
+              >
+                <svg
+                  class="w-5 h-5 text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </div>
+              <div class="flex-1 text-left">
+                <span id="location-text" class="text-sm">Seleccionar ubicacion en el mapa</span>
+              </div>
+              <svg
+                class="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"></path>
+              </svg>
             </button>
 
             <a
               id="location-link"
-              class="text-sm text-action hover:text-action-dark hover:underline transition-colors hidden whitespace-nowrap"
+              class="hidden inline-flex items-center gap-1.5 text-sm text-primary hover:text-action-dark font-medium transition-colors mt-1"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Ver en Maps
-              <!-- <Icon name="mdi:open-in-new" class="w-3 h-3 inline ml-1" /> -->
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                ></path>
+              </svg>
+              Ver en Google Maps
             </a>
+
+            <p class="text-xs text-ink-subtle">
+              Haz clic en el boton para seleccionar tu ubicacion y calcular el delivery
+            </p>
           </div>
 
-          <p class="text-xs text-gray-500">
-            Haz clic en el botón para seleccionar tu ubicación y calcular el delivery
-          </p>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="pt-4">
-          <button
-            type="submit"
-            class="w-full bg-action hover:bg-action-dark text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
-          >
-            Confirmar pedido
-          </button>
-        </div>
-      </form>
+          <!-- Submit Button -->
+          <div class="pt-4">
+            <button
+              type="submit"
+              class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-action-hover active:bg-action-pressed text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                ></path>
+              </svg>
+              Confirmar pedido por WhatsApp
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </section>
@@ -117,7 +212,6 @@ import LocationModal from './LocationModal.astro'
   import { createOrderMesesage } from '@/lib/utils/create-order-message'
   import { location, delivery } from '@/stores/location'
   import { cartItems } from '@/stores/order'
-  // import { cart } from '@/stores/cart'
 
   const locationLink = document.getElementById('location-link') as HTMLAnchorElement
   const locationText = document.getElementById('location-text') as HTMLAnchorElement
@@ -136,14 +230,26 @@ import LocationModal from './LocationModal.astro'
         locationLink.classList.remove('hidden')
       }
       if (locationText) {
-        locationText.textContent = '📍 Ubicación seleccionada'
+        locationText.textContent = 'Ubicacion seleccionada'
+        locationText.classList.add('text-heading', 'font-semibold')
+        locationText.classList.remove('text-ink-muted')
+      }
+      if (selectlocationbtn) {
+        selectlocationbtn.classList.remove('border-dashed', 'border-gray-300')
+        selectlocationbtn.classList.add('border-solid', 'border-green-300', 'bg-green-50/50')
       }
     } else {
       if (locationLink) {
         locationLink.classList.add('hidden')
       }
       if (locationText) {
-        locationText.textContent = 'Seleccionar ubicación en el mapa'
+        locationText.textContent = 'Seleccionar ubicacion en el mapa'
+        locationText.classList.remove('text-heading', 'font-semibold')
+        locationText.classList.add('text-ink-muted')
+      }
+      if (selectlocationbtn) {
+        selectlocationbtn.classList.add('border-dashed', 'border-gray-300')
+        selectlocationbtn.classList.remove('border-solid', 'border-green-300', 'bg-green-50/50')
       }
     }
   })
@@ -164,11 +270,9 @@ import LocationModal from './LocationModal.astro'
 
     // Validate location is selected
     if (!currentLocation?.lat || !currentLocation?.lng) {
-      alert('Por favor selecciona una ubicación de entrega')
+      alert('Por favor selecciona una ubicacion de entrega')
       return
     }
-
-    console.log('currentCart', currentCart.items)
 
     // Create order message
     const message = createOrderMesesage({
@@ -182,9 +286,9 @@ import LocationModal from './LocationModal.astro'
     })
 
     // Add customer info to message
-    const fullMessage = `Hola! Soy *${fullname}*\nTeléfono: ${phone}\n${message}`
+    const fullMessage = `Hola! Soy *${fullname}*\nTelefono: ${phone}\n${message}`
 
-    // WhatsApp business number (replace with actual number)
+    // WhatsApp business number
     const whatsappNumber = '51994932432'
 
     // Create WhatsApp URL

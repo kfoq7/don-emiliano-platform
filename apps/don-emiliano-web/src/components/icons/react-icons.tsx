@@ -4,14 +4,14 @@ export const Plus = ({ className }: { className?: string }) => (
   </svg>
 )
 
-export const Minus = () => (
-  <svg height="16px" viewBox="0 -960 960 960" width="16px" fill="black">
+export const Minus = ({ className }: { className?: string }) => (
+  <svg height="16px" viewBox="0 -960 960 960" width="16px" fill="black" className={className}>
     <path d="M200-440v-80h560v80H200Z" />
   </svg>
 )
 
-export const Remove = () => (
-  <svg height="16px" viewBox="0 -960 960 960" width="16px" fill="black">
+export const Remove = ({ className }: { className?: string }) => (
+  <svg height="16px" viewBox="0 -960 960 960" width="16px" fill="black" className={className}>
     <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z" />
   </svg>
 )

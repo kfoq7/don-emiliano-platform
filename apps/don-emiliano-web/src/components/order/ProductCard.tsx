@@ -8,58 +8,114 @@ type Props = { product: Product; cartItem?: CartItem }
 
 export default function ProductCard({ product, cartItem }: Props) {
   const [mounted, setMounted] = useState(false)
+  const [justAdded, setJustAdded] = useState(false)
   const quantity = cartItem?.quantity || 0
 
   useEffect(() => {
-    // This hooks is due to the hydration faileds in get back action page
     setMounted(true)
   }, [])
 
+  const handleAdd = () => {
+    addCartItem(product)
+    setJustAdded(true)
+    setTimeout(() => setJustAdded(false), 400)
+  }
+
   return (
-    <div className="flex justify-between px-4 py-2 bg-white border border-gray-200/40 rounded-md drop-shadow-sm">
-      <div className="flex flex-col items-center justify-center gap-4 w-full">
-        {product.image && (
+    <div
+      className={`
+        group relative flex flex-col bg-white rounded-xl border border-gray-100 
+        shadow-sm hover:shadow-lg hover:border-primary/20
+        transition-all duration-300 overflow-hidden
+        ${justAdded ? 'cart-pop' : ''}
+      `}
+    >
+      {/* Product image */}
+      {product.image && (
+        <div className="relative overflow-hidden">
           <img
             src={product.image}
             alt={product.name}
-            className="w-100 h-auto object-cover rounded"
+            className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
           />
-        )}
-
-        <div className="flex items-center justify-between gap-4 w-full">
-          <div>
-            <h3 className="font-bold text-xl text-left">{product.name}</h3>
-            <p>{product.description}</p>
+          {/* Price badge on image */}
+          <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm">
+            <span className="text-sm font-bold text-primary">S/ {product.price.toFixed(2)}</span>
           </div>
+          {/* Quantity indicator on image if in cart */}
+          {mounted && quantity > 0 && (
+            <div className="absolute top-3 left-3 bg-primary text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow-md">
+              {quantity}
+            </div>
+          )}
+        </div>
+      )}
 
-          <div>
-            <span>S/. {product.price}</span>
-          </div>
+      {/* Content area */}
+      <div className="flex flex-col flex-1 p-4">
+        <div className="flex-1 mb-3">
+          <h3 className="font-bold text-base text-heading leading-snug">{product.name}</h3>
+          {product.description && (
+            <p className="mt-1 text-sm text-ink-muted leading-relaxed line-clamp-2">
+              {product.description}
+            </p>
+          )}
         </div>
 
+        {/* No image fallback: show price inline */}
+        {!product.image && (
+          <div className="mb-3">
+            <span className="text-lg font-bold text-primary">S/ {product.price.toFixed(2)}</span>
+          </div>
+        )}
+
+        {/* Add to cart / quantity controls */}
         {!mounted || quantity === 0 ? (
           <button
-            className="size-8 w-full flex items-center justify-center gap-2 bg-action rounded-md cursor-pointer text-white"
-            onClick={() => addCartItem(product)}
+            className="
+              w-full flex items-center justify-center gap-2 
+              bg-primary text-white py-2.5 px-4 rounded-lg 
+              font-semibold text-sm cursor-pointer
+              hover:bg-action-hover active:bg-action-pressed
+              transition-all duration-200
+              disabled:opacity-50 disabled:cursor-not-allowed
+              shadow-sm hover:shadow-md
+            "
+            onClick={handleAdd}
             disabled={!mounted}
           >
-            <Plus className="fill-white" />
+            <Plus className="fill-white w-4 h-4" />
             Agregar
           </button>
         ) : (
-          <div className="size-8 flex items-center justify-between rounded-md w-full bg-action-extralight">
+          <div className="flex items-center justify-between bg-action-extralight/60 rounded-lg p-1">
             <button
               onClick={() => decreaseCartItem(product.id)}
-              className="flex items-center justify-center size-7 border-transparent bg-transparent rounded-md hover:bg-amber-300 hover:text-amber-300"
+              className="
+                flex items-center justify-center w-9 h-9 
+                rounded-lg bg-white shadow-sm
+                hover:bg-red-50 active:bg-red-100
+                transition-colors duration-150 cursor-pointer
+              "
+              aria-label="Disminuir cantidad"
             >
-              <Minus />
+              <Minus className="w-4 h-4" />
             </button>
-            <span className="w-6 text-center font-medium text-black">{quantity}</span>
+            <span className="min-w-[2rem] text-center font-bold text-ink text-base">
+              {quantity}
+            </span>
             <button
               onClick={() => increaseCartItem(product.id)}
-              className="flex items-center justify-center size-7 border-transparent bg-transparent rounded-md hover:bg-amber-300 hover:text-amber-300"
+              className="
+                flex items-center justify-center w-9 h-9 
+                rounded-lg bg-white shadow-sm
+                hover:bg-green-50 active:bg-green-100
+                transition-colors duration-150 cursor-pointer
+              "
+              aria-label="Aumentar cantidad"
             >
-              <Plus />
+              <Plus className="w-4 h-4" />
             </button>
           </div>
         )}
