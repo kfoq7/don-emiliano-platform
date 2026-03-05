@@ -64,10 +64,11 @@ public class ProductService implements IProductService {
     product.setCategory(category);
     ProductEntity savedProduct = productRepository.save(product);
 
-    return productMapper.toDtoWithCategory(savedProduct);
+    return productMapper.toDto(savedProduct);
   }
 
   @Override
+  @Transactional
   public CategoryDto createCategory(CreateCategoryDto createCategoryDto) {
     CategoryEntity category = categoryMapper.toCreateEntity(createCategoryDto);
     CategoryEntity savedCategory = categoryRepository.save(category);
@@ -90,10 +91,11 @@ public class ProductService implements IProductService {
     productMapper.updateEntityFromDto(product, updateProductDto);
     ProductEntity updatedProduct = productRepository.save(product);
 
-    return productMapper.toDtoWithCategory(updatedProduct);
+    return productMapper.toDto(updatedProduct);
   }
 
   @Override
+  @Transactional
   public CategoryDto updateCategory(Long id, CreateCategoryDto createCategoryDto) {
     CategoryEntity category = categoryRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Category not found"));

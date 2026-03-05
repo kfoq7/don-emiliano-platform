@@ -25,16 +25,16 @@ public interface IProductController {
   @GetMapping
   public ResponseEntity<List<ProductWithCategoryDto>> getAllProducts();
 
-  @GetMapping("/category")
+  @GetMapping("/categories")
   public ResponseEntity<List<CategoryDto>> getAllCategories();
 
-  @GetMapping("/by-category")
+  @GetMapping("/by-categories")
   public ResponseEntity<List<CategoryWithProductsDto>> getAllCategoriesWithProducts();
 
   @PostMapping
   public ResponseEntity<ProductDto> createProduct(@Valid() @RequestBody() CreateProductDto product);
 
-  @PostMapping("/category")
+  @PostMapping("/categories")
   public ResponseEntity<CategoryDto> createCategory(@Valid() @RequestBody() CreateCategoryDto category);
 
   @PutMapping("/{id}")
@@ -42,7 +42,7 @@ public interface IProductController {
       @Parameter(required = true) @PathVariable(name = "id") Long id,
       @Valid() @RequestBody() UpdateProductDto product);
 
-  @PutMapping("/category/{id}")
+  @PutMapping("/categories/{id}")
   public ResponseEntity<CategoryDto> updateCategory(
       @Parameter(required = true) @PathVariable(name = "id") Long id,
       @Valid() @RequestBody() CreateCategoryDto category);

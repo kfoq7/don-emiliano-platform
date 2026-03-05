@@ -33,4 +33,8 @@ public class CreateProductDto {
   @Positive(message = "{validation.product.categoryId}")
   private Long categoryId;
 
+  private Boolean isAvailable = true;
+
+  private Boolean isStockAvailable = true;
+
 }

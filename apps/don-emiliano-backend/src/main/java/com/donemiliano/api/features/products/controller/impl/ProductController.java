@@ -19,7 +19,7 @@ import com.donemiliano.api.features.products.servicies.IProductService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController implements IProductController {
 
