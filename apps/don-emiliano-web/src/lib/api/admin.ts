@@ -66,7 +66,7 @@ export interface BusinessHours {
 // --- Products API ---
 
 export async function fetchCategoriesWithProducts(): Promise<ProductCategory[]> {
-  const response = await fetch(`${API_URL}/products/categories`)
+  const response = await fetch(`${API_URL}/products/by-categories`)
   if (!response.ok) throw new Error('Error al obtener categorias')
   return response.json()
 }
@@ -79,12 +79,12 @@ export async function fetchAllProducts(): Promise<AdminProduct[]> {
 
 export async function toggleProductAvailability(
   productId: number,
-  isAvailable: boolean,
+  isStockAvailable: boolean,
 ): Promise<AdminProduct> {
   const response = await fetch(`${API_URL}/products/${productId}/availability`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ isAvailable }),
+    body: JSON.stringify({ isStockAvailable }),
   })
   if (!response.ok) throw new Error('Error al actualizar disponibilidad')
   return response.json()

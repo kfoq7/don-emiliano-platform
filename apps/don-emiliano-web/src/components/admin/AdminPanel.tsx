@@ -22,6 +22,7 @@ function TabIcon({ icon, className }: { icon: string; className?: string }) {
       </svg>
     )
   }
+
   return (
     <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
