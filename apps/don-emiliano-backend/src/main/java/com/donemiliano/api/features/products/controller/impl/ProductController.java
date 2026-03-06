@@ -14,6 +14,7 @@ import com.donemiliano.api.features.products.dto.CreateProductDto;
 import com.donemiliano.api.features.products.dto.ProductDto;
 import com.donemiliano.api.features.products.dto.ProductWithCategoryDto;
 import com.donemiliano.api.features.products.dto.UpdateProductDto;
+import com.donemiliano.api.features.products.dto.UpdateProductStockAvailableDto;
 import com.donemiliano.api.features.products.servicies.IProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,11 @@ public class ProductController implements IProductController {
   @Override
   public ResponseEntity<CategoryDto> updateCategory(Long id, CreateCategoryDto category) {
     return ResponseEntity.ok(productService.updateCategory(id, category));
+  }
+
+  @Override
+  public ResponseEntity<ProductDto> updateProductAvailability(Long id, UpdateProductStockAvailableDto product) {
+    return ResponseEntity.ok(productService.updateProductAvailability(id, product));
   }
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +17,7 @@ import com.donemiliano.api.features.products.dto.CreateProductDto;
 import com.donemiliano.api.features.products.dto.ProductDto;
 import com.donemiliano.api.features.products.dto.ProductWithCategoryDto;
 import com.donemiliano.api.features.products.dto.UpdateProductDto;
+import com.donemiliano.api.features.products.dto.UpdateProductStockAvailableDto;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
@@ -46,5 +48,10 @@ public interface IProductController {
   public ResponseEntity<CategoryDto> updateCategory(
       @Parameter(required = true) @PathVariable(name = "id") Long id,
       @Valid() @RequestBody() CreateCategoryDto category);
+
+  @PatchMapping("/{id}/availability")
+  public ResponseEntity<ProductDto> updateProductAvailability(
+      @Parameter(required = true) @PathVariable(name = "id") Long id,
+      @Valid() @RequestBody() UpdateProductStockAvailableDto product);
 
 }

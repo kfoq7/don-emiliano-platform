@@ -12,6 +12,7 @@ import com.donemiliano.api.features.products.dto.CreateProductDto;
 import com.donemiliano.api.features.products.dto.ProductDto;
 import com.donemiliano.api.features.products.dto.ProductWithCategoryDto;
 import com.donemiliano.api.features.products.dto.UpdateProductDto;
+import com.donemiliano.api.features.products.dto.UpdateProductStockAvailableDto;
 import com.donemiliano.api.features.products.entities.CategoryEntity;
 import com.donemiliano.api.features.products.entities.ProductEntity;
 import com.donemiliano.api.features.products.mappers.ICategoryMapper;
@@ -104,6 +105,18 @@ public class ProductService implements IProductService {
     CategoryEntity updatedCategory = categoryRepository.save(category);
 
     return categoryMapper.toDto(updatedCategory);
+  }
+
+  @Override
+  @Transactional
+  public ProductDto updateProductAvailability(Long id, UpdateProductStockAvailableDto updateProductDto) {
+    ProductEntity product = productRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Category not found"));
+
+    product.setIsStockAvailable(updateProductDto.getIsStockAvailable());
+    ProductEntity updatedProduct = productRepository.save(product);
+
+    return productMapper.toDto(updatedProduct);
   }
 
 }
