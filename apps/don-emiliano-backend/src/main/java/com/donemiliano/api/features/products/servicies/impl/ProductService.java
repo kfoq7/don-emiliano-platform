@@ -111,7 +111,7 @@ public class ProductService implements IProductService {
   @Transactional
   public ProductDto updateProductAvailability(Long id, UpdateProductStockAvailableDto updateProductDto) {
     ProductEntity product = productRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Category not found"));
+        .orElseThrow(() -> new RuntimeException("Product not found"));
 
     product.setIsStockAvailable(updateProductDto.getIsStockAvailable());
     ProductEntity updatedProduct = productRepository.save(product);
