@@ -1,26 +1,27 @@
 // @ts-check
 import path from 'node:path'
-
 import { defineConfig } from 'astro/config'
 
 import tailwindcss from '@tailwindcss/vite'
 
 import preact from '@astrojs/preact'
+import cloudflare from '@astrojs/cloudflare'
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [preact()],
   output: 'server',
+  adapter: cloudflare(),
   server: {
     host: true,
     allowedHosts: true,
   },
   vite: {
     plugins: [tailwindcss()],
-    // resolve: {
-    //   alias: {
-    //     '@': path.resolve('./'),
-    //   },
-    // },
+    resolve: {
+      alias: {
+        '@': path.resolve('./src'),
+      },
+    },
   },
 })
