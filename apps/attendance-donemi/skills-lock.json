@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "integrating-tauri-js-frontends": {
+      "source": "dchuk/claude-code-tauri-skills",
+      "sourceType": "github",
+      "computedHash": "2d1d85c04a4dd25e55ae49fb35df3907b1ad8a3b2ca652d4cd6b9cecde7c4cab"
+    }
+  }
+}

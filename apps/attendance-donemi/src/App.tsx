@@ -2,6 +2,10 @@ import { useState } from 'preact/hooks'
 import { useRetriveAttendanceData } from './hooks/use-retrive-attendance-data'
 import { useUploadFiles } from './hooks/use-upload-files'
 import { useExportAttendance } from './hooks/use-export-attendance'
+import { FileSelectionItem } from './components/FileSelectionItem'
+import { FilterSection } from './components/FilterSection'
+import { AttendanceTable } from './components/attendance-table'
+import { ActionBar } from './components/action-bar'
 
 function App() {
   const {
@@ -28,19 +32,6 @@ function App() {
     startTime: '',
     endTime: '',
   })
-
-  const formatDate = (timestamp: string) => {
-    const date = new Date(timestamp)
-    return date.toLocaleDateString('es-ES')
-  }
-
-  const formatTime = (timestamp: string) => {
-    const date = new Date(timestamp)
-    return date.toLocaleTimeString('es-ES', {
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-  }
 
   const getDateValue = (timestamp: string) => {
     const date = new Date(timestamp)
@@ -93,231 +84,143 @@ function App() {
     })
   }
 
+  const hasActiveFilters = Object.values(filters).some(v => v !== '')
+  const bothFilesSelected = Boolean(usersFilePath && attendanceFilePath)
+  const hasData = Boolean(attendanceData) && attendanceData!.records.length > 0
+
   return (
-    <main className="min-h-screen px-4 py-2">
-      <h1 className="text-4xl font-bold tracking-tighter">
-        Don Emilano Chicharroneria - Datos de asistencía
-      </h1>
-
-      <div className="mt-10 py-2">
-        <h2 className="text-2xl font-semibold mb-4">
-          Subir datos de asistencía
-        </h2>
-
-        <div className="flex gap-3">
-          <button
-            onClick={handleUsersFileUpload}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-          >
-            Seleccionar Archivo de Usuarios
-          </button>
-          <button
-            onClick={handleAttendanceFileUpload}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-          >
-            Seleccionar Archivo de Asistencia
-          </button>
+    <main className="min-h-screen bg-gray-50/50">
+      {/* Header */}
+      <header className="border-b border-gray-200 bg-white px-6 py-4">
+        <div className="mx-auto max-w-6xl">
+          <h1 className="text-xl font-bold tracking-tight text-gray-900">
+            Don Emiliano Chicharroneria
+          </h1>
+          <p className="mt-0.5 text-sm text-gray-500">
+            Sistema de control de asistencia
+          </p>
         </div>
+      </header>
 
-        {usersFilePath && (
-          <p className="mt-4 text-gray-700">
-            Archivo de usuarios:{' '}
-            <span className="font-medium">{usersFilePath}</span>
-          </p>
-        )}
-        {attendanceFilePath && (
-          <p className="text-gray-700">
-            Archivo de asistencia:{' '}
-            <span className="font-medium">{attendanceFilePath}</span>
-          </p>
-        )}
+      <div className="mx-auto max-w-6xl space-y-6 px-6 py-6">
+        {/* Step 1: File Selection */}
+        <section className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
+              1
+            </span>
+            <h2 className="text-sm font-semibold text-gray-700">
+              Seleccionar archivos de datos
+            </h2>
+          </div>
 
-        {usersFilePath && attendanceFilePath && (
-          <div className="mt-5">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <FileSelectionItem
+              label="Archivo de Usuarios"
+              description="Archivo .dat del dispositivo biometrico con datos de usuarios"
+              filePath={usersFilePath}
+              onSelect={handleUsersFileUpload}
+              icon="users"
+            />
+            <FileSelectionItem
+              label="Archivo de Asistencia"
+              description="Archivo .dat del dispositivo biometrico con registros de asistencia"
+              filePath={attendanceFilePath}
+              onSelect={handleAttendanceFileUpload}
+              icon="attendance"
+            />
+          </div>
+        </section>
+
+        {/* Step 2: Process Data */}
+        {bothFilesSelected && (
+          <section className="space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
+                2
+              </span>
+              <h2 className="text-sm font-semibold text-gray-700">
+                Procesar datos
+              </h2>
+            </div>
+
             <button
               onClick={handleRetriveAttendanceData}
-              className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors font-medium"
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 active:bg-blue-800"
             >
+              <svg
+                className="size-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+                />
+              </svg>
               Combinar y Previsualizar Datos
             </button>
+          </section>
+        )}
+
+        {/* Error Display */}
+        {error && (
+          <div className="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+            <svg
+              className="size-5 shrink-0 text-red-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+              />
+            </svg>
+            <p className="text-sm font-medium text-red-700">{error}</p>
           </div>
         )}
 
-        {error && <p className="text-red-600 mt-4 font-medium">{error}</p>}
-
-        <div className="mt-6 flex gap-3">
-          <button
-            onClick={() => handleExportToCSV(filteredRecords || [])}
-            disabled={
-              isExporting || !filteredRecords || filteredRecords.length === 0
-            }
-            className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors font-medium disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            {isExporting ? 'Exportando...' : 'Exportar a Excel (CSV)'}
-          </button>
-        </div>
-
-        {attendanceData && attendanceData.records.length > 0 && (
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold mb-4">
-              Previsualización de Datos ({filteredRecords?.length || 0} de{' '}
-              {attendanceData.records.length} registros)
-            </h3>
-
-            {/* Filters Section */}
-            <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="font-semibold text-gray-700">Filtros</h4>
-                <button
-                  onClick={clearFilters}
-                  className="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
-                >
-                  Limpiar Filtros
-                </button>
+        {/* Step 3: Data Preview */}
+        {hasData && (
+          <section className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
+                  3
+                </span>
+                <h2 className="text-sm font-semibold text-gray-700">
+                  Revisar y exportar
+                </h2>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    ID de Usuario
-                  </label>
-                  <input
-                    type="text"
-                    value={filters.userId}
-                    onChange={e =>
-                      handleFilterChange('userId', e.currentTarget.value)
-                    }
-                    placeholder="Buscar por ID..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Nombre
-                  </label>
-                  <input
-                    type="text"
-                    value={filters.userName}
-                    onChange={e =>
-                      handleFilterChange('userName', e.currentTarget.value)
-                    }
-                    placeholder="Buscar por nombre..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Fecha Inicio
-                  </label>
-                  <input
-                    type="date"
-                    value={filters.startDate}
-                    onChange={e =>
-                      handleFilterChange('startDate', e.currentTarget.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Fecha Fin
-                  </label>
-                  <input
-                    type="date"
-                    value={filters.endDate}
-                    onChange={e =>
-                      handleFilterChange('endDate', e.currentTarget.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Hora Inicio
-                  </label>
-                  <input
-                    type="time"
-                    value={filters.startTime}
-                    onChange={e =>
-                      handleFilterChange('startTime', e.currentTarget.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Hora Fin
-                  </label>
-                  <input
-                    type="time"
-                    value={filters.endTime}
-                    onChange={e =>
-                      handleFilterChange('endTime', e.currentTarget.value)
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
+
+              <ActionBar
+                onExport={() => handleExportToCSV(filteredRecords || [])}
+                onUpload={() => {}}
+                isExporting={isExporting}
+                hasRecords={
+                  Boolean(filteredRecords) && filteredRecords!.length > 0
+                }
+              />
             </div>
 
-            <div className="overflow-x-auto rounded-lg border border-gray-200">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className="px-4 py-3 text-left border-b border-gray-200 font-semibold text-gray-700">
-                      ID de Usuario
-                    </th>
-                    <th className="px-4 py-3 text-left border-b border-gray-200 font-semibold text-gray-700">
-                      Nombre
-                    </th>
-                    <th className="px-4 py-3 text-left border-b border-gray-200 font-semibold text-gray-700">
-                      Fecha
-                    </th>
-                    <th className="px-4 py-3 text-left border-b border-gray-200 font-semibold text-gray-700">
-                      Hora
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredRecords && filteredRecords.length > 0 ? (
-                    filteredRecords.map((record, index) => (
-                      <tr
-                        key={index}
-                        className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
-                      >
-                        <td className="px-4 py-3 border-b border-gray-200 text-gray-800">
-                          {record.user_id}
-                        </td>
-                        <td className="px-4 py-3 border-b border-gray-200 text-gray-800">
-                          {record.user_name}
-                        </td>
-                        <td className="px-4 py-3 border-b border-gray-200 text-gray-800">
-                          {formatDate(record.timestamp)}
-                        </td>
-                        <td className="px-4 py-3 border-b border-gray-200 text-gray-800">
-                          {formatTime(record.timestamp)}
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td
-                        colSpan={4}
-                        className="px-4 py-8 text-center text-gray-500"
-                      >
-                        No se encontraron registros con los filtros aplicados
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+            <FilterSection
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onClearFilters={clearFilters}
+              hasActiveFilters={hasActiveFilters}
+            />
 
-            <div className="mt-6">
-              <button className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors font-medium">
-                Subir a Base de Datos
-              </button>
-            </div>
-          </div>
+            <AttendanceTable
+              records={filteredRecords || []}
+              totalCount={attendanceData!.records.length}
+            />
+          </section>
         )}
       </div>
     </main>
