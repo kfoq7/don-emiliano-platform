@@ -1,20 +1,19 @@
 // @ts-check
 import path from 'node:path'
+
 import { defineConfig } from 'astro/config'
 
 import tailwindcss from '@tailwindcss/vite'
-
 import preact from '@astrojs/preact'
-import cloudflare from '@astrojs/cloudflare'
+import vercel from '@astrojs/vercel/serverless'
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [preact()],
   output: 'server',
-  adapter: cloudflare(),
-  server: {
-    host: true,
-    allowedHosts: true,
+  adapter: vercel(),
+  build: {
+    inlineStylesheets: 'always',
   },
   vite: {
     plugins: [tailwindcss()],
