@@ -3,6 +3,8 @@ import OrderSummary from '@/components/order/OrderSummary.tsx'
 import Label from './ui/Label.astro'
 import Input from './ui/Input.astro'
 import LocationModal from './LocationModal.astro'
+import DeliveryIcon from '@/components/icons/Delivery.astro'
+import BagIcon from '@/components/icons/Bag.astro'
 ---
 
 <section class="pt-8 pb-16">
@@ -112,8 +114,35 @@ import LocationModal from './LocationModal.astro'
             </div>
           </div>
 
-          <!-- Delivery Location -->
+          <!-- Delivery Mode Toggle -->
           <div class="space-y-2">
+            <Label>Tipo de pedido</Label>
+            <div
+              class="flex items-center bg-surface-hover rounded-full p-1 border border-border-light shadow-sm w-fit"
+            >
+              <button
+                type="button"
+                id="pickup-toggle"
+                class="delivery-mode-btn flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer"
+                data-active="false"
+              >
+                <BagIcon className="size-5" />
+                <span>Recojo en tienda</span>
+              </button>
+              <button
+                type="button"
+                id="delivery-toggle"
+                class="delivery-mode-btn flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer"
+                data-active="false"
+              >
+                <DeliveryIcon className="w-6" />
+                <span>Delivery</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Delivery Location (shown only when delivery is selected) -->
+          <div id="delivery-location-section" class="space-y-2 hidden">
             <Label>Ubicacion de entrega</Label>
 
             <button
@@ -216,6 +245,68 @@ import LocationModal from './LocationModal.astro'
   const locationLink = document.getElementById('location-link') as HTMLAnchorElement
   const locationText = document.getElementById('location-text') as HTMLAnchorElement
   const selectlocationbtn = document.getElementById('select-location-btn') as HTMLButtonElement
+  const deliveryLocationSection = document.getElementById(
+    'delivery-location-section',
+  ) as HTMLDivElement
+
+  // Delivery mode toggle elements
+  const pickupToggle = document.getElementById('pickup-toggle') as HTMLButtonElement
+  const deliveryToggle = document.getElementById('delivery-toggle') as HTMLButtonElement
+
+  function setToggleState(activeBtn: HTMLElement | null, inactiveBtn: HTMLElement | null) {
+    if (activeBtn) {
+      activeBtn.dataset.active = 'true'
+      activeBtn.classList.add('bg-primary', 'text-white', 'shadow-md')
+      activeBtn.classList.remove('text-ink-muted', 'hover:bg-gray-100')
+    }
+    if (inactiveBtn) {
+      inactiveBtn.dataset.active = 'false'
+      inactiveBtn.classList.remove('bg-primary', 'text-white', 'shadow-md')
+      inactiveBtn.classList.add('text-ink-muted', 'hover:bg-gray-100')
+    }
+  }
+
+  function updateDeliverySection(isDelivery: boolean) {
+    if (deliveryLocationSection) {
+      if (isDelivery) {
+        deliveryLocationSection.classList.remove('hidden')
+      } else {
+        deliveryLocationSection.classList.add('hidden')
+      }
+    }
+  }
+
+  // Initialize toggle state from persisted store
+  function initToggleState() {
+    const isDelivery = delivery.get()
+
+    // Set initial inactive styles
+    if (pickupToggle) pickupToggle.classList.add('text-ink-muted', 'hover:bg-gray-100')
+    if (deliveryToggle) deliveryToggle.classList.add('text-ink-muted', 'hover:bg-gray-100')
+
+    if (isDelivery) {
+      setToggleState(deliveryToggle, pickupToggle)
+    } else {
+      setToggleState(pickupToggle, deliveryToggle)
+    }
+
+    updateDeliverySection(isDelivery)
+  }
+
+  initToggleState()
+
+  // Toggle click handlers
+  pickupToggle?.addEventListener('click', () => {
+    delivery.set(false)
+    setToggleState(pickupToggle, deliveryToggle)
+    updateDeliverySection(false)
+  })
+
+  deliveryToggle?.addEventListener('click', () => {
+    delivery.set(true)
+    setToggleState(deliveryToggle, pickupToggle)
+    updateDeliverySection(true)
+  })
 
   // open modal
   selectlocationbtn?.addEventListener('click', () => {
@@ -268,8 +359,8 @@ import LocationModal from './LocationModal.astro'
     const currentLocation = location.get()
     const isDelivery = delivery.get()
 
-    // Validate location is selected
-    if (!currentLocation?.lat || !currentLocation?.lng) {
+    // Validate location is selected only when delivery is active
+    if (isDelivery && (!currentLocation?.lat || !currentLocation?.lng)) {
       alert('Por favor selecciona una ubicacion de entrega')
       return
     }
@@ -281,7 +372,7 @@ import LocationModal from './LocationModal.astro'
         (total, item) => total + item.price * item.quantity,
         0,
       ),
-      location: currentLocation,
+      location: isDelivery ? currentLocation : null,
       isDelivery,
     })
 
