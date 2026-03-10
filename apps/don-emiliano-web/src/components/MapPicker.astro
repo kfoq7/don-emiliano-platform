@@ -24,8 +24,10 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
   class="map-picker-container w-full px-8 flex flex-col items-center"
   data-unique-id={uniqueId}
 >
-  <div class="mt-4 mx-6 gap-2 flex flex-col md:flex-none items-center w-full max-w-md">
-    <div class="w-full relative">
+  <div
+    class="mt-4 mx-6 gap-2 flex flex-col md:flex-none items-center w-full max-w-md relative z-1000"
+  >
+    <div class="w-full relative mb-4">
       <input
         id="location-search"
         aria-label="Search for a location in Lima, Peru"
@@ -35,17 +37,17 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
       />
       <div
         id="search-results"
-        class="hidden absolute z-50 w-full mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+        class="hidden absolute z-1000 w-full mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
       >
       </div>
     </div>
 
-    <p class="mt-2 text-sm text-gray-600">
-      Lat: <span class="lat-display">{lat.toFixed(6)}</span>
-      , Lng: <span class="lng-display">
-        {lng.toFixed(6)}
-      </span>
-    </p>
+    <!-- <p class="mt-2 text-sm text-gray-600"> -->
+    <!--   Lat: <span class="lat-display">{lat.toFixed(6)}</span> -->
+    <!--   , Lng: <span class="lng-display"> -->
+    <!--     {lng.toFixed(6)} -->
+    <!--   </span> -->
+    <!-- </p> -->
   </div>
 
   <div
@@ -103,13 +105,12 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
       const maxlat = -11.7
 
       const url = new URL('https://nominatim.openstreetmap.org/search')
-      url.searchParams.set('q', `${query}, Lima, Peru, Comas`)
+      url.searchParams.set('q', `${query}, Lima, Peru`)
       url.searchParams.set('format', 'json')
       url.searchParams.set('limit', '5')
       url.searchParams.set('countrycodes', 'pe')
       url.searchParams.set('bounded', '1')
       url.searchParams.set('viewbox', `${minlon},${maxlat},${maxlon},${minlat}`)
-      console.log(url.toString())
 
       const response = await fetch(url.toString(), {
         headers: {
@@ -250,34 +251,37 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
             result => `
           <button
             type="button"
-            class="search-result-item w-full text-left p-3 hover:bg-gray-100 border-b last:border-b-0 transition-colors"
+            class="search-result-item w-full text-left p-3 hover:bg-gray-100 border-b last:border-b-0 transition-colors cursor-pointer"
             data-lat="${result.lat}"
             data-lon="${result.lon}"
             data-display-name="${result.display_name}"
           >
-            <div class="font-medium text-sm">${result.display_name}</div>
+            <div class="font-medium text-sm pointer-events-none">${result.display_name}</div>
           </button>
         `,
           )
           .join('')
 
         searchResults.classList.remove('hidden')
-
-        // Add click handlers to results
-        searchResults.querySelectorAll('.search-result-item').forEach(item => {
-          item.addEventListener('click', () => {
-            const resultLat = parseFloat(item.getAttribute('data-lat') || '0')
-            const resultLon = parseFloat(item.getAttribute('data-lon') || '0')
-            const displayName = item.getAttribute('data-display-name') || ''
-
-            updateLocation(resultLat, resultLon, displayName)
-
-            // Update search input and hide results
-            if (searchInput) searchInput.value = displayName
-            searchResults.classList.add('hidden')
-          })
-        })
       }, 500)
+
+      // Event delegation: handle clicks on search result items via the container
+      if (searchResults) {
+        searchResults.addEventListener('click', e => {
+          const item = (e.target as HTMLElement).closest('.search-result-item') as HTMLElement
+          if (!item) return
+
+          const resultLat = parseFloat(item.getAttribute('data-lat') || '0')
+          const resultLon = parseFloat(item.getAttribute('data-lon') || '0')
+          const displayName = item.getAttribute('data-display-name') || ''
+
+          updateLocation(resultLat, resultLon, displayName)
+
+          // Update search input and hide results
+          if (searchInput) searchInput.value = displayName
+          searchResults.classList.add('hidden')
+        })
+      }
 
       // Search input event listener
       if (searchInput) {
@@ -291,7 +295,7 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
         })
 
         // Close results when clicking outside
-        document.addEventListener('click', e => {
+        document.addEventListener('mousedown', e => {
           if (
             !searchInput.contains(e.target as Node) &&
             !searchResults?.contains(e.target as Node)
