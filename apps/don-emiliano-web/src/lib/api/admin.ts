@@ -49,9 +49,8 @@ export interface AdminProduct {
   id: number
   name: string
   price: number
-  isAvailable: boolean
+  category: string
   isStockAvailable: boolean
-  category?: { id: number; name: string }
 }
 
 export interface BusinessHours {
@@ -72,7 +71,7 @@ export async function fetchCategoriesWithProducts(): Promise<ProductCategory[]> 
 }
 
 export async function fetchAllProducts(): Promise<AdminProduct[]> {
-  const response = await fetch(`${API_URL}/products`)
+  const response = await fetch(`/api/products`)
   if (!response.ok) throw new Error('Error al obtener productos')
   return response.json()
 }
@@ -81,7 +80,7 @@ export async function toggleProductAvailability(
   productId: number,
   isStockAvailable: boolean,
 ): Promise<AdminProduct> {
-  const response = await fetch(`${API_URL}/products/${productId}/availability`, {
+  const response = await fetch(`/api/products/${productId}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ isStockAvailable }),

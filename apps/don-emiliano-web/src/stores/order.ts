@@ -14,7 +14,8 @@ export const cartItems = persistentMap<Record<string, CartItem>>(
 )
 
 export function addCartItem(item: ProductSelected) {
-  const itemId = `${item.id}`
+  const optionsKey = item.selectedOptions ? `-${JSON.stringify(item.selectedOptions)}` : ''
+  const itemId = `${item.id}${optionsKey}`
   const existingEntry = cartItems.get()[itemId]
   if (existingEntry) {
     cartItems.setKey(itemId, {
@@ -22,12 +23,12 @@ export function addCartItem(item: ProductSelected) {
       quantity: existingEntry.quantity + 1,
     })
   } else {
-    cartItems.setKey(itemId, { ...item, quantity: 1 })
+    cartItems.setKey(itemId, { ...item, quantity: 1, cartId: itemId })
   }
 }
 
-export function increaseCartItem(id: number) {
-  const itemId = `${id}`
+export function increaseCartItem(cartId: string | number) {
+  const itemId = String(cartId)
   const existingEntry = cartItems.get()[itemId]
   if (existingEntry) {
     cartItems.setKey(itemId, {
@@ -37,8 +38,8 @@ export function increaseCartItem(id: number) {
   }
 }
 
-export function decreaseCartItem(id: number) {
-  const itemId = `${id}`
+export function decreaseCartItem(cartId: string | number) {
+  const itemId = String(cartId)
   const existingEntry = cartItems.get()[itemId]
   if (existingEntry) {
     if (existingEntry.quantity > 1) {
@@ -52,8 +53,8 @@ export function decreaseCartItem(id: number) {
   }
 }
 
-export function removeCartItem(id: number) {
-  const itemId = `${id}`
+export function removeCartItem(cartId: string | number) {
+  const itemId = String(cartId)
   cartItems.setKey(itemId, undefined)
 }
 

@@ -13,6 +13,10 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'always',
   },
+  server: {
+    host: true,
+    allowedHosts: true,
+  },
   vite: {
     plugins: [tailwindcss()],
   },

@@ -2,11 +2,12 @@ import { useState, useEffect } from 'preact/hooks'
 import { toTitleCase } from '@/lib/utils/to-title-case'
 import { ToggleSwitch } from '@/components/ui/ToggleSwitch'
 import {
-  fetchCategoriesWithProducts,
+  fetchAllProducts,
   toggleProductAvailability,
   type ProductCategory,
   type AdminProduct,
 } from '@/lib/api/admin'
+// import type { Product } from '@/types/Product'
 
 export default function AdminProducts() {
   const [categories, setCategories] = useState<ProductCategory[]>([])
@@ -19,17 +20,49 @@ export default function AdminProducts() {
     loadProducts()
   }, [])
 
+  // async function loadProducts() {
+  //   setLoading(true)
+  //   setError(null)
+  //   try {
+  //     const data = await fetchCategoriesWithProducts()
+  //     setCategories(data)
+  //     if (data.length > 0) {
+  //       setSelectedCategoryId(data[0].id)
+  //     }
+  //   } catch {
+  //     setError('No se pudo conectar al servidor. Verifica que el backend este activo.')
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+
   async function loadProducts() {
     setLoading(true)
     setError(null)
+
     try {
-      const data = await fetchCategoriesWithProducts()
-      setCategories(data)
-      if (data.length > 0) {
-        setSelectedCategoryId(data[0].id)
+      const products = await fetchAllProducts()
+      const categoryMap = new Map<string, AdminProduct[]>()
+
+      products.forEach(product => {
+        const existingProducts = categoryMap.get(product.category) || []
+        categoryMap.set(product.category, [...existingProducts, product])
+      })
+
+      const categories = Array.from(categoryMap.entries()).map(([category, products], index) => ({
+        id: index,
+        name: category,
+        products,
+      }))
+
+      setCategories(categories)
+
+      // Select first category if none selected and categories exist
+      if (categories.length > 0 && selectedCategoryId === null) {
+        setSelectedCategoryId(categories[0].id)
       }
     } catch {
-      setError('No se pudo conectar al servidor. Verifica que el backend este activo.')
+      setError('No se pudo cargar los productos')
     } finally {
       setLoading(false)
     }
@@ -43,7 +76,7 @@ export default function AdminProducts() {
       prev.map(cat => ({
         ...cat,
         products: cat.products.map(p =>
-          p.id === product.id ? { ...p, isAvailable: newValue } : p,
+          p.id === product.id ? { ...p, isStockAvailable: newValue } : p,
         ),
       })),
     )
@@ -56,7 +89,7 @@ export default function AdminProducts() {
         prev.map(cat => ({
           ...cat,
           products: cat.products.map(p =>
-            p.id === product.id ? { ...p, isAvailable: !newValue } : p,
+            p.id === product.id ? { ...p, isStockAvailable: !newValue } : p,
           ),
         })),
       )
@@ -135,7 +168,7 @@ export default function AdminProducts() {
       <div className="space-y-2">
         {categories.map(category => {
           const isActive = selectedCategoryId === category.id
-          const availableCount = category.products.filter(p => p.isAvailable).length
+          const availableCount = category.products.filter(p => p.isStockAvailable).length
           const totalCount = category.products.length
 
           return (
@@ -184,7 +217,7 @@ export default function AdminProducts() {
             <div className="bg-primary text-white px-5 py-3.5 flex items-center justify-between">
               <h3 className="font-semibold text-lg">{toTitleCase(selectedCategory.name)}</h3>
               <span className="text-sm text-white/80">
-                {selectedCategory.products.filter(p => p.isAvailable).length} de{' '}
+                {selectedCategory.products.filter(p => p.isStockAvailable).length} de{' '}
                 {selectedCategory.products.length} disponibles
               </span>
             </div>
@@ -200,7 +233,7 @@ export default function AdminProducts() {
                     key={product.id}
                     className={`
                       px-5 py-4 transition-all duration-200
-                      ${!product.isAvailable ? 'bg-gray-50/60' : 'hover:bg-gray-50/40'}
+                      ${!product.isStockAvailable ? 'bg-gray-50/60' : 'hover:bg-gray-50/40'}
                       ${savingProductId === product.id ? 'opacity-60' : ''}
                     `}
                   >
@@ -208,15 +241,17 @@ export default function AdminProducts() {
                       <div className="flex items-center gap-3 flex-1 min-w-0">
                         <ToggleSwitch
                           id={product.id}
-                          checked={product.isAvailable}
-                          defaultChecked={product.isAvailable}
+                          checked={product.isStockAvailable}
+                          defaultChecked={product.isStockAvailable}
                           onChange={(checked: boolean) => handleToggle(product, checked)}
                         />
 
                         <div className="min-w-0 flex-1">
                           <h4
                             className={`font-medium truncate ${
-                              product.isAvailable ? 'text-gray-900' : 'text-gray-400 line-through'
+                              product.isStockAvailable
+                                ? 'text-gray-900'
+                                : 'text-gray-400 line-through'
                             }`}
                           >
                             {toTitleCase(product.name)}
@@ -227,7 +262,7 @@ export default function AdminProducts() {
                       <div className="flex items-center gap-3 shrink-0">
                         <span
                           className={`font-semibold ${
-                            product.isAvailable ? 'text-primary' : 'text-gray-300'
+                            product.isStockAvailable ? 'text-primary' : 'text-gray-300'
                           }`}
                         >
                           S/ {Number(product.price).toFixed(2)}
@@ -237,13 +272,13 @@ export default function AdminProducts() {
                           className={`
                             text-xs font-medium px-2 py-0.5 rounded-full
                             ${
-                              product.isAvailable
+                              product.isStockAvailable
                                 ? 'bg-emerald-50 text-emerald-600'
                                 : 'bg-red-50 text-red-500'
                             }
                           `}
                         >
-                          {product.isAvailable ? 'Disponible' : 'No disponible'}
+                          {product.isStockAvailable ? 'Disponible' : 'No disponible'}
                         </span>
                       </div>
                     </div>

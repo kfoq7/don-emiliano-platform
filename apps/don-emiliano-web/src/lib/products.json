@@ -5,6 +5,12 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 120,
+    "options": [
+      {
+        "name": "Corte",
+        "values": ["Panceta", "Costilla", "Mixto", "Grasa"]
+      }
+    ],
     "image": "/img/don-emiliano-logo.webp",
     "isStockAvailable": true
   },
@@ -14,6 +20,12 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 62,
+    "options": [
+      {
+        "name": "Corte",
+        "values": ["Panceta", "Costilla", "Mixto", "Grasa"]
+      }
+    ],
     "image": "/img/don-emiliano-logo.webp",
     "isStockAvailable": true
   },
@@ -23,6 +35,12 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 35,
+    "options": [
+      {
+        "name": "Corte",
+        "values": ["Panceta", "Costilla", "Mixto", "Grasa"]
+      }
+    ],
     "image": "/img/CUARTODECHICHARRON.webp",
     "isStockAvailable": true
   },
@@ -32,6 +50,12 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 22,
+    "options": [
+      {
+        "name": "Corte",
+        "values": ["Panceta", "Costilla", "Mixto", "Grasa"]
+      }
+    ],
     "image": "/img/don-emiliano-logo.webp",
     "isStockAvailable": true
   },
@@ -77,6 +101,12 @@
     "description": "Jugo de Fresa con Leche",
     "category": "JUGOS",
     "price": 16,
+    "options": [
+      {
+        "name": "Preferencia",
+        "values": ["Helado", "Sin Helado", "Bajo en Azúcar", "Normal"]
+      }
+    ],
     "image": "/img/don-emiliano-logo.webp",
     "isStockAvailable": true
   },
@@ -114,7 +144,7 @@
     "category": "JUGOS",
     "price": 11,
     "image": "/img/don-emiliano-logo.webp",
-    "isStockAvailable": true
+    "isStockAvailable": false
   },
   {
     "id": 14,
@@ -131,6 +161,12 @@
     "description": "Sabores: Cafe, Moca, Fresa, Chocolate, Menta, Lucuma",
     "category": "FRAPPES",
     "price": 12,
+    "options": [
+      {
+        "name": "Sabor",
+        "values": ["Café", "Moca", "Fresa", "Chocolate", "Menta", "Lúcuma"]
+      }
+    ],
     "image": "/img/don-emiliano-logo.webp",
     "isStockAvailable": true
   },
@@ -140,6 +176,12 @@
     "description": "Sabores: Cafe, Moca, Fresa, Chocolate, Menta, Lucuma",
     "category": "FRAPPES",
     "price": 16,
+    "options": [
+      {
+        "name": "Sabor",
+        "values": ["Café", "Moca", "Fresa", "Chocolate", "Menta", "Lúcuma"]
+      }
+    ],
     "image": "/img/don-emiliano-logo.webp",
     "isStockAvailable": true
   },
@@ -147,10 +189,10 @@
     "id": 17,
     "name": "Patasca",
     "description": "Domingo de Patasca",
-    "category": "CALDO",
+    "category": "CALDOS",
     "price": 25,
     "image": "/img/don-emiliano-logo.webp",
-    "isStockAvailable": true
+    "isStockAvailable": false
   },
   {
     "id": 18,

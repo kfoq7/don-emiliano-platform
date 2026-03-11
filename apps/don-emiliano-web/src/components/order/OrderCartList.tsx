@@ -18,7 +18,7 @@ export default function OrderCartList() {
     )
   }
 
-  const items = Object.values($products)
+  const items = Object.entries($products).map(([key, item]) => ({ ...item, cartId: key }))
 
   return (
     <>
@@ -45,9 +45,9 @@ export default function OrderCartList() {
       ) : (
         <div className="h-70 overflow-y-auto pr-1">
           <div className="my-2 space-y-2">
-            {items.map(({ id, name, price, quantity }, index) => (
+            {items.map(({ cartId, name, price, quantity, selectedOptions }, index) => (
               <div
-                key={id}
+                key={cartId}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
@@ -55,12 +55,24 @@ export default function OrderCartList() {
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm text-heading truncate">{name}</p>
                   <p className="text-xs text-ink-subtle mt-0.5">S/ {price.toFixed(2)} c/u</p>
+                  {selectedOptions && (
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {Object.entries(selectedOptions).map(([key, value]) => (
+                        <span
+                          key={key}
+                          className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded"
+                        >
+                          {value}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Quantity controls */}
                 <div className="flex items-center gap-1.5">
                   <button
-                    onClick={() => decreaseCartItem(id)}
+                    onClick={() => decreaseCartItem(cartId)}
                     className="w-7 h-7 flex items-center justify-center rounded-md border border-gray-200 bg-white hover:bg-red-50 hover:border-red-200 transition-colors cursor-pointer"
                     aria-label="Disminuir"
                   >
@@ -68,7 +80,7 @@ export default function OrderCartList() {
                   </button>
                   <span className="w-6 text-center text-sm font-semibold text-ink">{quantity}</span>
                   <button
-                    onClick={() => increaseCartItem(id)}
+                    onClick={() => increaseCartItem(cartId)}
                     className="w-7 h-7 flex items-center justify-center rounded-md border border-gray-200 bg-white hover:bg-green-50 hover:border-green-200 transition-colors cursor-pointer"
                     aria-label="Aumentar"
                   >
@@ -83,7 +95,7 @@ export default function OrderCartList() {
 
                 {/* Remove */}
                 <button
-                  onClick={() => removeCartItem(id)}
+                  onClick={() => removeCartItem(cartId)}
                   className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 hover:bg-red-100 hover:text-red-600 transition-colors cursor-pointer"
                   aria-label="Eliminar producto"
                 >
