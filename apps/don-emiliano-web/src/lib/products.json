@@ -5,12 +5,6 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 120,
-    "options": [
-      {
-        "name": "Corte",
-        "values": ["Panceta", "Costilla", "Mixto", "Grasa"]
-      }
-    ],
     "image": "/img/don-emiliano-logo.webp",
     "isStockAvailable": true
   },
@@ -20,12 +14,6 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 62,
-    "options": [
-      {
-        "name": "Corte",
-        "values": ["Panceta", "Costilla", "Mixto", "Grasa"]
-      }
-    ],
     "image": "/img/don-emiliano-logo.webp",
     "isStockAvailable": true
   },
@@ -35,12 +23,6 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 35,
-    "options": [
-      {
-        "name": "Corte",
-        "values": ["Panceta", "Costilla", "Mixto", "Grasa"]
-      }
-    ],
     "image": "/img/CUARTODECHICHARRON.webp",
     "isStockAvailable": true
   },
@@ -50,12 +32,6 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 22,
-    "options": [
-      {
-        "name": "Corte",
-        "values": ["Panceta", "Costilla", "Mixto", "Grasa"]
-      }
-    ],
     "image": "/img/don-emiliano-logo.webp",
     "isStockAvailable": true
   },
@@ -104,7 +80,12 @@
     "options": [
       {
         "name": "Preferencia",
-        "values": ["Helado", "Sin Helado", "Bajo en Azúcar", "Normal"]
+        "values": [
+          "Helado",
+          "Sin Helado",
+          "Bajo en Azúcar",
+          "Normal"
+        ]
       }
     ],
     "image": "/img/don-emiliano-logo.webp",
@@ -139,7 +120,7 @@
   },
   {
     "id": 13,
-    "name": "PINA",
+    "name": "PIÑA",
     "description": "Jugo de Piña",
     "category": "JUGOS",
     "price": 11,
@@ -164,7 +145,15 @@
     "options": [
       {
         "name": "Sabor",
-        "values": ["Café", "Moca", "Fresa", "Chocolate", "Menta", "Lúcuma"]
+        "values": [
+          "Café",
+          "Moca",
+          "Fresa",
+          "Chocolate",
+          "Menta",
+          "Lúcuma",
+          "Oreo"
+        ]
       }
     ],
     "image": "/img/don-emiliano-logo.webp",
@@ -173,13 +162,21 @@
   {
     "id": 16,
     "name": "FRAPPE DE 16 ONZ",
-    "description": "Sabores: Cafe, Moca, Fresa, Chocolate, Menta, Lucuma",
+    "description": "Sabores: Cafe, Moca, Fresa, Chocolate, Menta, Lucuma, Oreo",
     "category": "FRAPPES",
     "price": 16,
     "options": [
       {
         "name": "Sabor",
-        "values": ["Café", "Moca", "Fresa", "Chocolate", "Menta", "Lúcuma"]
+        "values": [
+          "Café",
+          "Moca",
+          "Fresa",
+          "Chocolate",
+          "Menta",
+          "Lúcuma",
+          "Oreo"
+        ]
       }
     ],
     "image": "/img/don-emiliano-logo.webp",
