@@ -5,7 +5,8 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 120,
-    "image": "/img/don-emiliano-logo.webp"
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 2,
@@ -13,7 +14,8 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 62,
-    "image": "/img/don-emiliano-logo.webp"
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 3,
@@ -21,7 +23,8 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 35,
-    "image": "/img/CUARTODECHICHARRON.webp"
+    "image": "/img/CUARTODECHICHARRON.webp",
+    "isStockAvailable": true
   },
   {
     "id": 4,
@@ -29,7 +32,8 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 22,
-    "image": "/img/don-emiliano-logo.webp"
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 5,
@@ -37,97 +41,124 @@
     "description": "Acompañado con camote y sarsa criolla",
     "category": "PORCIONES",
     "price": 16,
-    "image": "/img/don-emiliano-logo.webp"
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 6,
     "name": "PORCIÓN DE CAMOTE",
     "description": "Porción de Camote",
     "category": "GUARNICIONES",
-    "price": 8
+    "price": 8,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 7,
     "name": "PORCIÓN DE SARSA CRIOLLA",
     "description": "Porción de Sarsa Criolla",
     "category": "GUARNICIONES",
-    "price": 5
+    "price": 5,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 8,
     "name": "PAN UNIDAD",
     "description": "Pan Unidad",
     "category": "GUARNICIONES",
-    "price": 2
+    "price": 2,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 9,
     "name": "FRESA CON LECHE",
     "description": "Jugo de Fresa con Leche",
     "category": "JUGOS",
-    "price": 16
+    "price": 16,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 10,
     "name": "ESPECIAL",
     "description": "Jugo Especial",
     "category": "JUGOS",
-    "price": 13
+    "price": 13,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 11,
     "name": "SURTIDO",
     "description": "Jugo Surtido",
     "category": "JUGOS",
-    "price": 11
+    "price": 11,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 12,
     "name": "PAPAYA",
     "description": "Jugo de Papaya",
     "category": "JUGOS",
-    "price": 11
+    "price": 11,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 13,
     "name": "PINA",
     "description": "Jugo de Piña",
     "category": "JUGOS",
-    "price": 11
+    "price": 11,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 14,
     "name": "LIMONADA CON HIERBABUENA",
     "description": "Limonada con Hierbabuena",
     "category": "JUGOS",
-    "price": 11
+    "price": 11,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 15,
     "name": "FRAPPE DE 12 ONZ",
     "description": "Sabores: Cafe, Moca, Fresa, Chocolate, Menta, Lucuma",
     "category": "FRAPPES",
-    "price": 12
+    "price": 12,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 16,
     "name": "FRAPPE DE 16 ONZ",
     "description": "Sabores: Cafe, Moca, Fresa, Chocolate, Menta, Lucuma",
     "category": "FRAPPES",
-    "price": 16
+    "price": 16,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 17,
     "name": "Patasca",
     "description": "Domingo de Patasca",
     "category": "CALDO",
-    "price": 25
+    "price": 25,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   },
   {
     "id": 18,
     "name": "Cafe",
     "description": "Bedida Caliente de Cafe",
     "category": "BEBIDAS CALIENTES",
-    "price": 6
+    "price": 6,
+    "image": "/img/don-emiliano-logo.webp",
+    "isStockAvailable": true
   }
 ]
