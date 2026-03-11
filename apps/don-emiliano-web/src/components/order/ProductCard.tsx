@@ -124,8 +124,17 @@ export default function ProductCard({ product, cartItem }: Props) {
               onClick={handleAdd}
               disabled={!mounted}
             >
-              <Plus className="fill-white w-4 h-4" />
-              {hasOptions ? 'Personalizar' : 'Agregar'}
+              {hasOptions ? (
+                <>
+                  <span className="fill-white w-4 h-4">+</span>
+                  Personalizar
+                </>
+              ) : (
+                <>
+                  <Plus className="fill-white w-4 h-4" />
+                  Agregar
+                </>
+              )}
             </button>
           ) : (
             <div className="flex items-center justify-between bg-action-extralight/60 rounded-lg p-1">
