@@ -1,0 +1,37 @@
+package com.donemiliano.api.features.users.controller.impl;
+
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.donemiliano.api.features.users.controller.IUserController;
+import com.donemiliano.api.features.users.dto.CreateUserDto;
+import com.donemiliano.api.features.users.dto.UpdateUserDto;
+import com.donemiliano.api.features.users.dto.UserDto;
+import com.donemiliano.api.features.users.services.IUserService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequiredArgsConstructor
+public class UserController implements IUserController {
+
+  private final IUserService userService;
+
+  @Override
+  public ResponseEntity<List<UserDto>> getAllUsers() {
+    return ResponseEntity.ok(userService.getAllUsers());
+  }
+
+  @Override
+  public ResponseEntity<UserDto> createUser(CreateUserDto dto) {
+    return ResponseEntity.ok(userService.createUser(dto));
+  }
+
+  @Override
+  public ResponseEntity<UserDto> updateUser(Long id, UpdateUserDto dto) {
+    return ResponseEntity.ok(userService.updateUser(id, dto));
+  }
+
+}
