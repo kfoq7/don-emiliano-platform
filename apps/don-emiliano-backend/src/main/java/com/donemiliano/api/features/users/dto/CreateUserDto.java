@@ -1,5 +1,7 @@
 package com.donemiliano.api.features.users.dto;
 
+import java.util.Set;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -30,5 +32,7 @@ public class CreateUserDto {
 
   @Size(min = 6, message = "{valitation.user.password.size}")
   private String password;
+
+  private Set<Number> roleIds;
 
 }

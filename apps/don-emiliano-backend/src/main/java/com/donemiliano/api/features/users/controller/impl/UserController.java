@@ -3,6 +3,7 @@ package com.donemiliano.api.features.users.controller.impl;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.donemiliano.api.features.users.controller.IUserController;
@@ -14,6 +15,7 @@ import com.donemiliano.api.features.users.services.IUserService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController implements IUserController {
 

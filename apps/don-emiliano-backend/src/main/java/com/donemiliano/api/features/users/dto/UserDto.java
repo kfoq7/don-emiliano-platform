@@ -1,5 +1,9 @@
 package com.donemiliano.api.features.users.dto;
 
+import java.util.Set;
+
+import com.donemiliano.api.features.roles.dto.RoleDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +26,7 @@ public class UserDto {
   private String email;
 
   private Boolean isActive;
+
+  private Set<RoleDto> roles;
 
 }
