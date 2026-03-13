@@ -45,6 +45,9 @@ public class UserEntity {
   @Column(nullable = true)
   private String password;
 
+  @Column(nullable = true)
+  private Number phone;
+
   @Column(name = "is_active", nullable = false)
   @Builder.Default
   private Boolean isActive = true;

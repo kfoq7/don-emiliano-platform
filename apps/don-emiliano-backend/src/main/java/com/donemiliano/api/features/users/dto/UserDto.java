@@ -17,6 +17,10 @@ public class UserDto {
 
   private String lastName;
 
+  private Number phone;
+
+  private String email;
+
   private Boolean isActive;
 
 }

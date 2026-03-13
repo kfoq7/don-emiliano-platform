@@ -1,6 +1,8 @@
 package com.donemiliano.api.features.users.dto;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +21,11 @@ public class CreateUserDto {
   @Size(max = 50, message = "{valitation.user.name.size}")
   private String lastName;
 
+  @Positive
+  private Number phone;
+
   @Email
+  @NotNull(message = "{valitation.user.email.notNull}")
   private String email;
 
   @Size(min = 6, message = "{valitation.user.password.size}")
