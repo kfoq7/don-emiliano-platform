@@ -15,9 +15,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -33,10 +35,11 @@ public class RoleEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_seq")
+  @SequenceGenerator(name = "role_id_seq", sequenceName = "role_id_seq", allocationSize = 1)
   @Column(name = "role_id", updatable = false, nullable = false)
   Long id;
 
-  @Column(nullable = false)
+  @Column(name = "name", nullable = false)
   private String name;
 
   @CreationTimestamp
@@ -48,6 +51,8 @@ public class RoleEntity {
   private LocalDateTime updatedAt;
 
   @ManyToMany(mappedBy = "roles")
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   private Set<UserEntity> users = new HashSet<>();
 
 }

@@ -10,6 +10,7 @@ import com.donemiliano.api.features.users.controller.IUserController;
 import com.donemiliano.api.features.users.dto.CreateUserDto;
 import com.donemiliano.api.features.users.dto.UpdateUserDto;
 import com.donemiliano.api.features.users.dto.UserDto;
+import com.donemiliano.api.features.users.dto.UserWithRolesDto;
 import com.donemiliano.api.features.users.services.IUserService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,8 @@ public class UserController implements IUserController {
   private final IUserService userService;
 
   @Override
-  public ResponseEntity<List<UserDto>> getAllUsers() {
-    return ResponseEntity.ok(userService.getAllUsers());
+  public ResponseEntity<List<UserWithRolesDto>> getAllUsers() {
+    return ResponseEntity.ok(userService.getAllUsersWithRoles());
   }
 
   @Override

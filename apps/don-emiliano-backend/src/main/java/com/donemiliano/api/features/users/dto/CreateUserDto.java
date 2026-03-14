@@ -23,8 +23,8 @@ public class CreateUserDto {
   @Size(max = 50, message = "{valitation.user.name.size}")
   private String lastName;
 
-  @Positive
-  private Number phone;
+  @Size(max = 20)
+  private String phone;
 
   @Email
   @NotNull(message = "{valitation.user.email.notNull}")
@@ -33,6 +33,6 @@ public class CreateUserDto {
   @Size(min = 6, message = "{valitation.user.password.size}")
   private String password;
 
-  private Set<Number> roleIds;
+  private Set<Long> roleIds;
 
 }
