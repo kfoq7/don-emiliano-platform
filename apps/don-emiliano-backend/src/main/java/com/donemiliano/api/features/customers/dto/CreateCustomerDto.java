@@ -1,6 +1,4 @@
-package com.donemiliano.api.features.users.dto;
-
-import java.util.Set;
+package com.donemiliano.api.features.customers.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -14,24 +12,18 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class CreateUserDto {
+public class CreateCustomerDto {
 
-  @Size(max = 40, message = "{valitation.user.name.size}")
+  @Size(max = 50, message = "{valitation.customer.name.size}")
   private String name;
 
-  @Size(max = 50, message = "{valitation.user.name.size}")
+  @Size(max = 50, message = "{valitation.customer.name.size}")
   private String lastName;
 
-  @Size(max = 20)
+  @NotNull(message = "{valitation.customer.name.notNull}")
   private String phone;
 
   @Email
-  @NotNull(message = "{valitation.user.email.notNull}")
   private String email;
-
-  @Size(min = 6, message = "{valitation.user.password.size}")
-  private String password;
-
-  private Set<Long> roleIds;
 
 }
