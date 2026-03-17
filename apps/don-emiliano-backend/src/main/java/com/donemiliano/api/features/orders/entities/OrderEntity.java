@@ -31,6 +31,12 @@ public class OrderEntity {
   @Column(name = "id", updatable = false, nullable = false)
   private Long id;
 
+  @Column(length = 8)
+  private Integer orderNumber;
+
+  @Column(columnDefinition = "TEXT")
+  private String observation;
+
   @CreationTimestamp
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt;
