@@ -1,6 +1,7 @@
 package com.donemiliano.api.features.orders.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -10,11 +11,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Data
@@ -22,6 +26,7 @@ import lombok.experimental.Accessors;
 @Table(name = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Accessors(chain = true)
 public class OrderEntity {
 
@@ -36,6 +41,10 @@ public class OrderEntity {
 
   @Column(columnDefinition = "TEXT")
   private String observation;
+
+  @OneToMany(mappedBy = "order")
+  @ToString.Exclude
+  private List<OrderItemsEntity> orderItems;
 
   @CreationTimestamp
   @Column(name = "created_at", nullable = false, updatable = false)
