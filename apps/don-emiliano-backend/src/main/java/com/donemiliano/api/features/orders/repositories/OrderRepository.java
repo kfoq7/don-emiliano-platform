@@ -16,7 +16,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSp
   List<OrderEntity> findByCreatedAt(LocalDateTime date);
 
   @EntityGraph(attributePaths = { "orderItems" })
-  @Query("SELECT o FROM orders o WHERE o.created_at = CURRENT_DATE")
+  @Query("SELECT o FROM OrderEntity o WHERE o.createdAt = CURRENT_DATE")
   List<OrderEntity> findAllByOrderToday();
 
 }

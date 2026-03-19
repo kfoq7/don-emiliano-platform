@@ -10,6 +10,7 @@ import com.donemiliano.api.features.products.dto.CategoryWithProductsDto;
 import com.donemiliano.api.features.products.dto.CreateCategoryDto;
 import com.donemiliano.api.features.products.dto.CreateProductDto;
 import com.donemiliano.api.features.products.dto.ProductDto;
+import com.donemiliano.api.features.products.dto.ProductReferenceDto;
 import com.donemiliano.api.features.products.dto.ProductWithCategoryDto;
 import com.donemiliano.api.features.products.dto.UpdateProductDto;
 import com.donemiliano.api.features.products.dto.UpdateProductStockAvailableDto;
@@ -45,6 +46,11 @@ public class ProductService implements IProductService {
     return categoryRepository.findAll().stream()
         .map(categoryMapper::toDto)
         .toList();
+  }
+
+  @Override
+  public List<ProductEntity> getAllProductsById(Iterable<Long> ids) {
+    return productRepository.findAllById(ids);
   }
 
   @Override

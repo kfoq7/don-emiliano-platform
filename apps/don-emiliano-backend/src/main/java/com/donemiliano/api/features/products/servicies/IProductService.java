@@ -8,12 +8,15 @@ import com.donemiliano.api.features.products.dto.ProductDto;
 import com.donemiliano.api.features.products.dto.ProductWithCategoryDto;
 import com.donemiliano.api.features.products.dto.UpdateProductDto;
 import com.donemiliano.api.features.products.dto.UpdateProductStockAvailableDto;
+import com.donemiliano.api.features.products.entities.ProductEntity;
 
 public interface IProductService extends ICategoryService {
 
   List<ProductWithCategoryDto> getAllProducts();
 
   List<CategoryWithProductsDto> getAllCategoriesWithProducts();
+
+  List<ProductEntity> getAllProductsById(Iterable<Long> ids);
 
   ProductDto createProduct(CreateProductDto createProductDto);
 
