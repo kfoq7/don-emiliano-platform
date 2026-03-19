@@ -1,4 +1,4 @@
-import { toTitleCase } from '@/lib/utils/to-title-case'
+import { toTitleCase } from '@/utils/to-title-case'
 import { selectedCategoryAtom, categories } from '@/stores/products'
 import { useStore } from '@nanostores/preact'
 

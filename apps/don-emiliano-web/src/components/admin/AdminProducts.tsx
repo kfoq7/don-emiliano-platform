@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'preact/hooks'
-import { toTitleCase } from '@/lib/utils/to-title-case'
+import { toTitleCase } from '@/utils/to-title-case'
 import { ToggleSwitch } from '@/components/ui/ToggleSwitch'
 import {
   fetchAllProducts,
