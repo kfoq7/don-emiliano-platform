@@ -1,6 +1,6 @@
 package com.donemiliano.api.features.orders.services.impl;
 
-// import java.math.BigDecimal;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +47,6 @@ public class OrderService implements IOrderService {
 
     Map<Long, ProductEntity> productsMap = productService.getAllProductsById(productIds).stream()
         .collect(Collectors.toMap(ProductEntity::getId, p -> p));
-    // .collect(Collectors.toMap(id -> id, id ->
-    // ProductEntity.builder().id(id).build()));
 
     OrderEntity orderEntity = orderMapper.toCreateEntity(order);
 
@@ -60,7 +58,10 @@ public class OrderService implements IOrderService {
             throw new EntityNotFoundException("Product with id " + item.getProductId() + " not found");
           }
 
+          BigDecimal subtotal = product.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
+
           OrderItemsEntity itemsEntity = OrderItemsEntity.builder()
+              .subtotal(subtotal)
               .quantity(item.getQuantity())
               .product(product)
               .build();
@@ -72,13 +73,10 @@ public class OrderService implements IOrderService {
 
     orderEntity.setOrderItems(orderItems);
 
-    // TODO: set the subottal and total prince in entity, maybe with a @PrePersist
-    // in OrderEntity and OrderItemsEntity
-    // BigDecimal total = items.stream()
-    // .map(item ->
-    // item.getPriceAtPurchase().multiply(BigDecimal.valueOf(item.getQuantity())))
-    // .reduce(BigDecimal.ZERO, BigDecimal::add);
-    // orderEntity.setTota(total);
+    BigDecimal total = orderItems.stream()
+        .map(item -> item.getSubtotal())
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+    orderEntity.setTotalPrice(total);
 
     OrderEntity savedOrder = orderRepository.save(orderEntity);
     return orderMapper.toDto(savedOrder);

@@ -1,5 +1,6 @@
 package com.donemiliano.api.features.orders.entities;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,6 +43,9 @@ public class OrderEntity {
 
   @Column(columnDefinition = "TEXT")
   private String observation;
+
+  @Column(precision = 11, scale = 2, nullable = false)
+  private BigDecimal totalPrice;
 
   @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, orphanRemoval = true)
   @ToString.Exclude

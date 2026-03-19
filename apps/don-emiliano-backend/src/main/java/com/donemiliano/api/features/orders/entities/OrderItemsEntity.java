@@ -1,6 +1,6 @@
 package com.donemiliano.api.features.orders.entities;
 
-
+import java.math.BigDecimal;
 
 import com.donemiliano.api.features.products.entities.ProductEntity;
 
@@ -43,8 +43,8 @@ public class OrderItemsEntity {
   @Column(columnDefinition = "TEXT", nullable = true)
   private String notes;
 
-  @Column(nullable = false)
-  private Integer subtotal;
+  @Column(precision = 11, scale = 2, nullable = false)
+  private BigDecimal subtotal;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "order_id", nullable = false)
