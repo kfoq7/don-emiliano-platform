@@ -1,4 +1,4 @@
-import { supabase } from '@/supabase'
+import { supabase } from '@/supabase-admin'
 
 // Roles that are allowed to access admin pages
 const ALLOWED_ADMIN_ROLES = ['admin', 'staff']

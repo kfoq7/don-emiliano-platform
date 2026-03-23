@@ -5,16 +5,8 @@ import {
   seedBusinessHours,
   type BusinessHours,
 } from '@/lib/api/admin'
-
-const DEFAULT_HOURS: Omit<BusinessHours, 'id'>[] = [
-  { dayOfWeek: 1, dayName: 'Lunes', openTime: '07:00', closeTime: '15:00', isClosed: false },
-  { dayOfWeek: 2, dayName: 'Martes', openTime: '07:00', closeTime: '15:00', isClosed: false },
-  { dayOfWeek: 3, dayName: 'Miercoles', openTime: '07:00', closeTime: '15:00', isClosed: false },
-  { dayOfWeek: 4, dayName: 'Jueves', openTime: '07:00', closeTime: '15:00', isClosed: false },
-  { dayOfWeek: 5, dayName: 'Viernes', openTime: '07:00', closeTime: '15:00', isClosed: false },
-  { dayOfWeek: 6, dayName: 'Sabado', openTime: '07:00', closeTime: '15:00', isClosed: false },
-  { dayOfWeek: 0, dayName: 'Domingo', openTime: null, closeTime: null, isClosed: true },
-]
+import AdminLodingSpinner from './AdminLoadingSpinner'
+import { DEFAULT_HOURS } from '@/consts/hours'
 
 export default function AdminHours() {
   const [hours, setHours] = useState<BusinessHours[]>([])
@@ -106,28 +98,7 @@ export default function AdminHours() {
   }
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center py-16">
-        <div className="flex items-center gap-3 text-ink-muted">
-          <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            />
-          </svg>
-          Cargando horarios...
-        </div>
-      </div>
-    )
+    return <AdminLodingSpinner message="Cargando horarios..." />
   }
 
   return (

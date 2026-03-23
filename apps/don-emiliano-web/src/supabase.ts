@@ -1,7 +1,26 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient as createBrowserClient } from '@supabase/supabase-js'
+import { createServerClient, parseCookieHeader } from '@supabase/ssr'
+import type { AstroCookies } from 'astro'
 
-const supabaseUrl = import.meta.env.SUPABASE_URL
-const supabaseKey = import.meta.env.SUPABASE_KEY
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_KEY
 
-// Supabase client for general use
-export const supabase = createClient(supabaseUrl, supabaseKey)
+export function createClient({ request, cookies }: { request: Request; cookies: AstroCookies }) {
+  return createServerClient(supabaseUrl, supabaseKey, {
+    cookies: {
+      getAll() {
+        return parseCookieHeader(request.headers.get('Cookies') ?? '')
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value, options }) => {
+          cookies.set(name, value, {
+            ...options,
+            maxAge: 60 * 60 * 24 * 7,
+          })
+        })
+      },
+    },
+  })
+}
+
+export const supabaseBrowserClient = createBrowserClient(supabaseUrl, supabaseKey)
