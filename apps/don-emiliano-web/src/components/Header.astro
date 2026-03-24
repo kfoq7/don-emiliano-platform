@@ -19,9 +19,6 @@ const isOpen =
 
 // Auth data for the button
 const user = Astro.locals.user
-const siteUrl = Astro.url.origin
-const supabaseUrl = import.meta.env.SUPABASE_URL
-const supabaseKey = import.meta.env.SUPABASE_KEY
 ---
 
 <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
@@ -121,7 +118,7 @@ const supabaseKey = import.meta.env.SUPABASE_KEY
         </div>
 
         <!-- Auth button -->
-        <AuthButton user={user} siteUrl={siteUrl} supabaseUrl={supabaseUrl} supabaseKey={supabaseKey} />
+        <AuthButton user={user} />
 
         <!-- CTA button (desktop) -->
         <a
