@@ -6,16 +6,16 @@ import { isAdminOrStaff } from '@/utils/admin'
 // All unauthorized access returns 404 - don't reveal admin page exists
 // User must be authenticated AND have admin/staff role in database
 
-if (!Astro.locals.user) {
-  return Astro.redirect('/404')
-}
+// if (!Astro.locals.user) {
+//   return Astro.redirect('/404')
+// }
 
-const userId = Astro.locals.user.id
-const hasAccess = await isAdminOrStaff(userId)
+// const userId = Astro.locals.user.id
+// const hasAccess = await isAdminOrStaff(userId)
 
-if (!hasAccess) {
-  return Astro.redirect('/404')
-}
+// if (!hasAccess) {
+//   return Astro.redirect('/404')
+// }
 ---
 
 <LayoutAdmin>

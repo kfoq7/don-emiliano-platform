@@ -1,45 +1,30 @@
+import { type Provider } from '@supabase/supabase-js'
 import type { APIRoute } from 'astro'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/supabase'
 
-const supabaseUrl = import.meta.env.SUPABASE_URL
-const supabaseKey = import.meta.env.SUPABASE_KEY
+export const POST: APIRoute = async ({ request, url, redirect, cookies }) => {
+  const formData = await request.formData()
+  const provider = formData.get('provider')?.toString()
+  const redirectPath = url.searchParams.get('redirect')?.toString() || '/admin'
 
-export const GET: APIRoute = async ({ url, cookies, redirect }) => {
-  const code = url.searchParams.get('code')
+  const validProviders = ['google'] // Agrega aquí los proveedores válidos
 
-  if (!code) {
-    return redirect('/admin/login?error=missing_code')
+  if (provider && validProviders.includes(provider)) {
+    const supabase = createClient({ request, cookies })
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: provider as Provider,
+      options: {
+        redirectTo: `${url.origin}/api/auth/callback?next=${encodeURIComponent(redirectPath)}`,
+      },
+    })
+
+    if (error) {
+      return new Response(error.message, { status: 500 })
+    }
+
+    return redirect(data.url)
   }
 
-  const supabase = createClient(supabaseUrl, supabaseKey, {
-    auth: {
-      flowType: 'pkce',
-      autoRefreshToken: false,
-      detectSessionInUrl: false,
-      persistSession: false,
-    },
-  })
-
-  // Exchange the code for a session
-  const { data, error } = await supabase.auth.exchangeCodeForSession(code)
-
-  if (error || !data.session) {
-    console.error('Auth callback error:', error?.message)
-    return redirect('/admin/login?error=auth_failed')
-  }
-
-  // Set session cookies
-  const cookieOptions = {
-    path: '/',
-    httpOnly: true,
-    secure: import.meta.env.PROD,
-    sameSite: 'lax' as const,
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-  }
-
-  cookies.set('sb-access-token', data.session.access_token, cookieOptions)
-  cookies.set('sb-refresh-token', data.session.refresh_token, cookieOptions)
-
-  // Redirect to admin page - the admin page will check if user has proper role
-  return redirect('/admin')
+  return redirect('/registro?error=invalid_provider')
 }
