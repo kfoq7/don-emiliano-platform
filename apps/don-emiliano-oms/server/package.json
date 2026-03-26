@@ -2,10 +2,11 @@
   "name": "don-emiliano-oms-api",
   "version": "1.0.0",
   "description": "Simple Express server for OMS",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch index.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -18,6 +19,8 @@
     "@types/express": "^5.0.6",
     "@types/mssql": "^9.1.10",
     "@types/node": "^25.5.0",
-    "nodemon": "^3.0.3"
+    "nodemon": "^3.0.3",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
   }
 }

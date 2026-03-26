@@ -9,7 +9,7 @@ const PORT = process.env.PORT ?? 8000
 const app = express()
 
 app.use(cors())
-app.use(express.json)
+app.use(express.json())
 
 const dbConfig: sql.config = {
   user: process.env.DB_USER,
@@ -26,7 +26,6 @@ const dbConfig: sql.config = {
 async function connectToDb() {
   try {
     await sql.connect(dbConfig)
-    // await sql.connect()
     console.log('Connected to SQL Server')
   } catch (err) {
     console.error('Database connection failed:', err)
@@ -44,14 +43,16 @@ app.post('/api/login', async (req, res) => {
 
   try {
     const result =
-      await sql.query`SELECT ID_PERSONAL, NOMBRE FROM TLB_PERSONAL WHERE CODIGOP = ${code}`
+      await sql.query`SELECT ID_PERSONAL, NOMBRE FROM TLB_PERSONAL WHERE CLAVE = ${code}`
 
     if (result.recordset.length > 0) {
       const user = result.recordset[0]
       return res.json({
         success: true,
-        userId: user.ID_PERSONAL,
-        name: user.NOMBRE,
+        data: {
+          userId: user.ID_PERSONAL,
+          name: user.NOMBRE,
+        },
       })
     }
 
