@@ -43,7 +43,7 @@ app.post('/api/login', async (req, res) => {
 
   try {
     const result =
-      await sql.query`SELECT ID_PERSONAL, NOMBRE FROM TLB_PERSONAL WHERE CLAVE = ${code}`
+      await sql.query`SELECT ID_PERSONAL, NOMBRE FROM TBL_PERSONAL WHERE CLAVE = ${code} AND ACTIVO = 1`
 
     if (result.recordset.length > 0) {
       const user = result.recordset[0]
