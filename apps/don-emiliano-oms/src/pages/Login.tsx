@@ -18,7 +18,7 @@ export default function Login() {
     setError('')
 
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
+      const response = await fetch('http://192.168.18.22:3001/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,12 +27,11 @@ export default function Login() {
       })
 
       const data = await response.json()
-
       if (response.ok && data.success) {
         localStorage.setItem('oms_auth', 'true')
-        localStorage.setItem('oms_userId', data.userId) // Store real DB user ID
-        localStorage.setItem('oms_userName', data.name) // Store user name if available
-        navigate('/tables')
+        localStorage.setItem('oms_userId', data.data.userId) // Store real DB user ID
+        localStorage.setItem('oms_userName', data.data.name) // Store user name if available
+        navigate('/active-tables')
       } else {
         setError(data.message || 'Error de autenticación')
       }

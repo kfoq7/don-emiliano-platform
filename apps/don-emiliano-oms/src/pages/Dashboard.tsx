@@ -16,14 +16,46 @@ export default function Dashboard() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const navigate = useNavigate()
 
+  const fetchOrder = useCallback(async (tableId: string) => {
+    try {
+      // API call to get existing order details
+      const response = await fetch(`/api/Pedido/DetalleMesa/?IdMesa=${tableId}`)
+
+      if (response.ok) {
+        const data = await response.json()
+        const apiItems = data.Data || []
+
+        // Map API response to internal CartItem format
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const mappedItems: CartItem[] = apiItems.map((item: any) => ({
+          IdProducto: 0,
+          Descripcion: item.Producto,
+          Precio: item.Precio,
+          Combo: 0,
+          quantity: item.Cantidad,
+        }))
+
+        setSelectedProducts(mappedItems)
+      } else {
+        throw new Error('API failed')
+      }
+    } catch (error) {
+      console.error('Error fetching order:', error)
+      setSelectedProducts([])
+    }
+  }, [])
+
   useEffect(() => {
+    const tableId = localStorage.getItem('oms_tableId')
     // Check auth
     if (!localStorage.getItem('oms_auth')) {
       navigate('/')
-    } else if (!localStorage.getItem('oms_tableId')) {
+    } else if (!tableId) {
       navigate('/tables')
+    } else {
+      fetchOrder(tableId)
     }
-  }, [navigate])
+  }, [navigate, fetchOrder])
 
   const getProducts = useCallback(async (description: string = '') => {
     setIsLoading(true)
@@ -94,6 +126,21 @@ export default function Dashboard() {
     navigate('/')
   }
 
+  const fetchOperacion = async () => {
+    try {
+      const response = await fetch('/api/Pedido/VerOperacion', {
+        method: 'POST',
+      })
+      if (response.ok) {
+        const data = await response.json()
+        return data.Data
+      }
+    } catch (e) {
+      console.error('Error fetching operation details', e)
+    }
+    return null
+  }
+
   const handleConfirmOrder = async () => {
     if (selectedProducts.length === 0) return
 
@@ -101,6 +148,15 @@ export default function Dashboard() {
 
     // Actual Implementation with JSON Payload (Standard)
     try {
+      const operacionData = await fetchOperacion()
+      if (!operacionData || !operacionData.ID_OPERACION) {
+        throw new Error(
+          'No se pudo validar la sesión de operación. Recargue la página.',
+        )
+      }
+
+      const operacionId = operacionData.ID_OPERACION
+
       const total = selectedProducts.reduce(
         (sum, p) => sum + p.Precio * p.quantity,
         0,
@@ -112,7 +168,6 @@ export default function Dashboard() {
 
       const userId = storedUserId ? parseInt(storedUserId, 10) : 0
       const tableId = storedTableId ? parseInt(storedTableId, 10) : 0
-      const operacionId = 1 // Default operation ID as we don't have a source for it yet
 
       const payload = {
         Cab: {
@@ -201,10 +256,31 @@ export default function Dashboard() {
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-[var(--color-border-light)] sticky top-0 z-50">
         <div className="max-w-[var(--spacing-middle)] mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-[var(--color-heading)]">
-            Don Emiliano{' '}
-            <span className="text-[var(--color-primary)]">OMS</span>
-          </h1>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate('/active-tables')}
+              className="p-2 -ml-2 text-[var(--color-ink-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-surface-hover)] rounded-full transition-colors"
+              aria-label="Volver a mesas activas"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+            <h1 className="text-xl font-bold text-[var(--color-heading)] hidden sm:block">
+              Don Emiliano{' '}
+              <span className="text-[var(--color-primary)]">OMS</span>
+            </h1>
+          </div>
           <button
             onClick={handleLogout}
             className="text-sm font-medium text-[var(--color-ink-muted)] hover:text-[var(--color-primary)] transition-colors"

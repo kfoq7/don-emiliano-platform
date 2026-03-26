@@ -1,0 +1,173 @@
+
+
+function pierdeFoco(e) {
+    var valor = e.value.replace(/^0*/, '');
+    e.value = valor;
+}
+(function () {
+
+
+    $("#BtnSalir").on('click', function (e) {
+
+
+        e.preventDefault();
+
+
+        var IdPersonal = $("#TxtIdUsuario").val();
+
+        window.location.href = "/Pedido/PanelMesas/?Id=" + IdPersonal;
+
+
+    })
+
+
+  
+
+    function ProgressOn() {
+        $("#Progress").show();
+    }
+
+    function ProgressOff() {
+        $("#Progress").hide();
+    }
+
+
+
+
+    $("#BtnGuardar").on('click', function (e) {
+
+
+        e.preventDefault();
+
+
+
+
+        var mesa = $("#TxtMesa").val()
+
+        if (mesa == "" || mesa == null) {
+            messageError("Ingrese una mesa");
+            return false
+        }
+
+
+
+
+        ProgressOn();
+        var IdPersonal = $("#TxtIdUsuario").val();
+        var IdOperacion = $("#TxtIdOperacion").val();
+        var f = new Date();
+
+
+        var DatosV = { 'Mesa': $("#TxtMesa").val(), 'IdOperacion': IdOperacion };
+
+        $.ajax({
+            type: "POST",
+            url: "/Pedido/ValidarMesa",
+            data: JSON.stringify(DatosV),
+            datatype: 'json',
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+                ProgressOff();
+
+                debugger;
+                if (response.Data > 0) {
+                    debugger;
+
+                    messageError("La mesa ya esta ocupada");
+
+                    return false;
+
+                } else {
+
+
+
+
+                    var FechaA = localStorage.getItem("FechaA");
+                    var Datos = { 'PDESCUENTO': 0, 'TOTAL': 0, 'tipo': 'V', 'Id': 0, 'LIBRE': 1, 'MESA': $("#TxtMesa").val(), 'NPERSONAS': $("#TxtNpersonas").val(), 'CLIENTE': $("#TxtCliente").val(), 'CUENTEA': 0, 'DESCUENTO': 0, 'Estado': 4,'FECHA':FechaA, 'FECHAPRO': FechaA, 'HORAPRO': f, 'ID_MESA': 0, 'ID_OPERACION': IdOperacion, 'ID_PERSONAL': IdPersonal, 'ID_USUARIO': IdPersonal };
+
+
+
+
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Pedido/RegistrarMesa",
+                        data: JSON.stringify(Datos),
+                        datatype: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (response) {
+                            ProgressOff();
+
+
+                            if (response.Mensaje > 0) {
+
+
+                                localStorage.removeItem("Mesa");
+                                localStorage.removeItem("Agregar");
+                                localStorage.setItem("Mesa", $("#TxtMesa").val());
+                                   
+                                window.location.href = "/Pedido/RegistrarComanda/?IdMesa=" + response.Mensaje + "&IdOperacion=" + IdOperacion + "&IdUsuario=" + IdPersonal;
+
+                            } else {
+
+                                messageError("No se pudo Registrar la mesa");
+
+                            }
+                        },
+                        error: function (request, status, error) {
+
+                        }
+                    });
+
+                }
+                
+
+            },
+            error: function (request, status, error) {
+
+            }
+        });
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+    messageError = function (msg) {
+        $.confirm({
+            title: '',
+            content: msg,
+            type: 'red',
+            typeAnimated: true,
+            backgroundDismiss: true,
+            buttons: {
+                Aceptar: {
+                    Text: 'Aceptar',
+                    btnClass: 'btn-warning btn-sm'
+                }
+            }
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+})()

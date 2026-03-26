@@ -1,0 +1,490 @@
+
+var FechaApertura;
+
+
+(function () {
+
+    var ListaMesas = {};
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+        CargarOperacion();
+
+
+        CargarMesas();
+     
+        $("#BtnNuevaMesa").click(function (e) {
+
+            e.preventDefault();
+            ProgressOn();
+             
+            ValidarOperacion()
+            window.location.href = "/Pedido/NuevaMesa/?IdOperacion=" + $("#TxtIdOperacion").val() + "&IdUsuario=" + $("#TxtUsuario").val()
+
+        });
+
+        $("#BtnAgregar").click(function (e) {
+            e.preventDefault();
+
+            ValidarOperacion()
+
+
+
+            var IdMesa = $(".Seleccionado").find("td").eq(0).attr('data-id');
+            var Mesa = $(".Seleccionado").find("td").eq(0).html();
+
+            if( IdMesa==0 || IdMesa=='' || IdMesa==null){
+
+                messageError("Seleccione una mesa");
+                
+                
+                
+            } else {
+
+                localStorage.removeItem("Mesa");
+                localStorage.setItem("Mesa", Mesa);
+                localStorage.setItem("Agregar", "A");
+                window.location.href = "/Pedido/RegistrarComanda/?IdMesa=" + IdMesa + "&IdOperacion=" + $("#TxtIdOperacion").val() + "&IdUsuario=" + $("#TxtUsuario").val();
+            }
+
+
+
+
+        });
+
+        $("#BtnSalir").click(function () { Salir($(this)) });
+
+        $("#BtnActualizar").click(function (e) {
+
+            e.preventDefault();
+
+
+            Actualizar();
+
+        });
+
+
+
+        $("#BtnImprimirPrevio").click(function (e) {
+             
+
+            e.preventDefault();
+
+            ProgressOn();
+             
+            $.ajax({
+                type: "GET",
+                url: "/Pedido/getImpresorasPrevio",                
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+
+                    ProgressOff();
+
+
+
+                    $("#DetalleImpresoras").html('')
+                    $.each(response, function (index, dataitem) {
+
+
+ 
+                        var Botones = `<button onclick="ImprimirPrevioB('${dataitem.Ruta.replace(/\\/g, "*Z")}')" class="btn btn-success" ruta="${dataitem.Ruta} ">${dataitem.Descripcion} </button> `
+
+                        $("#DetalleImpresoras").append(Botones)
+                    });
+                    
+
+                    var datos = response.length
+
+                    if (datos == 1) {
+
+                        var IdMesa = $(".Seleccionado").find("td").eq(0).attr('data-id');
+
+                        if (IdMesa == 0 || IdMesa == '' || IdMesa == null) {
+
+                            messageError("Seleccione una mesa");
+                            ProgressOff();
+                            return false;
+
+                        }
+                        var ruta = response[0].ruta
+
+
+                        var Form = { 'IdMesa': IdMesa, 'Ruta': ruta };
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Pedido/ImprimirPrevio",
+                            data: JSON.stringify(Form),
+                            dataType: "json",
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (response) {
+
+                                ProgressOff();
+                          
+                                Actualizar();
+                            }
+                        });
+
+                        Actualizar();
+                    } else {
+
+                        $("#modalPrevio").modal()
+
+
+                    }
+
+
+
+
+   
+                }
+            });
+
+
+
+        });
+ 
+
+    });
+     
+
+
+    ImprimirPrevioB = function (ruta) {
+
+        ProgressOn();
+
+        var IdMesa = $(".Seleccionado").find("td").eq(0).attr('data-id');
+
+        if (IdMesa == 0 || IdMesa == '' || IdMesa == null) {
+
+            messageError("Seleccione una mesa");
+            ProgressOff();
+            return false;
+
+        }
+         
+        //console.log(ruta)
+        //var replaced = ruta.replace('/\/',"*Z");
+
+        //var trans = ruta.replace('/\/', '%2').replace('/\\/', '%3')
+        //console.log("aasdsd")
+        //console.log(replaced)
+
+        var Form = { 'IdMesa': IdMesa, 'Ruta': ruta };
+
+        $.ajax({
+            type: "POST",
+            url: "/Pedido/ImprimirPrevio",
+            data:  JSON.stringify( Form),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+
+                ProgressOff();
+             
+                Actualizar();
+
+                $("#modalPrevio").modal('hide')
+
+            }
+        });
+
+ 
+    }
+
+    Actualizar = function () {
+        CargarOperacion();
+        CargarMesas(); 
+        $("#BodyDetalle").html('');
+        $("#TotalProductos").html("Total : " + parseFloat(0).toFixed(2));
+    }
+     
+    function ProgressOn() {
+        $("#Progress").show();
+    }
+
+    function ProgressOff() {
+        $("#Progress").hide();
+    }
+
+
+
+    var Salir = function (e) { 
+        window.location.href = "/Usuario/Inicio"; 
+    }
+     
+
+    function GetFecha() {
+
+        return FechaApertura;
+    }
+
+    var CargarOperacion = function () {
+
+
+
+        ProgressOn();
+        $.ajax({
+            type: "POST",
+            url: "/Pedido/VerOperacion",
+            dataType: "json",
+            async:false,
+            success: function (response) {
+                $("#Progress").hide();
+
+                $("#TxtIdOperacion").val(response.Data.ID_OPERACION);
+                $("#TxtIdTurno").val(response.Data.ID_TURNO);
+
+                var  nowDate = new Date(parseInt( response.Data.FECHA_APERTURA.substr(6)));
+
+                FechaApertura = nowDate.format("dd/mm/yyyy");
+
+                localStorage.removeItem("FechaA");
+                localStorage.setItem("FechaA", FechaApertura);
+            }
+
+        });
+
+    }
+
+
+
+    var ValidarOperacion = function () {
+
+         
+        ProgressOn();
+        $.ajax({
+            type: "POST",
+            url: "/Pedido/VerOperacion",
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                $("#Progress").hide();
+
+                if (response.Data.ID_OPERACION == $("#TxtIdOperacion").val()) {
+                } else {
+                    window.location.href = "/Usuario/Inicio";
+                }
+                
+          
+ 
+            }
+
+        });
+
+    }
+
+
+
+
+    var CargarMesas = function () {
+
+
+
+        ProgressOn();
+
+
+        $.ajax({
+            type: "GET",
+            url: "/Pedido/ObtenerMesasUsuario/?IdOperacion=" + $("#TxtIdOperacion").val() + "&IdUsuario=" + $("#TxtUsuario").val(),
+            dataType: "json",
+            success: function (response) {
+                $("#Progress").hide();
+
+                ListaMesas = response.Data;
+                console.log(response);
+
+                $("#LblNmesas").html(response.Data.length + " Mesas");
+
+
+                PintarMesas();
+
+            }
+
+        });
+
+    }
+
+
+
+
+
+
+    var PintarMesas = function () {
+
+
+        var Contador = 0; 
+        var html = '';
+        ListaMesas.forEach(function (item, i, array) {
+            html += '<tr>' +
+                "<td data-id='" + item.IdMesa + "' class='FilaMesa'>" + item.Mesa + '</td><td class="FilaPrevio">' + item.Previo + '</td>' +
+                '</tr>';
+
+
+            if (Contador == 0) {
+                $("#LblCliente").html(item.Cliente);
+                $("#LblUsuario").html(item.Usuario);
+                $("#TxtNPersonas").val(item.NPersonas);
+                $("#LblCuenta").html(item.Cuenta);
+            }
+        });
+        $("#bodymesas").html(html);
+
+
+
+
+        $("#bodymesas").on("click", "tr", function (e) {
+            //var valores = []
+
+            e.preventDefault();
+            var Id = $(this).find("td").eq(0).attr('data-id');
+
+
+
+
+
+
+            $("#bodymesas tr").each(function () {
+                var row = $(this);
+                row.removeClass("Seleccionado");
+            })
+            //$(a).addClass("FilaSeleccionadaDetalle")
+            $(this).addClass("Seleccionado");
+
+            //if ($(this).hasClass("Seleccionado")) {
+            //	$(this).removeClass("Seleccionado");
+               
+            //} else {
+            //	$(this).addClass("Seleccionado");
+            //}
+            
+
+
+
+
+
+
+
+
+
+            
+
+            
+            //$(this).addClass('Seleccionado');
+
+
+            ListaMesas.forEach(function (item, i, array) {
+            
+   
+
+                if (item.IdMesa == Id) {
+                    $("#LblCliente").html(item.Cliente);
+                    $("#LblUsuario").html(item.Usuario);
+                    $("#TxtNPersonas").val(item.NPersonas);
+                    $("#LblCuenta").html(item.Cuenta);
+
+                    return false;
+
+                   
+                }
+            });
+        
+
+
+
+
+
+            $.ajax({
+                type: "GET",
+                url: "/Pedido/DetalleMesa/?IdMesa=" + Id,
+                
+                dataType: "json",
+                success: function (response) {
+
+
+                    var Total = 0;
+                    console.log(response.Data);
+                    html = '';
+                    var nowDate;
+                    response.Data.forEach(function (item, i, array) {
+
+                        nowDate = new Date(parseInt(item.Hora.substr(6)));
+                        Total += item.Total;
+                        html += '<tr class="FilaMesa">' +
+                            "<td  style='text-align:left!important' >" + item.Producto + '</td><td  >' + item.Cantidad + '</td>' +
+                            "<td  >" +   parseFloat(item.Precio).toFixed(2)    + '</td><td  >' + parseFloat(item.Total).toFixed(2) + '</td>' +
+                            "<td  >" + nowDate.format("HH:MM:ss") + '</td>' +
+                            '</tr>';
+ 
+
+
+
+                    });
+                    $("#BodyDetalle").html(html);
+                    $("#TotalProductos").html("Total : " + parseFloat(Total).toFixed(2));
+
+                }
+            });
+
+
+
+     
+        })
+
+
+
+
+
+
+
+    }
+
+
+
+
+    alertSuccess = function (msg) {
+
+
+
+        $.alert({
+            title: 'Alerta',
+            content: msg,
+            type: 'green',
+            icon: 'fa fa-success',
+            buttons: {
+                aceptar: {
+
+                    text: 'Aceptar',
+                    btnClass: 'btn-blue',
+                    action: function () {
+
+                    }
+                }
+
+            }
+
+
+        });
+
+    }
+
+
+    messageError = function (msg) {
+        $.confirm({
+            title: '',
+            content: msg,
+            type: 'red',
+            typeAnimated: true,
+            backgroundDismiss: true,
+            buttons: {
+                Aceptar: {
+                    Text: 'Aceptar',
+                    btnClass: 'btn-warning btn-sm'
+                }
+            }
+        })
+    }
+
+})()
