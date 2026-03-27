@@ -191,7 +191,7 @@ export default function Dashboard() {
           LIBRE: 1,
           MESA: `Mesa ${tableId}`,
           NPERSONAS: 1,
-          CLIENTE: 'Cliente Web',
+          CLIENTE: '',
           CUENTEA: 0,
           DESCUENTO: 0,
           Estado: 4,
@@ -213,30 +213,31 @@ export default function Dashboard() {
           CAMBIO: 'P',
         })),
       }
+      console.log(payload)
 
       // Using standard JSON POST
-      const response = await fetch('/api/Pedido/RegistrarComanda', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      })
-
-      if (response.ok) {
-        // Success
-        alert('Pedido enviado correctamente!')
-        setSelectedProducts([]) // Clear cart
-        setIsSummaryOpen(false) // Close mobile sheet
-      } else {
-        // Fallback for legacy jQuery-style endpoints that might not accept JSON body
-        // This is a "safety net" retry logic if JSON fails, attempting the 'standard' MVC form post
-        // logic often found in older .NET apps.
-        console.warn('JSON submit failed, trying legacy form format...')
-
-        // ... legacy retry logic would go here if strict compatibility is needed
-        throw new Error('Error en el servidor: ' + response.statusText)
-      }
+      // const response = await fetch('/api/Pedido/RegistrarComanda', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(payload),
+      // })
+      //
+      // if (response.ok) {
+      //   // Success
+      //   alert('Pedido enviado correctamente!')
+      //   setSelectedProducts([]) // Clear cart
+      //   setIsSummaryOpen(false) // Close mobile sheet
+      // } else {
+      //   // Fallback for legacy jQuery-style endpoints that might not accept JSON body
+      //   // This is a "safety net" retry logic if JSON fails, attempting the 'standard' MVC form post
+      //   // logic often found in older .NET apps.
+      //   console.warn('JSON submit failed, trying legacy form format...')
+      //
+      //   // ... legacy retry logic would go here if strict compatibility is needed
+      //   throw new Error('Error en el servidor: ' + response.statusText)
+      // }
     } catch (e) {
       console.error(e)
       if (e instanceof Error) setError(e.message)

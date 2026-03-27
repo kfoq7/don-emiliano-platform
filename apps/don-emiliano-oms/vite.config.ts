@@ -3,6 +3,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
+process.loadEnvFile()
+
 const host = process.env.TAURI_DEV_HOST
 
 // https://vite.dev/config/
@@ -32,7 +34,7 @@ export default defineConfig(async () => ({
     },
     proxy: {
       '/api': {
-        target: 'http://192.168.18.4:8089',
+        target: `${process.env.LOCAL_IP_ADDRESS}:8089`,
         changeOrigin: true,
         // This removes '/api' from the URL before sending it to the backend
         rewrite: path => path.replace(/^\/api/, ''),

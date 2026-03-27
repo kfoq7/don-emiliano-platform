@@ -76,15 +76,32 @@ export default function ActiveTables() {
         const data = await response.json()
         const apiTables: ApiTable[] = data.Data || []
 
-        const mappedTables: Table[] = apiTables.map(t => ({
-          id: t.IdMesa,
-          name: t.Mesa,
-          status: 'occupied',
-          total: t.Cuenta,
-          lastUpdated: 'Ahora',
-          cliente: t.Cliente,
-          nPersonas: t.NPersonas,
-        }))
+        const mappedTables: Table[] = await Promise.all(
+          apiTables.map(async t => {
+            const { IdMesa } = t
+
+            const tableDetailResponse = await fetch(
+              `/api/Pedido/DetalleMesa/?IdMesa=${IdMesa}`,
+            )
+            const tableDetail = (await tableDetailResponse.json()).Data as {
+              Precio: number
+            }[]
+            const total = tableDetail.reduce(
+              (total, td) => td.Precio + total,
+              0,
+            )
+
+            return {
+              id: t.IdMesa,
+              name: t.Mesa,
+              status: 'occupied',
+              total,
+              lastUpdated: 'Ahora',
+              cliente: t.Cliente,
+              nPersonas: t.NPersonas,
+            }
+          }),
+        )
         setTables(mappedTables)
       } else {
         throw new Error('Error al obtener las mesas')
