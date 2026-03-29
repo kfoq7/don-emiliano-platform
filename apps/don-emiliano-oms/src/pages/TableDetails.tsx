@@ -67,6 +67,33 @@ export default function TableDetails() {
     navigate('/active-tables')
   }
 
+  const handlePrint = async () => {
+    if (!numberId) return
+    try {
+      const printersRes = await fetch('/api/Pedido/getImpresorasPrevio')
+      if (!printersRes.ok) throw new Error('Failed to get printers')
+      const printers = await printersRes.json()
+
+      if (printers && printers.length > 0) {
+        const ruta = printers[0].Ruta || printers[0].ruta
+        const printRes = await fetch('/api/Pedido/ImprimirPrevio', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+          },
+          body: JSON.stringify({ IdMesa: numberId, Ruta: ruta }),
+        })
+        if (!printRes.ok) throw new Error('Failed to print')
+        alert('Impresión enviada correctamente')
+      } else {
+        alert('No se encontraron impresoras configuradas')
+      }
+    } catch (err) {
+      console.error('Error al imprimir:', err)
+      alert('Error al procesar la impresión')
+    }
+  }
+
   const totalAmount = items.reduce((sum, p) => sum + p.Precio * p.quantity, 0)
 
   return (
@@ -180,6 +207,25 @@ export default function TableDetails() {
             </div>
 
             <div className="flex gap-4">
+              <button
+                onClick={handlePrint}
+                className="flex-1 bg-white border border-[var(--color-border-light)] hover:bg-[var(--color-surface-hover)] text-[var(--color-heading)] font-semibold py-3 px-4 rounded-lg shadow-sm transition-colors flex justify-center items-center gap-2"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+                  />
+                </svg>
+                Imprimir
+              </button>
               <button
                 onClick={handleEdit}
                 className="flex-1 bg-[var(--color-primary)] hover:bg-[var(--color-action-hover)] text-white font-semibold py-3 px-4 rounded-lg shadow-sm transition-colors flex justify-center items-center gap-2"
