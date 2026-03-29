@@ -4,6 +4,7 @@ import type { Product } from '../types/Products'
 
 interface CartItem extends Product {
   quantity: number
+  observacion?: string
 }
 
 export default function Dashboard() {
@@ -16,35 +17,6 @@ export default function Dashboard() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const navigate = useNavigate()
 
-  const fetchOrder = useCallback(async (tableId: string) => {
-    try {
-      // API call to get existing order details
-      const response = await fetch(`/api/Pedido/DetalleMesa/?IdMesa=${tableId}`)
-
-      if (response.ok) {
-        const data = await response.json()
-        const apiItems = data.Data || []
-
-        // Map API response to internal CartItem format
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const mappedItems: CartItem[] = apiItems.map((item: any) => ({
-          IdProducto: 0,
-          Descripcion: item.Producto,
-          Precio: item.Precio,
-          Combo: 0,
-          quantity: item.Cantidad,
-        }))
-
-        setSelectedProducts(mappedItems)
-      } else {
-        throw new Error('API failed')
-      }
-    } catch (error) {
-      console.error('Error fetching order:', error)
-      setSelectedProducts([])
-    }
-  }, [])
-
   useEffect(() => {
     const tableId = localStorage.getItem('oms_tableId')
     // Check auth
@@ -52,10 +24,8 @@ export default function Dashboard() {
       navigate('/')
     } else if (!tableId) {
       navigate('/tables')
-    } else {
-      fetchOrder(tableId)
     }
-  }, [navigate, fetchOrder])
+  }, [navigate])
 
   const getProducts = useCallback(async (description: string = '') => {
     setIsLoading(true)
@@ -119,6 +89,14 @@ export default function Dashboard() {
     )
   }
 
+  const updateObservacion = (productId: number, observacion: string) => {
+    setSelectedProducts(prev =>
+      prev.map(item =>
+        item.IdProducto === productId ? { ...item, observacion } : item,
+      ),
+    )
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('oms_auth')
     localStorage.removeItem('oms_userId')
@@ -142,7 +120,10 @@ export default function Dashboard() {
   }
 
   const handleConfirmOrder = async () => {
-    if (selectedProducts.length === 0) return
+    if (selectedProducts.length === 0) {
+      alert('No hay productos para enviar.')
+      return
+    }
 
     setIsSubmitting(true)
 
@@ -165,79 +146,95 @@ export default function Dashboard() {
       // Retrieve IDs from storage
       const storedUserId = localStorage.getItem('oms_userId')
       const storedTableId = localStorage.getItem('oms_tableId')
+      const storedTableName =
+        localStorage.getItem('oms_tableName') || storedTableId
 
       const userId = storedUserId ? parseInt(storedUserId, 10) : 0
       const tableId = storedTableId ? parseInt(storedTableId, 10) : 0
 
-      const payload = {
-        Cab: {
-          ID_COMANDA: 0,
-          FECHA: new Date().toISOString(),
-          HORA: new Date().toLocaleTimeString('en-US', { hour12: false }),
-          ID_MESA: tableId,
-          ID_MOZO: userId,
-          ID_OPERACION: operacionId,
-          ID_USUARIO: userId,
-          MESA: `Mesa ${tableId}`,
-          OBSERVACON: '',
-          TOTAL: total,
-          ESTADO: 'P',
-        },
-        M: {
-          PDESCUENTO: 0,
-          TOTAL: total,
-          tipo: 'V',
-          Id: 0,
-          LIBRE: 1,
-          MESA: `Mesa ${tableId}`,
-          NPERSONAS: 1,
-          CLIENTE: '',
-          CUENTEA: 0,
-          DESCUENTO: 0,
-          Estado: 4,
-          ID_MESA: tableId,
-          ID_OPERACION: operacionId,
-          ID_PERSONAL: 0,
-          ID_USUARIO: userId,
-        },
-        Det: selectedProducts.map(p => ({
-          ID_COMANDA: 0,
-          CANTIDAD: p.quantity,
-          COMBO: p.Combo,
-          ID_PRODUCTO: p.IdProducto,
-          OBSERVACION: '',
-          PUNIT: p.Precio,
-          TOTAL: p.Precio * p.quantity,
-          ID_PRODUCOMBO: 0,
-          CANTIDADCOMBO: 0,
-          CAMBIO: 'P',
-        })),
-      }
-      console.log(payload)
+      const formData = new URLSearchParams()
 
-      // Using standard JSON POST
-      // const response = await fetch('/api/Pedido/RegistrarComanda', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(payload),
-      // })
-      //
-      // if (response.ok) {
-      //   // Success
-      //   alert('Pedido enviado correctamente!')
-      //   setSelectedProducts([]) // Clear cart
-      //   setIsSummaryOpen(false) // Close mobile sheet
-      // } else {
-      //   // Fallback for legacy jQuery-style endpoints that might not accept JSON body
-      //   // This is a "safety net" retry logic if JSON fails, attempting the 'standard' MVC form post
-      //   // logic often found in older .NET apps.
-      //   console.warn('JSON submit failed, trying legacy form format...')
-      //
-      //   // ... legacy retry logic would go here if strict compatibility is needed
-      //   throw new Error('Error en el servidor: ' + response.statusText)
-      // }
+      // Cab
+      formData.append('Cab[ID_COMANDA]', '0')
+      formData.append(
+        'Cab[FECHA]',
+        new Date().toLocaleDateString('en-GB'), // DD/MM/YYYY
+      )
+      formData.append(
+        'Cab[HORA]',
+        new Date().toLocaleTimeString('en-US', { hour12: false }),
+      )
+      formData.append('Cab[ID_MESA]', tableId.toString())
+      formData.append('Cab[ID_MOZO]', userId.toString())
+      formData.append('Cab[ID_OPERACION]', operacionId.toString())
+      formData.append('Cab[ID_USUARIO]', userId.toString())
+      formData.append('Cab[MESA]', storedTableName || tableId.toString())
+      formData.append('Cab[OBSERVACON]', '')
+      formData.append('Cab[TOTAL]', total.toString())
+      formData.append('Cab[ESTADO]', 'P')
+
+      // M
+      formData.append('M[PDESCUENTO]', '0')
+      formData.append('M[TOTAL]', total.toString())
+      formData.append('M[tipo]', 'V')
+      formData.append('M[Id]', '0')
+      formData.append('M[LIBRE]', '1')
+      formData.append('M[MESA]', '')
+      formData.append('M[NPERSONAS]', '0')
+      formData.append('M[CLIENTE]', '')
+      formData.append('M[CUENTEA]', '0')
+      formData.append('M[DESCUENTO]', '0')
+      formData.append('M[Estado]', '4')
+      formData.append('M[FECHAPRO]', '')
+      formData.append('M[HORAPRO]', '')
+      formData.append('M[ID_MESA]', tableId.toString())
+      formData.append('M[ID_OPERACION]', '0') // From example it's 0
+      formData.append('M[ID_PERSONAL]', '0')
+      formData.append('M[ID_USUARIO]', '0') // From example it's 0
+
+      // Det
+      selectedProducts.forEach((p, index) => {
+        formData.append(`Det[${index}][ID_COMANDA]`, '0')
+        formData.append(`Det[${index}][CANTIDAD]`, p.quantity.toString())
+        formData.append(`Det[${index}][COMBO]`, p.Combo?.toString() || '0')
+        formData.append(`Det[${index}][ID_DCOMANDA]`, (index + 1).toString()) // Usually 1-based or similar
+        formData.append(`Det[${index}][ID_PRODUCTO]`, p.IdProducto.toString())
+        formData.append(`Det[${index}][OBSERVACION]`, p.observacion || '')
+        formData.append(`Det[${index}][PUNIT]`, p.Precio.toString())
+        formData.append(
+          `Det[${index}][TOTAL]`,
+          (p.Precio * p.quantity).toString(),
+        )
+        formData.append(`Det[${index}][ID_PRODUCOMBO]`, '0')
+        formData.append(`Det[${index}][CANTIDADCOMBO]`, '1') // From example it's 1
+        formData.append(`Det[${index}][CAMBIO]`, 'P')
+      })
+
+      const response = await fetch('/api/Pedido/RegistrarComanda', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString(),
+      })
+
+      if (response.ok) {
+        // Success
+        alert('Pedido enviado correctamente!')
+        setSelectedProducts([]) // Clear cart
+        setIsSummaryOpen(false) // Close mobile sheet
+
+        // Clear local storage logic for logging out / returning to main login
+        localStorage.removeItem('oms_auth')
+        localStorage.removeItem('oms_userId')
+        localStorage.removeItem('oms_userName')
+        localStorage.removeItem('oms_tableId')
+        localStorage.removeItem('oms_tableName')
+
+        navigate('/')
+      } else {
+        throw new Error('Error en el servidor: ' + response.statusText)
+      }
     } catch (e) {
       console.error(e)
       if (e instanceof Error) setError(e.message)
@@ -601,6 +598,21 @@ export default function Dashboard() {
                             S/ {(product.Precio * product.quantity).toFixed(2)}
                           </span>
                         </div>
+                      </div>
+
+                      <div className="mt-2">
+                        <input
+                          type="text"
+                          placeholder="Observación (opcional)"
+                          value={product.observacion || ''}
+                          onChange={e =>
+                            updateObservacion(
+                              product.IdProducto,
+                              e.target.value,
+                            )
+                          }
+                          className="w-full text-sm px-3 py-1.5 rounded bg-white border border-[var(--color-border)] focus:ring-1 focus:ring-[var(--color-primary)] focus:border-transparent outline-none transition-all placeholder:text-[var(--color-ink-muted)]"
+                        />
                       </div>
                     </li>
                   ))}

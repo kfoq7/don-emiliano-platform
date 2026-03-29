@@ -126,6 +126,7 @@ export default function TableSelection() {
         if (registerData.Mensaje > 0) {
           // Success - Store ID and redirect
           localStorage.setItem('oms_tableId', registerData.Mensaje) // The ID returned by the API
+          localStorage.setItem('oms_tableName', table.trim())
           navigate('/dashboard')
         } else {
           throw new Error('No se pudo registrar la mesa.')
