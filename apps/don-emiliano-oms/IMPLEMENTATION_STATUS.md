@@ -46,6 +46,10 @@ The user wants to implement a complete "Waiter Dashboard" workflow for a restaur
   - **Validation**: Checks `ValidarMesa` to ensure the table is free.
   - **Registration**: Registers the table using `RegistrarMesa`, correctly populating `ID_OPERACION`, `FECHA`, and `FECHAPRO` from the `VerOperacion` response.
   - Handles date parsing logic.
+- **Refactored Codebase Architecture**:
+  - Extracted logic from all pages (`Dashboard`, `ActiveTables`, `TableSelection`, `TableDetails`) into custom hooks (`useCart`, `useActiveTables`, `useTableSelection`, `useTableDetails`).
+  - Extracted API calls and endpoints into dedicated services (`dashboard.service.ts`, `table.service.ts`, `table-details.service.ts`).
+  - Separated UI elements into reusable components in `src/components/` (e.g., `ProductCard`, `CartItemComponent`, `TableCard`, `ZoneTabs`, `TableGridCard`, `OrderItemList`, `TableSummary`).
 
 ## Relevant files / directories
 
