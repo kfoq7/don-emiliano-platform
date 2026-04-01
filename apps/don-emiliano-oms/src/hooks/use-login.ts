@@ -18,16 +18,13 @@ export function useLogin() {
     setError('')
 
     try {
-      const response = await fetch(
-        `${import.meta.env.LOCAL_IP_ADDRESS}/api/login`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ code: code.trim() }),
+      const response = await fetch(`/server/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+        body: JSON.stringify({ code: code.trim() }),
+      })
 
       const data = await response.json()
       if (response.ok && data.success) {

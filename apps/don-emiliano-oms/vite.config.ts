@@ -34,10 +34,15 @@ export default defineConfig(async () => ({
     },
     proxy: {
       '/api': {
-        target: `${process.env.LOCAL_IP_ADDRESS}:8089`,
+        target: `${process.env.LOCAL_IP_ADDRESS}:${process.env.API_PORT}`,
         changeOrigin: true,
         // This removes '/api' from the URL before sending it to the backend
         rewrite: path => path.replace(/^\/api/, ''),
+      },
+      '/server': {
+        target: `${process.env.LOCAL_IP_ADDRESS}:${process.env.SERVER_PORT}`,
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/server/, ''),
       },
     },
   },
