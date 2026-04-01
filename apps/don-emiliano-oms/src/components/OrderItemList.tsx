@@ -8,9 +8,9 @@ interface OrderItemListProps {
 export function OrderItemList({ isLoading, items }: OrderItemListProps) {
   if (isLoading) {
     return (
-      <div className="flex justify-center py-8 text-[var(--color-ink-muted)]">
+      <div className="flex justify-center py-8 text-color-ink-muted">
         <svg
-          className="animate-spin h-8 w-8 text-[var(--color-primary)]"
+          className="animate-spin h-8 w-8 text-color-primary"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -35,7 +35,7 @@ export function OrderItemList({ isLoading, items }: OrderItemListProps) {
 
   if (items.length === 0) {
     return (
-      <div className="text-center py-8 text-[var(--color-ink-muted)]">
+      <div className="text-center py-8 text-color-ink-muted">
         <p>No hay productos en esta mesa.</p>
       </div>
     )
@@ -46,22 +46,22 @@ export function OrderItemList({ isLoading, items }: OrderItemListProps) {
       {items.map((item, index) => (
         <div
           key={`${item.IdProducto}-${index}`}
-          className="flex justify-between items-center py-2 border-b border-[var(--color-border-light)] last:border-0"
+          className="flex justify-between items-center py-2 border-b border-color-border-light last:border-0"
         >
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-[var(--color-heading)]">
+              <span className="font-semibold text-color-heading">
                 {item.quantity}x
               </span>
-              <span className="text-[var(--color-heading)]">
+              <span className="text-color-heading">
                 {item.Descripcion}
               </span>
             </div>
-            <div className="text-sm text-[var(--color-ink-muted)] ml-6">
+            <div className="text-sm text-color-ink-muted ml-6">
               S/ {item.Precio.toFixed(2)} c/u
             </div>
           </div>
-          <div className="font-medium text-[var(--color-heading)]">
+          <div className="font-medium text-color-heading">
             S/ {(item.quantity * item.Precio).toFixed(2)}
           </div>
         </div>

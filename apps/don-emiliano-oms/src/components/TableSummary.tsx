@@ -10,12 +10,12 @@ export function TableSummary({
   onEdit,
 }: TableSummaryProps) {
   return (
-    <div className="bg-[var(--color-surface-hover)] p-6 border-t border-[var(--color-border-light)]">
+    <div className="bg-color-surface-hover p-6 border-t border-color-border-light">
       <div className="flex justify-between items-center mb-6">
-        <span className="text-lg font-bold text-[var(--color-heading)]">
+        <span className="text-lg font-bold text-color-heading">
           Total
         </span>
-        <span className="text-2xl font-bold text-[var(--color-primary)]">
+        <span className="text-2xl font-bold text-color-primary">
           S/ {totalAmount.toFixed(2)}
         </span>
       </div>
@@ -23,7 +23,7 @@ export function TableSummary({
       <div className="flex gap-4">
         <button
           onClick={onPrint}
-          className="flex-1 bg-white border border-[var(--color-border-light)] hover:bg-[var(--color-surface-hover)] text-[var(--color-heading)] font-semibold py-3 px-4 rounded-lg shadow-sm transition-colors flex justify-center items-center gap-2"
+          className="flex-1 bg-white border border-color-border-light hover:bg-color-surface-hover text-color-heading font-semibold py-3 px-4 rounded-lg shadow-sm transition-colors flex justify-center items-center gap-2"
         >
           <svg
             className="w-5 h-5"
@@ -42,7 +42,7 @@ export function TableSummary({
         </button>
         <button
           onClick={onEdit}
-          className="flex-1 bg-[var(--color-primary)] hover:bg-[var(--color-action-hover)] text-white font-semibold py-3 px-4 rounded-lg shadow-sm transition-colors flex justify-center items-center gap-2"
+          className="flex-1 bg-color-primary hover:bg-color-action-hover text-white font-semibold py-3 px-4 rounded-lg shadow-sm transition-colors flex justify-center items-center gap-2"
         >
           <svg
             className="w-5 h-5"

@@ -22,16 +22,16 @@ export default function ActiveTables() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-surface-hover)]">
+    <div className="min-h-screen bg-color-surface-hover">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-[var(--color-border-light)] sticky top-0 z-50">
+      <header className="bg-white shadow-sm border-b border-color-border-light sticky top-0 z-50">
         <div className="max-w-[var(--spacing-middle)] mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-[var(--color-heading)]">
+          <h1 className="text-xl font-bold text-color-heading">
             Mesas Activas
           </h1>
           <button
             onClick={handleLogout}
-            className="text-sm font-medium text-[var(--color-ink-muted)] hover:text-[var(--color-primary)] transition-colors"
+            className="text-sm font-medium text-color-ink-muted hover:text-color-primary transition-colors"
           >
             Cerrar Sesión
           </button>
@@ -43,7 +43,7 @@ export default function ActiveTables() {
         <div className="flex justify-between items-center mb-6">
           <button
             onClick={refreshTables}
-            className="flex items-center gap-2 text-[var(--color-primary)] font-medium hover:text-[var(--color-action-hover)] transition-colors"
+            className="flex items-center gap-2 text-color-primary font-medium hover:text-color-action-hover transition-colors"
             title="Actualizar lista"
           >
             <svg
@@ -64,7 +64,7 @@ export default function ActiveTables() {
 
           <button
             onClick={handleCreateTable}
-            className="bg-[var(--color-primary)] hover:bg-[var(--color-action-hover)] text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition-colors flex items-center gap-2"
+            className="bg-color-primary hover:bg-color-action-hover text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition-colors flex items-center gap-2"
           >
             <svg
               className="w-5 h-5"
@@ -85,9 +85,9 @@ export default function ActiveTables() {
 
         {/* Content */}
         {isLoading && tables.length === 0 ? (
-          <div className="text-center py-12 text-[var(--color-ink-muted)]">
+          <div className="text-center py-12 text-color-ink-muted">
             <svg
-              className="animate-spin h-8 w-8 mx-auto mb-4 text-[var(--color-primary)]"
+              className="animate-spin h-8 w-8 mx-auto mb-4 text-color-primary"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -109,7 +109,7 @@ export default function ActiveTables() {
             Cargando mesas...
           </div>
         ) : error ? (
-          <div className="bg-[var(--color-brand-pink)]/10 text-[var(--color-brand-pink)] p-4 rounded-lg text-center border border-[var(--color-brand-pink)]/20">
+          <div className="bg-color-brand-pink/10 text-color-brand-pink p-4 rounded-lg text-center border border-color-brand-pink/20">
             {error}
             <button
               onClick={refreshTables}
@@ -119,8 +119,8 @@ export default function ActiveTables() {
             </button>
           </div>
         ) : tables.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-[var(--color-border-light)]">
-            <div className="w-16 h-16 bg-[var(--color-surface-hover)] rounded-full flex items-center justify-center mx-auto mb-4 text-[var(--color-ink-muted)]">
+          <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-color-border-light">
+            <div className="w-16 h-16 bg-color-surface-hover rounded-full flex items-center justify-center mx-auto mb-4 text-color-ink-muted">
               <svg
                 className="w-8 h-8"
                 fill="none"
@@ -135,15 +135,15 @@ export default function ActiveTables() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-[var(--color-heading)] mb-1">
+            <h3 className="text-lg font-medium text-color-heading mb-1">
               No hay mesas activas
             </h3>
-            <p className="text-[var(--color-ink-muted)] mb-6">
+            <p className="text-color-ink-muted mb-6">
               Comienza registrando un nuevo pedido.
             </p>
             <button
               onClick={handleCreateTable}
-              className="text-[var(--color-primary)] font-semibold hover:underline"
+              className="text-color-primary font-semibold hover:underline"
             >
               Crear Nueva Mesa
             </button>
