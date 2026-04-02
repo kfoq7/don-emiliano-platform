@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Don Emiliano Logistic - Inventory Audit Logs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary": "#402a00",
+              "on-tertiary-fixed": "#281900",
+              "tertiary-fixed-dim": "#ffba38",
+              "primary-container": "#004b63",
+              "on-surface-variant": "#40484c",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e0e3e4",
+              "surface-container-low": "#f1f4f5",
+              "on-tertiary-fixed-variant": "#604100",
+              "secondary-fixed-dim": "#84d4d3",
+              "outline-variant": "#c0c7cd",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-highest": "#e0e3e4",
+              "error": "#ba1a1a",
+              "surface-container": "#ebeeef",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "background": "#f7fafb",
+              "outline": "#71787d",
+              "secondary-container": "#9deeed",
+              "on-secondary-fixed-variant": "#004f4f",
+              "surface": "#f7fafb",
+              "secondary": "#006a6a",
+              "on-primary-fixed": "#001f2b",
+              "secondary-fixed": "#a0f0f0",
+              "surface-tint": "#2a657e",
+              "surface-bright": "#f7fafb",
+              "on-surface": "#181c1d",
+              "surface-dim": "#d7dadb",
+              "on-background": "#181c1d",
+              "primary": "#003345",
+              "primary-fixed-dim": "#96ceeb",
+              "on-secondary-container": "#0b6e6e",
+              "on-primary-container": "#83bad6",
+              "on-primary-fixed-variant": "#044d65",
+              "on-error": "#ffffff",
+              "inverse-surface": "#2d3132",
+              "tertiary-container": "#5d3f00",
+              "on-tertiary-container": "#eba500",
+              "tertiary-fixed": "#ffdeac",
+              "inverse-primary": "#96ceeb",
+              "on-secondary": "#ffffff",
+              "inverse-on-surface": "#eef1f2",
+              "on-secondary-fixed": "#002020",
+              "surface-container-high": "#e5e9ea",
+              "primary-fixed": "#bfe8ff",
+              "on-tertiary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between px-6 w-full max-w-full sticky top-0 z-50 bg-[#f7fafb] dark:bg-[#181c1d] h-16 border-none font-inter text-sm font-medium tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-lg font-bold tracking-tighter text-[#003345] dark:text-white">Don Emiliano Logistic</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#40484b] dark:text-[#c0c7cd] hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-colors px-3 py-2 rounded-lg" href="#">Dashboard</a>
+<a class="text-[#006a6a] dark:text-[#006a6a] font-bold border-b-2 border-[#006a6a] px-3 py-2" href="#">Inventory</a>
+<a class="text-[#40484b] dark:text-[#c0c7cd] hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-colors px-3 py-2 rounded-lg" href="#">Logistics</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-secondary w-64 text-sm" placeholder="Search audit trail..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-colors">
+<span class="material-symbols-outlined text-[#003345] dark:text-[#004b63]" data-icon="wifi">wifi</span>
+</button>
+<button class="p-2 rounded-full hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-colors">
+<span class="material-symbols-outlined text-[#003345] dark:text-[#004b63]" data-icon="schedule">schedule</span>
+</button>
+<button class="p-2 rounded-full hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-colors">
+<span class="material-symbols-outlined text-[#003345] dark:text-[#004b63]" data-icon="person">person</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex min-h-screen">
+<!-- Side Navigation Bar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-6 bg-[#ebeeef] dark:bg-[#1c2021] h-screen w-64 border-none z-40 hidden md:flex">
+<div class="px-6 mb-8">
+<h2 class="font-inter text-xs uppercase tracking-widest font-semibold text-[#003345] dark:text-[#004b63]">Cashier Terminal</h2>
+<p class="text-[10px] text-outline uppercase tracking-tighter">Station 04</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 px-6 py-4 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Tables</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Orders</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 bg-white dark:bg-[#003345] text-[#003345] dark:text-white rounded-l-xl shadow-sm transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Inventory</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Admin</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-surface-container-highest text-primary font-bold rounded-xl active:scale-95 duration-150 transition-all text-xs uppercase tracking-widest">
+                    Logout
+                </button>
+</div>
+</aside>
+<!-- Main Content Stage -->
+<main class="flex-1 md:ml-64 p-8 bg-surface">
+<header class="mb-10">
+<h1 class="text-4xl font-extrabold tracking-tight text-primary mb-2">Inventory Audit Logs</h1>
+<p class="text-on-surface-variant max-w-2xl">Secure tracking of stock movements, deletions, and adjustments. All actions are cryptographically timestamped and assigned to authorized personnel.</p>
+</header>
+<!-- Audit Overview Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="p-6 rounded-xl bg-surface-container-lowest shadow-sm border-l-4 border-secondary">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="trending_up">trending_up</span>
+<span class="text-xs font-bold text-secondary uppercase tracking-widest">Inflows</span>
+</div>
+<div class="text-3xl font-bold text-on-surface">1,248</div>
+<p class="text-sm text-outline-variant mt-1">Units restocked this week</p>
+</div>
+<div class="p-6 rounded-xl bg-surface-container-lowest shadow-sm border-l-4 border-error">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-error" data-icon="delete_sweep">delete_sweep</span>
+<span class="text-xs font-bold text-error uppercase tracking-widest">Voids</span>
+</div>
+<div class="text-3xl font-bold text-on-surface">14</div>
+<p class="text-sm text-outline-variant mt-1">Items deleted/returned</p>
+</div>
+<div class="p-6 rounded-xl bg-surface-container-lowest shadow-sm border-l-4 border-tertiary-fixed-dim">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-tertiary-container" data-icon="verified_user">verified_user</span>
+<span class="text-xs font-bold text-tertiary-container uppercase tracking-widest">Integrity</span>
+</div>
+<div class="text-3xl font-bold text-on-surface">100%</div>
+<p class="text-sm text-outline-variant mt-1">Audit chain validated</p>
+</div>
+</div>
+<div class="space-y-8">
+<!-- Restocking Section -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="add_circle">add_circle</span>
+<h3 class="text-xl font-bold tracking-tight">Product Inflows</h3>
+</div>
+<button class="text-xs font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span> Export CSV
+                        </button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 text-xs uppercase tracking-widest font-bold text-on-surface-variant">Timestamp</th>
+<th class="px-6 py-4 text-xs uppercase tracking-widest font-bold text-on-surface-variant">Product</th>
+<th class="px-6 py-4 text-xs uppercase tracking-widest font-bold text-on-surface-variant">Quantity</th>
+<th class="px-6 py-4 text-xs uppercase tracking-widest font-bold text-on-surface-variant">Authorized By</th>
+<th class="px-6 py-4 text-xs uppercase tracking-widest font-bold text-on-surface-variant text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<tr>
+<td class="px-6 py-5 text-sm font-medium text-outline">Oct 24, 09:12 AM</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-outline" data-icon="liquor">liquor</span>
+</div>
+<span class="font-bold text-on-surface">Premium Tequila Añejo</span>
+</div>
+</td>
+<td class="px-6 py-5"><span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded font-bold">+24 Cases</span></td>
+<td class="px-6 py-5 flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-[10px] text-white">EM</div>
+<span class="text-sm">Enrique M.</span>
+</td>
+<td class="px-6 py-5 text-right"><span class="text-secondary font-bold text-xs uppercase tracking-widest italic">Verified</span></td>
+</tr>
+<tr>
+<td class="px-6 py-5 text-sm font-medium text-outline">Oct 24, 08:45 AM</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-outline" data-icon="coffee_maker">coffee_maker</span>
+</div>
+<span class="font-bold text-on-surface">Espresso Grind Fine</span>
+</div>
+</td>
+<td class="px-6 py-5"><span class="px-2 py-1 bg-secondary-container text-on-secondary-container rounded font-bold">+50 Kg</span></td>
+<td class="px-6 py-5 flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center text-[10px] text-white">LA</div>
+<span class="text-sm">Luisa A.</span>
+</td>
+<td class="px-6 py-5 text-right"><span class="text-secondary font-bold text-xs uppercase tracking-widest italic">Verified</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Deletions & Voids Section -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+<h3 class="text-xl font-bold tracking-tight text-error">Voided &amp; Deleted Items</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-error-container">
+<div class="p-4 bg-error-container/30 flex items-center gap-3">
+<span class="material-symbols-outlined text-error text-sm" data-icon="info">info</span>
+<p class="text-xs font-bold text-on-error-container uppercase tracking-tight">Audit Note: All deletions require supervisor override code.</p>
+</div>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 text-xs uppercase tracking-widest font-bold text-on-surface-variant">Timestamp</th>
+<th class="px-6 py-4 text-xs uppercase tracking-widest font-bold text-on-surface-variant">Product</th>
+<th class="px-6 py-4 text-xs uppercase tracking-widest font-bold text-on-surface-variant">Action</th>
+<th class="px-6 py-4 text-xs uppercase tracking-widest font-bold text-on-surface-variant">Cashier</th>
+<th class="px-6 py-4 text-xs uppercase tracking-widest font-bold text-on-surface-variant text-right">Reason</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<tr class="bg-error-container/5">
+<td class="px-6 py-5 text-sm font-medium text-error">Oct 24, 11:22 AM</td>
+<td class="px-6 py-5">
+<span class="font-bold text-on-surface line-through decoration-error">Imported Wine - Reserve</span>
+</td>
+<td class="px-6 py-5"><span class="text-xs font-extrabold text-error border border-error px-2 py-0.5 rounded">PERMANENT DELETE</span></td>
+<td class="px-6 py-5 text-sm">Juarez S.</td>
+<td class="px-6 py-5 text-right text-sm text-outline-variant italic">Damaged on arrival</td>
+</tr>
+<tr class="bg-error-container/5">
+<td class="px-6 py-5 text-sm font-medium text-error">Oct 24, 10:15 AM</td>
+<td class="px-6 py-5">
+<span class="font-bold text-on-surface line-through decoration-error">Artisan Flour 25Kg</span>
+</td>
+<td class="px-6 py-5"><span class="text-xs font-extrabold text-error border border-error px-2 py-0.5 rounded">VOID TRANSACTION</span></td>
+<td class="px-6 py-5 text-sm">Juarez S.</td>
+<td class="px-6 py-5 text-right text-sm text-outline-variant italic">Incorrect SKU entry</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Audit Signature / Bottom Sheet -->
+<footer class="mt-16 pt-8 border-t border-surface-container-high flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-4">
+<img alt="Auditor Avatar" class="w-12 h-12 rounded-full object-cover grayscale" data-alt="professional portrait of a man in formal attire against a clean neutral studio background with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm985LSa9d0QLIMaxoE1_QgB882uLjA_Jf2BMDLq-oRP5CNwARKLcvSXgeFQEcKgy5g2rwQVhrldyUzT6Bo93aR8oO-3hxPnnTNZVT7zE_wOqGfEMK-U2Yp5PI0fyH04xq8lJA-0qhiyHzfKJNzW05iy-C0---blvLygaOGilf_VQEsdofPzIFuvBTORWOxtzEh0GtNynS8g4HBsAMHt5Xe-6aQrx0z7GS_pNFHtAygKmO8PvvFb1Pnf4HGHYjMpZjO7oiMrMT0L0"/>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-outline">Active Auditor</p>
+<p class="text-lg font-bold text-primary">Chief Auditor Roberto D.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-3 rounded-xl bg-surface-container-highest text-primary font-bold uppercase tracking-widest text-xs hover:bg-surface-container transition-colors">
+                        Print Daily Summary
+                    </button>
+<button class="px-6 py-3 rounded-xl bg-primary text-white font-bold uppercase tracking-widest text-xs shadow-lg shadow-primary/20 active:scale-95 duration-150">
+                        Finalize Log &amp; Close Day
+                    </button>
+</div>
+</footer>
+</main>
+</div>
+<!-- Floating Security Overlay (Glassmorphism) -->
+<div class="fixed bottom-8 right-8 p-4 bg-surface-container-low/80 backdrop-blur-xl border border-outline-variant/15 rounded-2xl shadow-2xl flex items-center gap-4 z-50">
+<div class="w-3 h-3 bg-secondary rounded-full animate-pulse"></div>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-secondary uppercase tracking-widest">Security Status</span>
+<span class="text-xs font-bold text-on-surface">End-to-End Encrypted Trail</span>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="lock" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+</body></html>

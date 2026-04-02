@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Don Emiliano Logistic - Financial Summary</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary": "#402a00",
+              "on-tertiary-fixed": "#281900",
+              "tertiary-fixed-dim": "#ffba38",
+              "primary-container": "#004b63",
+              "on-surface-variant": "#40484c",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e0e3e4",
+              "surface-container-low": "#f1f4f5",
+              "on-tertiary-fixed-variant": "#604100",
+              "secondary-fixed-dim": "#84d4d3",
+              "outline-variant": "#c0c7cd",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-highest": "#e0e3e4",
+              "error": "#ba1a1a",
+              "surface-container": "#ebeeef",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "background": "#f7fafb",
+              "outline": "#71787d",
+              "secondary-container": "#9deeed",
+              "on-secondary-fixed-variant": "#004f4f",
+              "surface": "#f7fafb",
+              "secondary": "#006a6a",
+              "on-primary-fixed": "#001f2b",
+              "secondary-fixed": "#a0f0f0",
+              "surface-tint": "#2a657e",
+              "surface-bright": "#f7fafb",
+              "on-surface": "#181c1d",
+              "surface-dim": "#d7dadb",
+              "on-background": "#181c1d",
+              "primary": "#003345",
+              "primary-fixed-dim": "#96ceeb",
+              "on-secondary-container": "#0b6e6e",
+              "on-primary-container": "#83bad6",
+              "on-primary-fixed-variant": "#044d65",
+              "on-error": "#ffffff",
+              "inverse-surface": "#2d3132",
+              "tertiary-container": "#5d3f00",
+              "on-tertiary-container": "#eba500",
+              "tertiary-fixed": "#ffdeac",
+              "inverse-primary": "#96ceeb",
+              "on-secondary": "#ffffff",
+              "inverse-on-surface": "#eef1f2",
+              "on-secondary-fixed": "#002020",
+              "surface-container-high": "#e5e9ea",
+              "primary-fixed": "#bfe8ff",
+              "on-tertiary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      body { font-family: 'Inter', sans-serif; }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-keypad {
+        background: rgba(241, 244, 245, 0.8);
+        backdrop-filter: blur(20px);
+      }
+      .ambient-shadow {
+        box-shadow: 0 12px 40px 0 rgba(24, 28, 29, 0.06);
+      }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased flex">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-6 bg-surface-container w-64 z-40">
+<div class="px-6 mb-10">
+<h2 class="font-inter text-xs uppercase tracking-widest font-semibold text-on-surface-variant">Cashier Terminal</h2>
+<p class="text-[10px] text-outline">Station 04</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-6 py-4 text-outline-variant opacity-70 hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="grid_view">grid_view</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Tables</span>
+</a>
+<a class="flex items-center px-6 py-4 text-outline-variant opacity-70 hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="receipt_long">receipt_long</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Orders</span>
+</a>
+<a class="flex items-center px-6 py-4 text-outline-variant opacity-70 hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="inventory_2">inventory_2</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Inventory</span>
+</a>
+<a class="flex items-center px-6 py-4 bg-surface-container-lowest text-primary rounded-l-xl shadow-sm ml-4 pl-2" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="admin_panel_settings" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Admin</span>
+</a>
+<a class="flex items-center px-6 py-4 text-outline-variant opacity-70 hover:bg-surface-container-highest transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-4" data-icon="settings">settings</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-surface-container-highest text-primary font-bold rounded-xl transition-all active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+<span class="text-xs uppercase tracking-widest">Logout</span>
+</button>
+</div>
+</aside>
+<main class="flex-1 ml-64 min-h-screen relative">
+<!-- TopAppBar Anchor -->
+<header class="flex items-center justify-between px-8 w-full h-16 bg-surface-bright sticky top-0 z-30">
+<div class="flex items-center gap-8">
+<h1 class="text-lg font-bold tracking-tighter text-primary">Don Emiliano Logistic</h1>
+<div class="flex items-center gap-6">
+<span class="font-inter text-sm font-medium tracking-tight text-secondary border-b-2 border-secondary pb-1">Financial Overview</span>
+<span class="font-inter text-sm font-medium tracking-tight text-on-surface-variant hover:text-secondary transition-colors cursor-pointer">Reconciliation</span>
+<span class="font-inter text-sm font-medium tracking-tight text-on-surface-variant hover:text-secondary transition-colors cursor-pointer">Reports</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex bg-surface-container-low px-4 py-2 rounded-full items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 text-on-surface" placeholder="Search transactions..." type="text"/>
+</div>
+<button class="p-2 hover:bg-surface-container-highest rounded-full transition-colors"><span class="material-symbols-outlined text-primary" data-icon="wifi">wifi</span></button>
+<button class="p-2 hover:bg-surface-container-highest rounded-full transition-colors"><span class="material-symbols-outlined text-primary" data-icon="schedule">schedule</span></button>
+<button class="p-2 hover:bg-surface-container-highest rounded-full transition-colors"><span class="material-symbols-outlined text-primary" data-icon="person">person</span></button>
+</div>
+</header>
+<section class="p-8 space-y-8">
+<!-- Header Summary Bento -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Grand Total Focus -->
+<div class="col-span-12 lg:col-span-8 bg-primary rounded-xl p-8 flex flex-col justify-between text-on-primary bg-gradient-to-br from-primary to-primary-container min-h-[240px] ambient-shadow">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-on-primary-container text-sm font-semibold tracking-widest uppercase">Net Profit Today</p>
+<h2 class="text-5xl font-bold mt-2 tracking-tight">$ 12,482.50</h2>
+</div>
+<div class="bg-on-primary/10 p-3 rounded-xl backdrop-blur-md">
+<span class="material-symbols-outlined text-4xl" data-icon="account_balance_wallet" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+</div>
+<div class="flex gap-12 border-t border-on-primary/10 pt-6">
+<div>
+<p class="text-on-primary-container text-[10px] uppercase tracking-widest font-bold">Total Inflow</p>
+<p class="text-xl font-bold text-secondary-fixed">$ 18,920.00</p>
+</div>
+<div>
+<p class="text-on-primary-container text-[10px] uppercase tracking-widest font-bold">Total Outflow</p>
+<p class="text-xl font-bold text-tertiary-fixed-dim">$ 6,437.50</p>
+</div>
+<div class="ml-auto flex items-center gap-2 bg-secondary/20 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+<span class="text-xs font-bold">+12.4% vs Yesterday</span>
+</div>
+</div>
+</div>
+<!-- Secondary Alert Card -->
+<div class="col-span-12 lg:col-span-4 bg-tertiary-fixed-dim rounded-xl p-8 flex flex-col justify-between text-on-tertiary-fixed ambient-shadow">
+<div>
+<p class="text-on-tertiary-fixed-variant text-[10px] uppercase tracking-widest font-bold">Pending Settlements</p>
+<h3 class="text-3xl font-bold mt-2 tracking-tight">$ 1,204.00</h3>
+<p class="text-sm mt-1 opacity-80">3 transactions requiring terminal review</p>
+</div>
+<button class="w-full bg-on-tertiary-fixed text-white py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:opacity-90 transition-opacity">
+                        Review Now
+                    </button>
+</div>
+</div>
+<!-- Transaction Detail Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Sales/Inflows -->
+<div class="bg-surface-container rounded-xl p-6 space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary/10 flex items-center justify-center rounded-xl">
+<span class="material-symbols-outlined text-secondary" data-icon="add_circle">add_circle</span>
+</div>
+<h4 class="text-sm font-extrabold uppercase tracking-widest text-primary">Revenue Inflows</h4>
+</div>
+<span class="text-[10px] font-bold text-outline uppercase">Live Stream</span>
+</div>
+<div class="space-y-3">
+<!-- Transaction Row -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between transition-colors hover:bg-secondary-fixed/10 cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-xs text-primary">#402</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Terminal POS Sale</p>
+<p class="text-[10px] text-outline uppercase font-medium">14:22 • Station 04</p>
+</div>
+</div>
+<p class="text-sm font-bold text-secondary">+$ 425.00</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between transition-colors hover:bg-secondary-fixed/10 cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-xs text-primary">#401</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Online Logistics Fee</p>
+<p class="text-[10px] text-outline uppercase font-medium">13:58 • Web Platform</p>
+</div>
+</div>
+<p class="text-sm font-bold text-secondary">+$ 1,840.00</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between transition-colors hover:bg-secondary-fixed/10 cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-xs text-primary">#400</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Bulk Order Deposit</p>
+<p class="text-[10px] text-outline uppercase font-medium">13:12 • Admin Panel</p>
+</div>
+</div>
+<p class="text-sm font-bold text-secondary">+$ 5,000.00</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between transition-colors hover:bg-secondary-fixed/10 cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-xs text-primary">#399</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Retail Transaction</p>
+<p class="text-[10px] text-outline uppercase font-medium">12:45 • Station 02</p>
+</div>
+</div>
+<p class="text-sm font-bold text-secondary">+$ 124.50</p>
+</div>
+</div>
+</div>
+<!-- Expenses/Outflows -->
+<div class="bg-surface-container rounded-xl p-6 space-y-6 border-l-4 border-tertiary-fixed-dim">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-error/10 flex items-center justify-center rounded-xl">
+<span class="material-symbols-outlined text-error" data-icon="do_not_disturb_on">do_not_disturb_on</span>
+</div>
+<h4 class="text-sm font-extrabold uppercase tracking-widest text-primary">Operational Outflows</h4>
+</div>
+<span class="text-[10px] font-bold text-outline uppercase">Account Payable</span>
+</div>
+<div class="space-y-3">
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between transition-colors hover:bg-tertiary-fixed/20 cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up of high quality fresh organic coffee beans in a burlap sack with natural window light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDis-zlDmVL79bj7WMfk6MUofDYTl5A_Ofme_fef37ivAetQI-W_4tRXFz5gUPP56zwzMBjMnAXkzxlX44WmmisRCyxmaY-vfdE39hhTkCnoN_tiWf9Ak5Act2eFq-M6XPXHNZfF-7fL2OmFx--UIkfOYdfvkEEsllnvlUBsnZDc3D5KqsjgB_AU4CEHEEHve38lBUfnJ-Q5Tj4dA7Fj7vDWFSPKwIiqNelv89Tn1uTPG_DUB211Nk0uza84GGUIpYDJ8ozw4SMpfE"/>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Supplier: Arabica Gold</p>
+<p class="text-[10px] text-outline uppercase font-medium">11:00 • Inventory Restock</p>
+</div>
+</div>
+<p class="text-sm font-bold text-error">-$ 3,200.00</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between transition-colors hover:bg-tertiary-fixed/20 cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A warm artisan sourdough pizza being taken out of a brick oven with a wooden paddle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzsyOQssUGrsOrU44pjl5OmhPOpPmt9x9RBfz8QXztdoNQY88NG3Im1rWPe7sUbNKJ4DB0XmnfgQyYuhPeqDW_4I_Cv6nLP2lTloo6ugft0_uveiY3rD17ju-cHEWT4cp63pactu5Gz8CaUSeGy6MjiEwgT21In0MbtGm2M0VgHMal1DM_Gu8fLPQKzrswb0CiAcX8xuIX3iemn7uT9EGnDFTvO5bnveC8Di_X3KieHCcwBbc9h7NbRT6Fptm6iMpWFoIeGi12Gh8"/>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Packaging Wholesale</p>
+<p class="text-[10px] text-outline uppercase font-medium">10:15 • Materials</p>
+</div>
+</div>
+<p class="text-sm font-bold text-error">-$ 850.00</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between transition-colors hover:bg-tertiary-fixed/20 cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-xs text-primary">UTIL</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Electricity Bill (Main)</p>
+<p class="text-[10px] text-outline uppercase font-medium">09:00 • Auto-Pay</p>
+</div>
+</div>
+<p class="text-sm font-bold text-error">-$ 1,450.00</p>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between transition-colors hover:bg-tertiary-fixed/20 cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-xs text-primary">MAINT</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Fleet Maintenance</p>
+<p class="text-[10px] text-outline uppercase font-medium">08:30 • Vehicle #03</p>
+</div>
+</div>
+<p class="text-sm font-bold text-error">-$ 937.50</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Operational Metrics -->
+<div class="bg-surface-container-low rounded-xl p-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+<div>
+<p class="text-[10px] text-outline uppercase font-bold tracking-widest mb-1">Average Ticket Size</p>
+<p class="text-2xl font-bold text-primary">$ 142.80</p>
+<div class="flex items-center gap-1 mt-2 text-secondary">
+<span class="material-symbols-outlined text-xs" data-icon="north_east">north_east</span>
+<span class="text-[10px] font-bold">+5.2%</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] text-outline uppercase font-bold tracking-widest mb-1">Conversion Rate</p>
+<p class="text-2xl font-bold text-primary">68.4%</p>
+<div class="flex items-center gap-1 mt-2 text-error">
+<span class="material-symbols-outlined text-xs" data-icon="south_east">south_east</span>
+<span class="text-[10px] font-bold">-1.2%</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] text-outline uppercase font-bold tracking-widest mb-1">Items Per Order</p>
+<p class="text-2xl font-bold text-primary">3.4</p>
+<div class="flex items-center gap-1 mt-2 text-secondary">
+<span class="material-symbols-outlined text-xs" data-icon="north_east">north_east</span>
+<span class="text-[10px] font-bold">+0.8%</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] text-outline uppercase font-bold tracking-widest mb-1">Station 04 Efficiency</p>
+<p class="text-2xl font-bold text-primary">94.2%</p>
+<div class="flex items-center gap-1 mt-2 text-secondary">
+<span class="material-symbols-outlined text-xs" data-icon="check_circle">check_circle</span>
+<span class="text-[10px] font-bold">Optimal</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Glassmorphism Floating Quick Actions -->
+<div class="fixed bottom-8 right-8 flex flex-col gap-4">
+<button class="bg-secondary text-white w-14 h-14 rounded-full flex items-center justify-center ambient-shadow hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-2xl" data-icon="add" style="font-variation-settings: 'wght' 700;">add</span>
+</button>
+<button class="glass-keypad text-primary w-14 h-14 rounded-full flex items-center justify-center ambient-shadow hover:scale-105 active:scale-95 transition-all border border-white/50">
+<span class="material-symbols-outlined text-2xl" data-icon="print">print</span>
+</button>
+</div>
+</main>
+<!-- Detailed Expense Overlay Modal (Mockup Entry) -->
+<div class="hidden fixed inset-0 z-50 bg-on-surface/20 backdrop-blur-sm flex items-center justify-center p-4">
+<div class="bg-surface-container-lowest w-full max-w-md rounded-2xl overflow-hidden ambient-shadow">
+<div class="p-6 border-b border-surface-container">
+<h3 class="text-lg font-bold text-primary">Quick Expense Log</h3>
+</div>
+<div class="p-6 space-y-4">
+<div>
+<label class="text-[10px] font-bold uppercase tracking-widest text-outline">Category</label>
+<div class="mt-1 bg-surface-container-low p-3 rounded-xl flex items-center justify-between cursor-pointer">
+<span class="text-sm font-medium">Petty Cash / Supplies</span>
+<span class="material-symbols-outlined" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div>
+<label class="text-[10px] font-bold uppercase tracking-widest text-outline">Amount</label>
+<input class="w-full mt-1 bg-transparent border-0 border-b-2 border-outline-variant focus:border-secondary focus:ring-0 text-2xl font-bold" placeholder="$ 0.00" type="text"/>
+</div>
+<div class="pt-4 flex gap-3">
+<button class="flex-1 py-3 border-2 border-outline-variant rounded-xl text-xs font-bold uppercase tracking-widest text-outline">Cancel</button>
+<button class="flex-1 py-3 bg-secondary text-white rounded-xl text-xs font-bold uppercase tracking-widest">Confirm Log</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

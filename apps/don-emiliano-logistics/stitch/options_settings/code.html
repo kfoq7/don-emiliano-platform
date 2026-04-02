@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings | Clinical Architect POS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "background": "#f7fafb",
+                        "on-tertiary-fixed": "#281900",
+                        "surface-tint": "#2a657e",
+                        "on-primary-fixed": "#001f2b",
+                        "on-primary-container": "#83bad6",
+                        "surface": "#f7fafb",
+                        "secondary-container": "#9deeed",
+                        "secondary-fixed-dim": "#84d4d3",
+                        "on-surface-variant": "#40484c",
+                        "on-error-container": "#93000a",
+                        "primary": "#003345",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#004b63",
+                        "tertiary": "#402a00",
+                        "on-error": "#ffffff",
+                        "on-background": "#181c1d",
+                        "tertiary-container": "#5d3f00",
+                        "surface-container-high": "#e5e9ea",
+                        "surface-bright": "#f7fafb",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c0c7cd",
+                        "on-secondary-fixed-variant": "#004f4f",
+                        "surface-container-low": "#f1f4f5",
+                        "surface-container": "#ebeeef",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e0e3e4",
+                        "on-tertiary-fixed-variant": "#604100",
+                        "secondary-fixed": "#a0f0f0",
+                        "outline": "#71787d",
+                        "tertiary-fixed-dim": "#ffba38",
+                        "on-tertiary-container": "#eba500",
+                        "on-surface": "#181c1d",
+                        "primary-fixed": "#bfe8ff",
+                        "primary-fixed-dim": "#96ceeb",
+                        "surface-dim": "#d7dadb",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#2d3132",
+                        "error": "#ba1a1a",
+                        "secondary": "#006a6a",
+                        "surface-variant": "#e0e3e4",
+                        "inverse-primary": "#96ceeb",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eef1f2",
+                        "on-secondary-fixed": "#002020",
+                        "on-primary-fixed-variant": "#044d65",
+                        "tertiary-fixed": "#ffdeac",
+                        "on-secondary-container": "#0b6e6e"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-tab-indicator {
+            box-shadow: -4px 0 0 0 #003345;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body antialiased">
+<!-- TopNavBar -->
+<nav class="flex items-center justify-between px-6 w-full max-w-full sticky top-0 z-50 bg-[#f7fafb] dark:bg-[#181c1d] h-16 border-none font-inter text-sm font-medium tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-lg font-bold tracking-tighter text-[#003345] dark:text-white">Clinical Architect POS</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-[#40484b] dark:text-[#c0c7cd] hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-colors px-3 py-2 rounded-xl" href="#">Terminal</a>
+<a class="text-[#40484b] dark:text-[#c0c7cd] hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-colors px-3 py-2 rounded-xl" href="#">Inventory</a>
+<a class="text-[#006a6a] dark:text-[#006a6a] font-bold border-b-2 border-[#006a6a] px-3 py-2" href="#">Settings</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-[#ebeeef] dark:bg-[#1c2021] rounded-full px-4 py-1.5 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">wifi</span>
+<span class="text-xs">System Online</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-[#003345] dark:text-[#004b63] hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-colors rounded-full active:scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined">schedule</span>
+</button>
+<button class="p-2 text-[#003345] dark:text-[#004b63] hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-colors rounded-full active:scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</nav>
+<div class="flex min-h-[calc(100vh-4rem)]">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-[#ebeeef] dark:bg-[#1c2021] flex flex-col py-6 border-none z-40">
+<div class="px-6 mb-8">
+<h2 class="text-[#003345] dark:text-[#004b63] font-inter text-xs uppercase tracking-widest font-semibold">Cashier Terminal</h2>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-tighter mt-1 opacity-60">Station 04</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 px-6 py-4 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Tables</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Orders</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">person_pin</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Shift</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">History</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 bg-white dark:bg-[#003345] text-[#003345] dark:text-white rounded-l-xl shadow-sm transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 bg-surface-container-highest text-primary font-inter text-xs uppercase tracking-widest font-bold rounded-xl hover:bg-outline-variant transition-colors">
+                    Logout
+                </button>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 ml-64 p-8 bg-background">
+<div class="max-w-6xl mx-auto">
+<!-- Layout Grid -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Settings Categories (Bento Left) -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<header>
+<h1 class="text-3xl font-extrabold text-on-surface tracking-tight mb-2">Configurations</h1>
+<p class="text-on-surface-variant text-sm leading-relaxed">Adjust terminal parameters and system preferences for Station 04.</p>
+</header>
+<div class="space-y-3">
+<button class="w-full flex items-center justify-between p-5 bg-primary-container text-on-primary-fixed rounded-xl group transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed">work_history</span>
+<div class="text-left">
+<p class="font-bold text-sm text-white">Shift Management</p>
+<p class="text-[10px] text-on-primary-container uppercase tracking-widest">Active Session</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-white opacity-50 group-hover:opacity-100">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-5 bg-surface-container-lowest hover:bg-surface-container-highest rounded-xl group transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">print</span>
+<div class="text-left">
+<p class="font-bold text-sm text-on-surface">Printer Settings</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">3 Devices Connected</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-5 bg-surface-container-lowest hover:bg-surface-container-highest rounded-xl group transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">language</span>
+<div class="text-left">
+<p class="font-bold text-sm text-on-surface">Language &amp; Region</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">English (US) / USD</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-5 bg-surface-container-lowest hover:bg-surface-container-highest rounded-xl group transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">verified_user</span>
+<div class="text-left">
+<p class="font-bold text-sm text-on-surface">Security</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Staff Authorization</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary">chevron_right</span>
+</button>
+</div>
+<!-- Status Card -->
+<div class="bg-secondary-container p-6 rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-[10px] font-bold uppercase tracking-widest text-on-secondary-container mb-1">Terminal Integrity</p>
+<p class="text-on-secondary-container text-sm font-medium">All cloud sync services operational. Last sync 2m ago.</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-8xl">cloud_done</span>
+</div>
+</div>
+</div>
+<!-- Selected Category Content (Precision Asymmetry) -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-surface-container-low rounded-2xl p-8 h-full">
+<div class="flex items-center justify-between mb-10">
+<div>
+<h2 class="text-2xl font-bold text-primary tracking-tight">Shift Management</h2>
+<p class="text-on-surface-variant text-sm mt-1">Manage drawer counts, shift transitions, and reporting.</p>
+</div>
+<div class="bg-surface-container-lowest px-4 py-2 rounded-xl flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+<span class="text-xs font-bold uppercase tracking-widest">Active: 06h 42m</span>
+</div>
+</div>
+<!-- Controls Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+<!-- Action Card: End Shift -->
+<button class="group p-6 bg-surface-container-lowest rounded-xl flex flex-col items-start gap-4 hover:bg-error-container transition-all text-left">
+<div class="p-3 bg-error-container text-error rounded-full group-hover:bg-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">logout</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">End Shift</p>
+<p class="text-xs text-on-surface-variant leading-tight">Close register and generate reconciliation report.</p>
+</div>
+</button>
+<!-- Action Card: Cash Drawer -->
+<button class="group p-6 bg-surface-container-lowest rounded-xl flex flex-col items-start gap-4 hover:bg-secondary-container transition-all text-left">
+<div class="p-3 bg-secondary-container text-secondary rounded-full group-hover:bg-white">
+<span class="material-symbols-outlined">point_of_sale</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Cash Drawer Open</p>
+<p class="text-xs text-on-surface-variant leading-tight">Emergency manual override for drawer access.</p>
+</div>
+</button>
+</div>
+<!-- List Options -->
+<div class="space-y-4">
+<h3 class="text-[10px] font-bold uppercase tracking-[0.2em] text-outline mb-4">Reporting &amp; Auditing</h3>
+<div class="bg-white rounded-xl divide-y divide-surface-container-high overflow-hidden">
+<div class="flex items-center justify-between p-5 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary opacity-60">analytics</span>
+<span class="text-sm font-semibold">Print X-Report</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+<div class="flex items-center justify-between p-5 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary opacity-60">description</span>
+<span class="text-sm font-semibold">Mid-Day Reconciliation</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+<div class="flex items-center justify-between p-5 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary opacity-60">notifications_active</span>
+<span class="text-sm font-semibold">Low Cash Alert</span>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-5 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary opacity-60">history_edu</span>
+<span class="text-sm font-semibold">Shift History Log</span>
+</div>
+<span class="bg-surface-container px-2 py-1 rounded text-[10px] font-bold uppercase text-on-surface-variant">Internal Only</span>
+</div>
+</div>
+<!-- Pending Warning -->
+<div class="bg-tertiary-fixed-dim bg-opacity-20 p-5 rounded-xl flex items-center gap-5 border-l-4 border-tertiary-fixed-dim mt-6">
+<span class="material-symbols-outlined text-tertiary">warning</span>
+<div class="flex-1">
+<p class="text-xs font-bold text-on-tertiary-fixed">Pending Transaction Found</p>
+<p class="text-[11px] text-on-tertiary-fixed-variant leading-tight">One transaction is still processing. Shift cannot be ended until finalized.</p>
+</div>
+<button class="text-[10px] font-black uppercase text-tertiary hover:underline">View Transaction</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Quick Action Numeric Overlay (Glassmorphism Concept) -->
+<div class="fixed bottom-8 right-8 z-[60]">
+<button class="h-16 w-16 bg-primary-container text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all group overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary to-primary-container opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined relative z-10 text-3xl">add</span>
+</button>
+</div>
+</body></html>

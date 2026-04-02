@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clinical Architect POS - Cashier Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#f7fafb",
+              "on-tertiary-fixed": "#281900",
+              "surface-tint": "#2a657e",
+              "on-primary-fixed": "#001f2b",
+              "on-primary-container": "#83bad6",
+              "surface": "#f7fafb",
+              "secondary-container": "#9deeed",
+              "secondary-fixed-dim": "#84d4d3",
+              "on-surface-variant": "#40484c",
+              "on-error-container": "#93000a",
+              "primary": "#003345",
+              "on-primary": "#ffffff",
+              "primary-container": "#004b63",
+              "tertiary": "#402a00",
+              "on-error": "#ffffff",
+              "on-background": "#181c1d",
+              "tertiary-container": "#5d3f00",
+              "surface-container-high": "#e5e9ea",
+              "surface-bright": "#f7fafb",
+              "on-tertiary": "#ffffff",
+              "outline-variant": "#c0c7cd",
+              "on-secondary-fixed-variant": "#004f4f",
+              "surface-container-low": "#f1f4f5",
+              "surface-container": "#ebeeef",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-highest": "#e0e3e4",
+              "on-tertiary-fixed-variant": "#604100",
+              "secondary-fixed": "#a0f0f0",
+              "outline": "#71787d",
+              "tertiary-fixed-dim": "#ffba38",
+              "on-tertiary-container": "#eba500",
+              "on-surface": "#181c1d",
+              "primary-fixed": "#bfe8ff",
+              "primary-fixed-dim": "#96ceeb",
+              "surface-dim": "#d7dadb",
+              "error-container": "#ffdad6",
+              "inverse-surface": "#2d3132",
+              "error": "#ba1a1a",
+              "secondary": "#006a6a",
+              "surface-variant": "#e0e3e4",
+              "inverse-primary": "#96ceeb",
+              "on-secondary": "#ffffff",
+              "inverse-on-surface": "#eef1f2",
+              "on-secondary-fixed": "#002020",
+              "on-primary-fixed-variant": "#044d65",
+              "tertiary-fixed": "#ffdeac",
+              "on-secondary-container": "#0b6e6e"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<aside class="fixed left-0 top-0 h-full flex flex-col py-6 h-screen w-64 border-none bg-[#ebeeef] dark:bg-[#1c2021] z-50">
+<div class="px-6 mb-10">
+<h2 class="font-inter text-xs uppercase tracking-widest font-semibold text-[#003345] dark:text-[#004b63]">Cashier Terminal</h2>
+<p class="text-[10px] text-outline mt-1 uppercase tracking-widest opacity-70">Station 04</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-4 px-6 py-4 mx-2 bg-white dark:bg-[#003345] text-[#003345] dark:text-white rounded-l-xl shadow-sm transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Tables</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 mx-2 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Orders</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 mx-2 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="person_pin">person_pin</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Shift</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 mx-2 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">History</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 mx-2 text-[#40484b] dark:text-[#c0c7cd] opacity-70 hover:bg-[#e0e3e4] dark:hover:bg-[#2a2e2f] transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-inter text-xs uppercase tracking-widest font-semibold">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full text-left font-inter text-xs uppercase tracking-widest font-semibold text-error hover:opacity-80 transition-opacity">
+                Logout
+            </button>
+</div>
+</aside>
+<div class="ml-64 min-h-screen flex flex-col">
+<header class="flex items-center justify-between px-6 w-full max-w-full sticky top-0 z-50 bg-[#f7fafb] dark:bg-[#181c1d] h-16 border-none">
+<div class="flex items-center gap-4">
+<h1 class="text-lg font-bold tracking-tighter text-[#003345] dark:text-white">Clinical Architect POS</h1>
+<div class="h-4 w-[1px] bg-outline-variant opacity-30"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="wifi" data-weight="fill" style="font-variation-settings: 'FILL' 1;">wifi</span>
+<span class="font-inter text-sm font-medium tracking-tight text-[#40484b]">Sync Active</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 font-inter text-sm font-medium tracking-tight text-[#40484b]">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span>12:45 PM</span>
+</div>
+<div class="flex items-center gap-3 bg-surface-container px-3 py-2 rounded-xl">
+<div class="text-right">
+<p class="font-inter text-xs font-bold text-[#003345]">Alex Carter</p>
+<p class="text-[10px] text-outline">Lead Cashier</p>
+</div>
+<span class="material-symbols-outlined p-1.5 bg-white rounded-lg text-[#003345]" data-icon="person" data-weight="fill" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+</div>
+</header>
+<main class="flex-1 p-8 bg-surface-container-low">
+<div class="mb-8 flex items-end justify-between">
+<div>
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface mb-1">Active Tables</h2>
+<p class="text-outline font-medium">Floor Overview &amp; Guest Management</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest rounded-xl">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant">Available</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest rounded-xl">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant">Occupied</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest rounded-xl">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant">Billing</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<!-- Table 01: Occupied -->
+<div class="group relative bg-surface-container-lowest p-6 rounded-xl hover:bg-primary-fixed-dim transition-all duration-200 cursor-pointer overflow-hidden">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-4xl font-black text-on-surface-variant group-hover:text-primary transition-colors">01</span>
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant mt-1">Ground Floor</p>
+</div>
+<span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full text-[10px] font-black uppercase tracking-tighter">Occupied</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex items-center gap-1.5 text-on-surface-variant group-hover:text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="groups">groups</span>
+<span class="text-sm font-bold">4 Guests</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant">Current Total</p>
+<p class="text-xl font-black text-on-surface group-hover:text-primary">$124.50</p>
+</div>
+</div>
+</div>
+<!-- Table 02: Billing -->
+<div class="group relative bg-surface-container-lowest p-6 rounded-xl hover:bg-primary-fixed-dim transition-all duration-200 cursor-pointer overflow-hidden border-2 border-transparent hover:border-none">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-4xl font-black text-on-surface-variant group-hover:text-primary transition-colors">02</span>
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant mt-1">Window Side</p>
+</div>
+<span class="px-3 py-1 bg-tertiary-fixed-dim text-on-tertiary-fixed rounded-full text-[10px] font-black uppercase tracking-tighter">Ready for Billing</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex items-center gap-1.5 text-on-surface-variant group-hover:text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="groups">groups</span>
+<span class="text-sm font-bold">2 Guests</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant">Current Total</p>
+<p class="text-xl font-black text-on-surface group-hover:text-primary">$68.20</p>
+</div>
+</div>
+</div>
+<!-- Table 03: Available -->
+<div class="group relative bg-surface-container p-6 rounded-xl hover:bg-primary-fixed-dim transition-all duration-200 cursor-pointer overflow-hidden">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-4xl font-black text-outline transition-colors group-hover:text-primary">03</span>
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant mt-1">Garden Terrace</p>
+</div>
+<span class="px-3 py-1 bg-secondary text-on-secondary rounded-full text-[10px] font-black uppercase tracking-tighter">Available</span>
+</div>
+<div class="flex items-center justify-center py-4 text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-4xl" data-icon="add_circle">add_circle</span>
+</div>
+</div>
+<!-- Table 04: Occupied -->
+<div class="group relative bg-surface-container-lowest p-6 rounded-xl hover:bg-primary-fixed-dim transition-all duration-200 cursor-pointer overflow-hidden">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-4xl font-black text-on-surface-variant group-hover:text-primary transition-colors">04</span>
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant mt-1">Ground Floor</p>
+</div>
+<span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full text-[10px] font-black uppercase tracking-tighter">Occupied</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex items-center gap-1.5 text-on-surface-variant group-hover:text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="groups">groups</span>
+<span class="text-sm font-bold">6 Guests</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant">Current Total</p>
+<p class="text-xl font-black text-on-surface group-hover:text-primary">$215.00</p>
+</div>
+</div>
+</div>
+<!-- Table 05: Occupied -->
+<div class="group relative bg-surface-container-lowest p-6 rounded-xl hover:bg-primary-fixed-dim transition-all duration-200 cursor-pointer overflow-hidden">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-4xl font-black text-on-surface-variant group-hover:text-primary transition-colors">05</span>
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant mt-1">Ground Floor</p>
+</div>
+<span class="px-3 py-1 bg-primary-container text-on-primary-container rounded-full text-[10px] font-black uppercase tracking-tighter">Occupied</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex items-center gap-1.5 text-on-surface-variant group-hover:text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="groups">groups</span>
+<span class="text-sm font-bold">2 Guests</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant">Current Total</p>
+<p class="text-xl font-black text-on-surface group-hover:text-primary">$42.10</p>
+</div>
+</div>
+</div>
+<!-- Table 06: Billing -->
+<div class="group relative bg-surface-container-lowest p-6 rounded-xl hover:bg-primary-fixed-dim transition-all duration-200 cursor-pointer overflow-hidden">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-4xl font-black text-on-surface-variant group-hover:text-primary transition-colors">06</span>
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant mt-1">Corner Nook</p>
+</div>
+<span class="px-3 py-1 bg-tertiary-fixed-dim text-on-tertiary-fixed rounded-full text-[10px] font-black uppercase tracking-tighter">Ready for Billing</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex items-center gap-1.5 text-on-surface-variant group-hover:text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="groups">groups</span>
+<span class="text-sm font-bold">4 Guests</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant">Current Total</p>
+<p class="text-xl font-black text-on-surface group-hover:text-primary">$156.45</p>
+</div>
+</div>
+</div>
+<!-- Table 07: Available -->
+<div class="group relative bg-surface-container p-6 rounded-xl hover:bg-primary-fixed-dim transition-all duration-200 cursor-pointer overflow-hidden">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-4xl font-black text-outline transition-colors group-hover:text-primary">07</span>
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant mt-1">Garden Terrace</p>
+</div>
+<span class="px-3 py-1 bg-secondary text-on-secondary rounded-full text-[10px] font-black uppercase tracking-tighter">Available</span>
+</div>
+<div class="flex items-center justify-center py-4 text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-4xl" data-icon="add_circle">add_circle</span>
+</div>
+</div>
+<!-- Table 08: Available -->
+<div class="group relative bg-surface-container p-6 rounded-xl hover:bg-primary-fixed-dim transition-all duration-200 cursor-pointer overflow-hidden">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-4xl font-black text-outline transition-colors group-hover:text-primary">08</span>
+<p class="text-[10px] uppercase tracking-widest font-bold text-outline group-hover:text-on-primary-fixed-variant mt-1">Garden Terrace</p>
+</div>
+<span class="px-3 py-1 bg-secondary text-on-secondary rounded-full text-[10px] font-black uppercase tracking-tighter">Available</span>
+</div>
+<div class="flex items-center justify-center py-4 text-outline group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-4xl" data-icon="add_circle">add_circle</span>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-surface px-8 py-4 flex items-center justify-between border-t border-outline-variant border-opacity-10">
+<div class="flex gap-8">
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Open Orders</p>
+<p class="text-lg font-black text-primary">14</p>
+</div>
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Pending Payments</p>
+<p class="text-lg font-black text-tertiary-fixed-dim">03</p>
+</div>
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Daily Revenue</p>
+<p class="text-lg font-black text-secondary">$4,821.50</p>
+</div>
+</div>
+<button class="bg-primary hover:bg-primary-container text-white px-8 py-3 rounded-xl font-bold transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                Quick Transaction
+            </button>
+</footer>
+</div>
+</body></html>
