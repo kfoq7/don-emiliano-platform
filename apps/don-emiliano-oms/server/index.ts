@@ -34,6 +34,10 @@ async function connectToDb() {
 
 connectToDb()
 
+app.get('/api/health', (_req, res) => {
+  res.json({ status: 'ok' })
+})
+
 app.post('/api/login', async (req, res) => {
   const { code } = req.body
 
