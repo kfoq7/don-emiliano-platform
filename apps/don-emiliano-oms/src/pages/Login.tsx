@@ -10,9 +10,7 @@ export default function Login() {
           <h1 className="text-3xl font-bold text-heading mb-2">
             Don Emiliano OMS
           </h1>
-          <p className="text-ink-muted">
-            Sistema de Gestión de Pedidos
-          </p>
+          <p className="text-ink-muted">Sistema de Gestión de Pedidos</p>
         </div>
 
         <form onSubmit={login} className="space-y-6">
@@ -28,7 +26,7 @@ export default function Login() {
               id="code"
               value={code}
               onChange={e => setCode(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-border focus:ring-2 focus:ring-color-primary focus:border-transparent transition-all outline-none"
+              className="w-full px-4 py-3 rounded-lg border border-border focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
               placeholder="Ingrese su código"
               autoFocus
             />
