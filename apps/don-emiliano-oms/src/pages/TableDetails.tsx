@@ -10,14 +10,14 @@ export default function TableDetails() {
     useTableDetails(numberId)
 
   return (
-    <div className="min-h-screen bg-color-surface-hover">
+    <div className="min-h-screen bg-surface-hover">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-color-border-light sticky top-0 z-50">
+      <header className="bg-white shadow-sm border-b border-border-light sticky top-0 z-50">
         <div className="max-w-[var(--spacing-middle)] mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-4">
             <button
               onClick={handleBack}
-              className="p-2 -ml-2 text-color-ink-muted hover:text-color-primary hover:bg-color-surface-hover rounded-full transition-colors"
+              className="p-2 -ml-2 text-ink-muted hover:text-primary hover:bg-surface-hover rounded-full transition-colors"
               aria-label="Volver"
             >
               <svg
@@ -34,7 +34,7 @@ export default function TableDetails() {
                 />
               </svg>
             </button>
-            <h1 className="text-xl font-bold text-color-heading">
+            <h1 className="text-xl font-bold text-heading">
               Mesa {numberId}
             </h1>
           </div>
@@ -42,12 +42,12 @@ export default function TableDetails() {
       </header>
 
       <main className="max-w-[var(--spacing-middle)] mx-auto px-4 py-8">
-        <div className="bg-white rounded-xl shadow-sm border border-color-border-light overflow-hidden">
-          <div className="p-6 border-b border-color-border-light flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-color-heading">
+        <div className="bg-white rounded-xl shadow-sm border border-border-light overflow-hidden">
+          <div className="p-6 border-b border-border-light flex justify-between items-center">
+            <h2 className="text-lg font-semibold text-heading">
               Resumen del Pedido
             </h2>
-            <span className="bg-color-surface-mint text-color-brand-deep px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
+            <span className="bg-surface-mint text-brand-deep px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
               Ocupada
             </span>
           </div>

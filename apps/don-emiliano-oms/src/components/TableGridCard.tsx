@@ -16,10 +16,10 @@ export function TableGridCard({
   return (
     <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 animate-fade-in-up">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-color-heading mb-2">
+        <h1 className="text-3xl font-bold text-heading mb-2">
           Seleccionar Mesa
         </h1>
-        <p className="text-color-ink-muted">
+        <p className="text-ink-muted">
           Indique la mesa para el pedido
         </p>
       </div>
@@ -28,7 +28,7 @@ export function TableGridCard({
         <div>
           <label
             htmlFor="table"
-            className="block text-sm font-medium text-color-ink mb-2"
+            className="block text-sm font-medium text-ink mb-2"
           >
             Número de Mesa
           </label>
@@ -37,14 +37,14 @@ export function TableGridCard({
             id="table"
             value={table}
             onChange={e => setTable(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-color-border focus:ring-2 focus:ring-color-primary focus:border-transparent transition-all outline-none"
+            className="w-full px-4 py-3 rounded-lg border border-border focus:ring-2 focus:ring-color-primary focus:border-transparent transition-all outline-none"
             placeholder="Ej. 1, 5, 12"
             autoFocus
           />
         </div>
 
         {error && (
-          <div className="text-color-brand-pink text-sm animate-fade-in">
+          <div className="text-brand-pink text-sm animate-fade-in">
             {error}
           </div>
         )}
@@ -53,7 +53,7 @@ export function TableGridCard({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-color-primary hover:bg-color-action-hover disabled:bg-color-action-disabled disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg active:scale-[0.98] flex justify-center items-center gap-2"
+            className="w-full bg-primary hover:bg-action-hover disabled:bg-action-disabled disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg active:scale-[0.98] flex justify-center items-center gap-2"
           >
             {isSubmitting ? (
               <>
@@ -87,7 +87,7 @@ export function TableGridCard({
           <button
             type="button"
             onClick={onCancel}
-            className="w-full bg-color-surface-hover hover:bg-color-border-light text-color-ink font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
+            className="w-full bg-surface-hover hover:bg-border-light text-ink font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
           >
             Cancelar
           </button>
