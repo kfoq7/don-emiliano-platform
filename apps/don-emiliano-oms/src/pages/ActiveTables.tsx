@@ -26,9 +26,7 @@ export default function ActiveTables() {
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-border-light sticky top-0 z-50">
         <div className="max-w-[var(--spacing-middle)] mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-heading">
-            Mesas Activas
-          </h1>
+          <h1 className="text-xl font-bold text-heading">Mesas Activas</h1>
           <button
             onClick={handleLogout}
             className="text-sm font-medium text-ink-muted hover:text-primary transition-colors"

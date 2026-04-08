@@ -171,15 +171,18 @@ export default function Dashboard() {
               ) : (
                 <ul className="divide-y divide-border-light">
                   {products.map(product => {
-                    const isSelected = selectedProducts.some(
+                    const cartItem = selectedProducts.find(
                       p => p.IdProducto === product.IdProducto,
                     )
+                    const isSelected = !!cartItem
                     return (
                       <ProductCard
                         key={product.IdProducto}
                         product={product}
                         isSelected={isSelected}
                         onToggle={toggleProductSelection}
+                        quantity={cartItem?.quantity}
+                        onUpdateQuantity={updateQuantity}
                       />
                     )
                   })}
