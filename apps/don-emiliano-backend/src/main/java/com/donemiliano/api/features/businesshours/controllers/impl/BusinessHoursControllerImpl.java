@@ -6,20 +6,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.donemiliano.api.features.businesshours.controllers.IBusinessHoursController;
+import com.donemiliano.api.features.businesshours.controllers.BusinessHoursController;
 import com.donemiliano.api.features.businesshours.dto.BusinessHoursDto;
 import com.donemiliano.api.features.businesshours.dto.CreateBusinessHourDto;
 import com.donemiliano.api.features.businesshours.dto.UpdateBusinessHourDto;
-import com.donemiliano.api.features.businesshours.service.IBusinessHoursService;
+import com.donemiliano.api.features.businesshours.service.BusinessHoursService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/business-hours")
 @RequiredArgsConstructor
-public class BusinessHoursController implements IBusinessHoursController {
+public class BusinessHoursControllerImpl implements BusinessHoursController {
 
-  private final IBusinessHoursService businessHoursService;
+  private final BusinessHoursService businessHoursService;
 
   @Override
   public ResponseEntity<List<BusinessHoursDto>> getAllBusinessHours() {

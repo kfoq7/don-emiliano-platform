@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.donemiliano.api.features.roles.entities.RoleEntity;
-import com.donemiliano.api.features.roles.services.IRoleService;
+import com.donemiliano.api.features.roles.services.RoleService;
 import com.donemiliano.api.features.users.dto.CreateUserDto;
 import com.donemiliano.api.features.users.dto.UpdateUserDto;
 import com.donemiliano.api.features.users.dto.UserDto;
@@ -15,17 +15,17 @@ import com.donemiliano.api.features.users.dto.UserWithRolesDto;
 import com.donemiliano.api.features.users.entities.UserEntity;
 import com.donemiliano.api.features.users.mappers.IUserMapper;
 import com.donemiliano.api.features.users.repositories.UserRepository;
-import com.donemiliano.api.features.users.services.IUserService;
+import com.donemiliano.api.features.users.services.UserService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements IUserService {
+public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
-  private final IRoleService roleService;
+  private final RoleService roleService;
   private final IUserMapper userMapper;
 
   @Override

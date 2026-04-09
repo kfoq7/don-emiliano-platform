@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 
-public interface ICustomerController {
+public interface CustomerController {
 
   @GetMapping
   public ResponseEntity<List<CustomerDto>> getAllCustomers();

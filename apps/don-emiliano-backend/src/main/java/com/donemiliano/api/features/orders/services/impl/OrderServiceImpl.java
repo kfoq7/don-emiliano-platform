@@ -15,9 +15,9 @@ import com.donemiliano.api.features.orders.entities.OrderEntity;
 import com.donemiliano.api.features.orders.entities.OrderItemsEntity;
 import com.donemiliano.api.features.orders.mappers.IOrderMapper;
 import com.donemiliano.api.features.orders.repositories.OrderRepository;
-import com.donemiliano.api.features.orders.services.IOrderService;
+import com.donemiliano.api.features.orders.services.OrderService;
 import com.donemiliano.api.features.products.entities.ProductEntity;
-import com.donemiliano.api.features.products.servicies.IProductService;
+import com.donemiliano.api.features.products.servicies.ProductService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -25,11 +25,11 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService implements IOrderService {
+public class OrderServiceImpl implements OrderService {
 
   private final OrderRepository orderRepository;
   private final IOrderMapper orderMapper;
-  private final IProductService productService;
+  private final ProductService productService;
 
   @Override
   public List<OrderDto> getAllOrderByDate(LocalDateTime date) {

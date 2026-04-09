@@ -22,7 +22,7 @@ import com.donemiliano.api.features.products.dto.UpdateProductStockAvailableDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 
-public interface IProductController {
+public interface ProductController {
 
   @GetMapping
   public ResponseEntity<List<ProductWithCategoryDto>> getAllProducts();

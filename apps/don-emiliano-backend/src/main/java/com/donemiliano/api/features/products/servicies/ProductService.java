@@ -10,7 +10,7 @@ import com.donemiliano.api.features.products.dto.UpdateProductDto;
 import com.donemiliano.api.features.products.dto.UpdateProductStockAvailableDto;
 import com.donemiliano.api.features.products.entities.ProductEntity;
 
-public interface IProductService extends ICategoryService {
+public interface ProductService extends CategoryService {
 
   List<ProductWithCategoryDto> getAllProducts();
 

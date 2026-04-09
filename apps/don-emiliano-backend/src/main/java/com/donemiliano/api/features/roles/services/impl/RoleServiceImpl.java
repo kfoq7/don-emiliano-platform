@@ -10,13 +10,13 @@ import com.donemiliano.api.features.roles.dto.RoleDto;
 import com.donemiliano.api.features.roles.entities.RoleEntity;
 import com.donemiliano.api.features.roles.mappers.IRoleMapper;
 import com.donemiliano.api.features.roles.respositories.RoleRepository;
-import com.donemiliano.api.features.roles.services.IRoleService;
+import com.donemiliano.api.features.roles.services.RoleService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class RoleService implements IRoleService {
+public class RoleServiceImpl implements RoleService {
 
   private final IRoleMapper roleMapper;
   private final RoleRepository roleRepository;

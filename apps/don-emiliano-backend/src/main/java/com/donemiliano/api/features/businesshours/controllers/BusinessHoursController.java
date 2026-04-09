@@ -16,7 +16,7 @@ import com.donemiliano.api.features.businesshours.dto.UpdateBusinessHourDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 
-public interface IBusinessHoursController {
+public interface BusinessHoursController {
 
   @GetMapping
   public ResponseEntity<List<BusinessHoursDto>> getAllBusinessHours();

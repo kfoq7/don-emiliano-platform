@@ -20,13 +20,13 @@ import com.donemiliano.api.features.products.mappers.ICategoryMapper;
 import com.donemiliano.api.features.products.mappers.IProductMapper;
 import com.donemiliano.api.features.products.repositories.CategoryRepository;
 import com.donemiliano.api.features.products.repositories.ProductRepository;
-import com.donemiliano.api.features.products.servicies.IProductService;
+import com.donemiliano.api.features.products.servicies.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService implements IProductService {
+public class ProductServiceImpl implements ProductService {
 
   private final ProductRepository productRepository;
   private final CategoryRepository categoryRepository;

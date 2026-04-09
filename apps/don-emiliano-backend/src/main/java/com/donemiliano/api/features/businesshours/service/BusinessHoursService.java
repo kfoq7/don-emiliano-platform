@@ -6,7 +6,7 @@ import com.donemiliano.api.features.businesshours.dto.BusinessHoursDto;
 import com.donemiliano.api.features.businesshours.dto.CreateBusinessHourDto;
 import com.donemiliano.api.features.businesshours.dto.UpdateBusinessHourDto;
 
-public interface IBusinessHoursService {
+public interface BusinessHoursService {
 
   List<BusinessHoursDto> getAllBusinessHours();
 

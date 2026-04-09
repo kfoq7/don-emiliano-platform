@@ -11,14 +11,14 @@ import com.donemiliano.api.features.businesshours.dto.UpdateBusinessHourDto;
 import com.donemiliano.api.features.businesshours.entities.BusinessHoursEntity;
 import com.donemiliano.api.features.businesshours.mappers.IBusinessHoursMapper;
 import com.donemiliano.api.features.businesshours.repositories.BusinessHoursRepository;
-import com.donemiliano.api.features.businesshours.service.IBusinessHoursService;
+import com.donemiliano.api.features.businesshours.service.BusinessHoursService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class BusinessHoursService implements IBusinessHoursService {
+public class BusinessHoursServiceImpl implements BusinessHoursService {
 
   private final BusinessHoursRepository businessHoursRepository;
   private final IBusinessHoursMapper businessHoursMapper;

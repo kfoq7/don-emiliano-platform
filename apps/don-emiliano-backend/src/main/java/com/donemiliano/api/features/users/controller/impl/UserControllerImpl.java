@@ -6,21 +6,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.donemiliano.api.features.users.controller.IUserController;
+import com.donemiliano.api.features.users.controller.UserController;
 import com.donemiliano.api.features.users.dto.CreateUserDto;
 import com.donemiliano.api.features.users.dto.UpdateUserDto;
 import com.donemiliano.api.features.users.dto.UserDto;
 import com.donemiliano.api.features.users.dto.UserWithRolesDto;
-import com.donemiliano.api.features.users.services.IUserService;
+import com.donemiliano.api.features.users.services.UserService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
-public class UserController implements IUserController {
+public class UserControllerImpl implements UserController {
 
-  private final IUserService userService;
+  private final UserService userService;
 
   @Override
   public ResponseEntity<List<UserWithRolesDto>> getAllUsers() {

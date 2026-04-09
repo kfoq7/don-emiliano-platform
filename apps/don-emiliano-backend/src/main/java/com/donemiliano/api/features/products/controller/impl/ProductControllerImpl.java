@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.donemiliano.api.features.products.controller.IProductController;
+import com.donemiliano.api.features.products.controller.ProductController;
 import com.donemiliano.api.features.products.dto.CategoryDto;
 import com.donemiliano.api.features.products.dto.CategoryWithProductsDto;
 import com.donemiliano.api.features.products.dto.CreateCategoryDto;
@@ -15,16 +15,16 @@ import com.donemiliano.api.features.products.dto.ProductDto;
 import com.donemiliano.api.features.products.dto.ProductWithCategoryDto;
 import com.donemiliano.api.features.products.dto.UpdateProductDto;
 import com.donemiliano.api.features.products.dto.UpdateProductStockAvailableDto;
-import com.donemiliano.api.features.products.servicies.IProductService;
+import com.donemiliano.api.features.products.servicies.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
-public class ProductController implements IProductController {
+public class ProductControllerImpl implements ProductController {
 
-  private final IProductService productService;
+  private final ProductService productService;
 
   @Override
   public ResponseEntity<List<ProductWithCategoryDto>> getAllProducts() {

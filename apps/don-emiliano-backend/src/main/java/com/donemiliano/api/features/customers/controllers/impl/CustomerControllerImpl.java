@@ -6,20 +6,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.donemiliano.api.features.customers.controllers.ICustomerController;
+import com.donemiliano.api.features.customers.controllers.CustomerController;
 import com.donemiliano.api.features.customers.dto.CustomerDto;
 import com.donemiliano.api.features.customers.dto.CreateCustomerDto;
 import com.donemiliano.api.features.customers.dto.UpdateCustomerDto;
-import com.donemiliano.api.features.customers.services.ICustomerService;
+import com.donemiliano.api.features.customers.services.CustomerService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/customers")
 @RequiredArgsConstructor
-public class CustomerController implements ICustomerController {
+public class CustomerControllerImpl implements CustomerController {
 
-  private final ICustomerService customerService;
+  private final CustomerService customerService;
 
   @Override
   public ResponseEntity<List<CustomerDto>> getAllCustomers() {

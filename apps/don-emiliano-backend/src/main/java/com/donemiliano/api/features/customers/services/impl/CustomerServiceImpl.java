@@ -10,13 +10,13 @@ import com.donemiliano.api.features.customers.dto.UpdateCustomerDto;
 import com.donemiliano.api.features.customers.entities.CustomerEntity;
 import com.donemiliano.api.features.customers.mappers.ICustomerMapper;
 import com.donemiliano.api.features.customers.repositories.CustomerRepository;
-import com.donemiliano.api.features.customers.services.ICustomerService;
+import com.donemiliano.api.features.customers.services.CustomerService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerService implements ICustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
   private final CustomerRepository customerRepository;
   private final ICustomerMapper customerMapper;

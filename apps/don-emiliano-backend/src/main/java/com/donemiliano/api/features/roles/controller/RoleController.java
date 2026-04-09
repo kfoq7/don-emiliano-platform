@@ -12,7 +12,7 @@ import com.donemiliano.api.features.roles.dto.RoleDto;
 
 import jakarta.validation.Valid;
 
-public interface IRoleController {
+public interface RoleController {
 
   @GetMapping
   public ResponseEntity<List<RoleDto>> getAllRoles();

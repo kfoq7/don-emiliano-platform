@@ -6,7 +6,7 @@ import java.util.Set;
 import com.donemiliano.api.features.roles.dto.CreateRoleDto;
 import com.donemiliano.api.features.roles.dto.RoleDto;
 
-public interface IRoleService {
+public interface RoleService {
 
   List<RoleDto> getAllRoles();
 

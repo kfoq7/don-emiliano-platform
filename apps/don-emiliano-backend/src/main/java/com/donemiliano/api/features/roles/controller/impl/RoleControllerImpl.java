@@ -6,19 +6,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.donemiliano.api.features.roles.controller.IRoleController;
+import com.donemiliano.api.features.roles.controller.RoleController;
 import com.donemiliano.api.features.roles.dto.CreateRoleDto;
 import com.donemiliano.api.features.roles.dto.RoleDto;
-import com.donemiliano.api.features.roles.services.IRoleService;
+import com.donemiliano.api.features.roles.services.RoleService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/roles")
 @RequiredArgsConstructor
-public class RoleController implements IRoleController {
+public class RoleControllerImpl implements RoleController {
 
-  private final IRoleService roleService;
+  private final RoleService roleService;
 
   @Override
   public ResponseEntity<List<RoleDto>> getAllRoles() {

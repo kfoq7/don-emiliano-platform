@@ -17,7 +17,7 @@ import com.donemiliano.api.features.users.dto.UserWithRolesDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 
-public interface IUserController {
+public interface UserController {
 
   @GetMapping
   public ResponseEntity<List<UserWithRolesDto>> getAllUsers();

@@ -7,7 +7,7 @@ import com.donemiliano.api.features.users.dto.UpdateUserDto;
 import com.donemiliano.api.features.users.dto.UserDto;
 import com.donemiliano.api.features.users.dto.UserWithRolesDto;
 
-public interface IUserService {
+public interface UserService {
 
   List<UserDto> getAllUsers();
 

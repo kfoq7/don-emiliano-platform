@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.donemiliano.api.features.orders.dtos.CreateOrderDto;
 import com.donemiliano.api.features.orders.dtos.OrderDto;
 
-public interface IOrderController {
+public interface OrderController {
 
   @GetMapping
   public ResponseEntity<List<OrderDto>> getAllOrderByDate(@RequestParam LocalDateTime date);

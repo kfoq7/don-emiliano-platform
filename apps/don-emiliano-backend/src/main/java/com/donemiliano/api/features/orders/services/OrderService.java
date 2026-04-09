@@ -6,7 +6,7 @@ import java.util.List;
 import com.donemiliano.api.features.orders.dtos.CreateOrderDto;
 import com.donemiliano.api.features.orders.dtos.OrderDto;
 
-public interface IOrderService {
+public interface OrderService {
 
   List<OrderDto> getAllOrderByDate(LocalDateTime date);
 

@@ -6,7 +6,7 @@ import com.donemiliano.api.features.customers.dto.CustomerDto;
 import com.donemiliano.api.features.customers.dto.CreateCustomerDto;
 import com.donemiliano.api.features.customers.dto.UpdateCustomerDto;
 
-public interface ICustomerService {
+public interface CustomerService {
 
   List<CustomerDto> getAll();
 
