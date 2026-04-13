@@ -282,9 +282,6 @@ importers:
       don-emiliano-oms-api:
         specifier: 'link:'
         version: 'link:'
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.6.1
       express:
         specifier: ^4.18.2
         version: 4.22.1
