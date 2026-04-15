@@ -1,8 +1,9 @@
-import type { CartItem } from '../hooks/useCart'
+import { API_APP } from '../consts/api-servicies'
+import type { CartItem } from '../hooks/use-cart'
 
 export const fetchOperacion = async () => {
   try {
-    const response = await fetch('/api/Pedido/VerOperacion', {
+    const response = await fetch(`${API_APP}/Pedido/VerOperacion`, {
       method: 'POST',
     })
     if (response.ok) {
@@ -87,7 +88,7 @@ export const submitOrder = async (
     formData.append(`Det[${index}][CAMBIO]`, 'P')
   })
 
-  const response = await fetch('/api/Pedido/RegistrarComanda', {
+  const response = await fetch(`${API_APP}/Pedido/RegistrarComanda`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',

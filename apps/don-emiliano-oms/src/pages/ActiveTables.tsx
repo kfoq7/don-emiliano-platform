@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useActiveTables } from '../hooks/useActiveTables'
+import { useActiveTables } from '../hooks/use-activeTables'
 import { TableCard } from '../components/TableCard'
 
 export default function ActiveTables() {

@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { useTableDetails } from '../hooks/useTableDetails'
+import { useTableDetails } from '../hooks/use-table-details'
 import { OrderItemList } from '../components/OrderItemList'
 import { TableSummary } from '../components/TableSummary'
 
@@ -34,9 +34,7 @@ export default function TableDetails() {
                 />
               </svg>
             </button>
-            <h1 className="text-xl font-bold text-heading">
-              Mesa {numberId}
-            </h1>
+            <h1 className="text-xl font-bold text-heading">Mesa {numberId}</h1>
           </div>
         </div>
       </header>

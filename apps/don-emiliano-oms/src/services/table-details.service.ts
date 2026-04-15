@@ -1,3 +1,4 @@
+import { API_APP } from '../consts/api-servicies'
 import type { Product } from '../types/Products'
 
 export interface CartItem extends Product {
@@ -7,7 +8,9 @@ export interface CartItem extends Product {
 export const fetchTableDetailsById = async (
   tableId: string,
 ): Promise<CartItem[]> => {
-  const response = await fetch(`/api/Pedido/DetalleMesa/?IdMesa=${tableId}`)
+  const response = await fetch(
+    `${API_APP}/Pedido/DetalleMesa/?IdMesa=${tableId}`,
+  )
   if (!response.ok) {
     throw new Error('API failed')
   }
@@ -26,7 +29,7 @@ export const fetchTableDetailsById = async (
 }
 
 export const printTableReceipt = async (tableId: string): Promise<void> => {
-  const printersRes = await fetch('/api/Pedido/getImpresorasPrevio')
+  const printersRes = await fetch(`${API_APP}/Pedido/getImpresorasPrevio`)
   if (!printersRes.ok) throw new Error('Failed to get printers')
   const printers = await printersRes.json()
 

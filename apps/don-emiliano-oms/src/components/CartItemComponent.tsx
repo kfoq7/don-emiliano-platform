@@ -1,4 +1,4 @@
-import type { CartItem } from '../hooks/useCart'
+import type { CartItem } from '../hooks/use-cart'
 import type { Product } from '../types/Products'
 
 interface CartItemProps {

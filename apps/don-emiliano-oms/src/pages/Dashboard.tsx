@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useProducts } from '../hooks/use-products'
-import { useCart } from '../hooks/useCart'
+import { useCart } from '../hooks/use-cart'
 import { submitOrder } from '../services/dashboard.service'
 import { ProductCard } from '../components/ProductCard'
 import { CartItemComponent } from '../components/CartItemComponent'

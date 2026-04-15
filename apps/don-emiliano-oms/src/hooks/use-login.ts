@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { API_SERVER } from '../consts/api-servicies'
 
 export function useLogin() {
   const [code, setCode] = useState('')
@@ -18,7 +19,7 @@ export function useLogin() {
     setError('')
 
     try {
-      const response = await fetch(`/server/api/login`, {
+      const response = await fetch(`${API_SERVER}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

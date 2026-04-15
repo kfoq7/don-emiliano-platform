@@ -1,4 +1,4 @@
-import { useTableSelection } from '../hooks/useTableSelection'
+import { useTableSelection } from '../hooks/use-table-selection'
 import { TableGridCard } from '../components/TableGridCard'
 import { ZoneTabs } from '../components/ZoneTabs'
 

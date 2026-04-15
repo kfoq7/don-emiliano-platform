@@ -19,7 +19,7 @@ export function useTableSelection() {
     e.preventDefault()
     setError('')
 
-    if (!table.trim()) {
+    if (!table.trim() || !Number.isInteger(Number(table.trim()))) {
       setError('Por favor ingrese un número de mesa válido')
       return
     }

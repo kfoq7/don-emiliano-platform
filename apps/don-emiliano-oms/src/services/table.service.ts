@@ -1,3 +1,5 @@
+import { API_APP } from '../consts/api-servicies'
+
 export interface Table {
   id: number
   name: string
@@ -20,7 +22,7 @@ export interface ApiTable {
 
 export const fetchOperacion = async () => {
   try {
-    const response = await fetch('/api/Pedido/VerOperacion', {
+    const response = await fetch(`${API_APP}/Pedido/VerOperacion`, {
       method: 'POST',
     })
     if (response.ok) {
@@ -54,7 +56,7 @@ export const registerNewTable = async (tableName: string) => {
   }
 
   // 1. Validate Table Availability
-  const validationResponse = await fetch('/api/Pedido/ValidarMesa', {
+  const validationResponse = await fetch(`${API_APP}/Pedido/ValidarMesa`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -97,7 +99,7 @@ export const registerNewTable = async (tableName: string) => {
     ID_USUARIO: userId,
   }
 
-  const registerResponse = await fetch('/api/Pedido/RegistrarMesa', {
+  const registerResponse = await fetch(`${API_APP}/Pedido/RegistrarMesa`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -135,7 +137,7 @@ export const getActiveTables = async (
 
   // 2. Get Tables
   const response = await fetch(
-    `/api/Pedido/ObtenerMesasUsuario/?IdOperacion=${operacionId}&IdUsuario=${userId}`,
+    `${API_APP}/Pedido/ObtenerMesasUsuario/?IdOperacion=${operacionId}&IdUsuario=${userId}`,
   )
 
   if (response.ok) {
@@ -147,7 +149,7 @@ export const getActiveTables = async (
         const { IdMesa } = t
 
         const tableDetailResponse = await fetch(
-          `/api/Pedido/DetalleMesa/?IdMesa=${IdMesa}`,
+          `${API_APP}/Pedido/DetalleMesa/?IdMesa=${IdMesa}`,
         )
         const tableDetail = (await tableDetailResponse.json()).Data as {
           Precio: number
