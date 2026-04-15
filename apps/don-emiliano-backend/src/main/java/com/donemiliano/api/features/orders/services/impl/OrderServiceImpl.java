@@ -1,6 +1,5 @@
 package com.donemiliano.api.features.orders.services.impl;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
             throw new EntityNotFoundException("Product with id " + item.getProductId() + " not found");
           }
 
-          BigDecimal subtotal = product.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
+          Double subtotal = product.getPrice() * Double.valueOf(item.getQuantity());
 
           OrderItemsEntity itemsEntity = OrderItemsEntity.builder()
               .subtotal(subtotal)
@@ -73,9 +72,9 @@ public class OrderServiceImpl implements OrderService {
 
     orderEntity.setOrderItems(orderItems);
 
-    BigDecimal total = orderItems.stream()
+    Double total = orderItems.stream()
         .map(item -> item.getSubtotal())
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
+        .reduce(0.0, Double::sum);
     orderEntity.setTotalPrice(total);
 
     OrderEntity savedOrder = orderRepository.save(orderEntity);

@@ -1,6 +1,5 @@
 package com.donemiliano.api.features.products.entities;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -43,8 +42,8 @@ public class ProductEntity {
   @Column(columnDefinition = "TEXT")
   private String description;
 
-  @Column(precision = 11, scale = 2, nullable = false)
-  private BigDecimal price;
+  @Column(nullable = false)
+  private Double price;
 
   @Column(name = "is_available", nullable = false)
   @Builder.Default
