@@ -44,22 +44,22 @@ import BagIcon from '@/components/icons/Bag.astro'
       <div
         class="flex items-center bg-surface-hover rounded-full p-1 border border-border-light shadow-sm"
       >
-        <button
+        <div
           id="pickup-store"
           class="delivery-toggle-btn flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer"
           data-active="false"
         >
           <BagIcon className="size-5" />
           <span>Recojo en tienda</span>
-        </button>
-        <button
+        </div>
+        <div
           id="delivery"
           class="delivery-toggle-btn flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer"
           data-active="false"
         >
           <DeliveryIcon className="w-6" />
           <span>Delivery</span>
-        </button>
+        </div>
       </div>
 
       <!-- CTA -->
@@ -95,41 +95,41 @@ import BagIcon from '@/components/icons/Bag.astro'
     <!-- </div> -->
   </div>
 
-  <script>
-    import { delivery } from '@/stores/location'
+  <!-- <script> -->
+  <!--   import { delivery } from '@/stores/location' -->
 
-    const $pickupStore = document.getElementById('pickup-store')
-    const $delivery = document.getElementById('delivery')
+  <!-- const $pickupStore = document.getElementById('pickup-store') -->
+  <!-- const $delivery = document.getElementById('delivery') -->
 
-    function setActiveState(activeBtn: HTMLElement | null, inactiveBtn: HTMLElement | null) {
-      if (activeBtn) {
-        activeBtn.dataset.active = 'true'
-        activeBtn.classList.add('bg-primary', 'text-white', 'shadow-md')
-        activeBtn.classList.remove('text-ink-muted', 'hover:bg-gray-100')
-      }
-      if (inactiveBtn) {
-        inactiveBtn.dataset.active = 'false'
-        inactiveBtn.classList.remove('bg-primary', 'text-white', 'shadow-md')
-        inactiveBtn.classList.add('text-ink-muted', 'hover:bg-gray-100')
-      }
-    }
+  <!-- function setActiveState(activeBtn: HTMLElement | null, inactiveBtn: HTMLElement | null) { -->
+  <!--   if (activeBtn) { -->
+  <!--     activeBtn.dataset.active = 'true' -->
+  <!--     activeBtn.classList.add('bg-primary', 'text-white', 'shadow-md') -->
+  <!--     activeBtn.classList.remove('text-ink-muted', 'hover:bg-gray-100') -->
+  <!--   } -->
+  <!--   if (inactiveBtn) { -->
+  <!--     inactiveBtn.dataset.active = 'false' -->
+  <!--     inactiveBtn.classList.remove('bg-primary', 'text-white', 'shadow-md') -->
+  <!--     inactiveBtn.classList.add('text-ink-muted', 'hover:bg-gray-100') -->
+  <!--   } -->
+  <!-- } -->
 
-    // Initialize both as inactive
-    if ($pickupStore) $pickupStore.classList.add('text-ink-muted', 'hover:bg-gray-100')
-    if ($delivery) $delivery.classList.add('text-ink-muted', 'hover:bg-gray-100')
+  <!-- // Initialize both as inactive -->
+  <!-- if ($pickupStore) $pickupStore.classList.add('text-ink-muted', 'hover:bg-gray-100') -->
+  <!-- if ($delivery) $delivery.classList.add('text-ink-muted', 'hover:bg-gray-100') -->
 
-    if ($pickupStore) {
-      $pickupStore.addEventListener('click', () => {
-        delivery.set(false)
-        setActiveState($pickupStore, $delivery)
-      })
-    }
+  <!-- if ($pickupStore) { -->
+  <!--   $pickupStore.addEventListener('click', () => { -->
+  <!--     delivery.set(false) -->
+  <!--     setActiveState($pickupStore, $delivery) -->
+  <!--   }) -->
+  <!-- } -->
 
-    if ($delivery) {
-      $delivery.addEventListener('click', () => {
-        delivery.set(true)
-        setActiveState($delivery, $pickupStore)
-      })
-    }
-  </script>
+  <!--   if ($delivery) { -->
+  <!--     $delivery.addEventListener('click', () => { -->
+  <!--       delivery.set(true) -->
+  <!--       setActiveState($delivery, $pickupStore) -->
+  <!--     }) -->
+  <!--   } -->
+  <!-- </script> -->
 </section>
