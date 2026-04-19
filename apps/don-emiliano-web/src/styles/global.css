@@ -208,7 +208,7 @@
 @layer base {
   * {
     scrollbar-width: thin;
-    scrollbar-color: #ff5d0050 transparent;
+    scrollbar-color: #4b4b4f transparent;
   }
 
   *::-webkit-scrollbar {

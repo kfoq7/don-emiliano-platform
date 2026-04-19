@@ -72,7 +72,7 @@ const user = Astro.locals.user
   <div class="glass border-b border-gray-200/50 shadow-sm">
     <div class="container px-4 py-3 mx-auto flex items-center justify-between">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2 group">
+      <a href="/" class="flex-1 flex items-center gap-2 group">
         <img
           src="/img/logo-donemi-dark.webp"
           alt="Don Emiliano Logo"
@@ -81,7 +81,10 @@ const user = Astro.locals.user
       </a>
 
       <!-- Desktop nav links -->
-      <nav class="hidden md:flex items-center gap-6" aria-label="Navegacion principal">
+      <nav
+        class="hidden md:flex-1 text-center md:flex justify-center items-center gap-6"
+        aria-label="Navegacion principal"
+      >
         <a
           href="/"
           class="text-sm font-medium text-ink-muted hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all after:duration-300"
@@ -97,7 +100,7 @@ const user = Astro.locals.user
       </nav>
 
       <!-- Right side: status + auth + CTA + mobile menu -->
-      <div class="flex items-center gap-3">
+      <div class="flex-1 flex items-center gap-3 justify-end">
         <!-- Status badge -->
         <div
           class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-hover border border-border-light"
