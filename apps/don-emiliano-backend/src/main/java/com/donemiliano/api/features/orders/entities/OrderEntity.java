@@ -31,31 +31,31 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class OrderEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "order_id_seq")
-  @SequenceGenerator(name = "order_id_seq", sequenceName = "order_id_seq", allocationSize = 1)
-  @Column(name = "id", updatable = false, nullable = false)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "order_id_seq")
+    @SequenceGenerator(name = "order_id_seq", sequenceName = "order_id_seq", allocationSize = 1)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
-  @Column(length = 8)
-  private Integer orderNumber;
+    @Column(length = 8)
+    private Integer orderNumber;
 
-  @Column(columnDefinition = "TEXT")
-  private String observation;
+    @Column(columnDefinition = "TEXT")
+    private String observation;
 
-  @Column(nullable = false)
-  private Double totalPrice;
+    @Column(nullable = false)
+    private Double totalPrice;
 
-  @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, orphanRemoval = true)
-  @ToString.Exclude
-  private List<OrderItemsEntity> orderItems;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @ToString.Exclude
+    private List<OrderItemsEntity> orderItems;
 
-  @CreationTimestamp
-  @Column(name = "created_at", nullable = false, updatable = false)
-  private LocalDateTime createdAt;
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-  @UpdateTimestamp
-  @Column(name = "updated_at", nullable = false)
-  private LocalDateTime updatedAt;
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
 }

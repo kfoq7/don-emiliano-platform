@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateCategoryDto {
 
-  @NotBlank(message = "{validation.category.name.notBlank}")
-  @Size(min = 1, max = 50, message = "{validation.category.name.size}")
-  private String name;
+    @NotBlank(message = "{validation.category.name.notBlank}")
+    @Size(min = 1, max = 50, message = "{validation.category.name.size}")
+    private String name;
 
-  @NotBlank(message = "{validation.category.description.notBlank}")
-  @Size(min = 1, max = 255, message = "{validation.category.description.size}")
-  private String description;
+    @NotBlank(message = "{validation.category.description.notBlank}")
+    @Size(min = 1, max = 255, message = "{validation.category.description.size}")
+    private String description;
 
 }

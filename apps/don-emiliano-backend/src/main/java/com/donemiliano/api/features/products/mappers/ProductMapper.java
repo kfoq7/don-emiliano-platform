@@ -15,9 +15,9 @@ import com.donemiliano.api.features.products.entities.ProductEntity;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE, unmappedSourcePolicy = ReportingPolicy.IGNORE, uses = {
     ICategoryMapper.class, })
-public interface IProductMapper {
+public interface ProductMapper {
 
-  IProductMapper INSTANCE = Mappers.getMapper(IProductMapper.class);
+  ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
   ProductEntity toCreateEntity(CreateProductDto dto);
 
