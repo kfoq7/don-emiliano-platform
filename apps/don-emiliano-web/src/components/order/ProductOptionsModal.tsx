@@ -44,8 +44,8 @@ export default function ProductOptionsModal({ product, isOpen, onClose }: Props)
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/20 backdrop-blur-sm rounded-md">
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[90vh] border border-gray-300/60">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-100 shrink-0">
           <h3 className="font-bold text-lg text-heading">{product.name}</h3>
@@ -103,9 +103,7 @@ export default function ProductOptionsModal({ product, isOpen, onClose }: Props)
               >
                 <Minus className="w-4 h-4" />
               </button>
-              <span className="font-semibold text-lg min-w-[1.5rem] text-center text-ink">
-                {quantity}
-              </span>
+              <span className="font-semibold text-lg min-w-6 text-center text-ink">{quantity}</span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
                 className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-gray-100 text-gray-600 cursor-pointer"
@@ -116,9 +114,10 @@ export default function ProductOptionsModal({ product, isOpen, onClose }: Props)
 
             <button
               onClick={handleAddToCart}
-              className="flex-1 bg-primary text-white py-2.5 px-4 rounded-lg font-semibold shadow-md hover:bg-action-hover active:bg-action-pressed transition-colors cursor-pointer"
+              className="flex-1 bg-primary text-white py-1.5 px-2 rounded-lg font-semibold shadow-md hover:bg-action-hover active:bg-action-pressed transition-colors cursor-pointer"
             >
-              Agregar - S/ {(product.price * quantity).toFixed(2)}
+              <span class="block"> Agregar</span>
+              <span>S/ {(product.price * quantity).toFixed(2)}</span>
             </button>
           </div>
         </div>

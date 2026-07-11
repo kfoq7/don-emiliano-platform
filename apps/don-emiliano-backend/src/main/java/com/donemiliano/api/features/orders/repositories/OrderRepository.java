@@ -12,11 +12,11 @@ import com.donemiliano.api.features.orders.entities.OrderEntity;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long>, JpaSpecificationExecutor<OrderEntity> {
 
-  @EntityGraph(attributePaths = { "orderItems" })
-  List<OrderEntity> findByCreatedAt(LocalDateTime date);
+    @EntityGraph(attributePaths = { "orderItems" })
+    List<OrderEntity> findByCreatedAt(LocalDateTime date);
 
-  @EntityGraph(attributePaths = { "orderItems" })
-  @Query("SELECT o FROM OrderEntity o WHERE o.createdAt = CURRENT_DATE")
-  List<OrderEntity> findAllByOrderToday();
+    @EntityGraph(attributePaths = { "orderItems" })
+    @Query("SELECT o FROM OrderEntity o WHERE o.createdAt = CURRENT_DATE")
+    List<OrderEntity> findAllByOrderToday();
 
 }

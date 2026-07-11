@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import com.donemiliano.api.features.core.exception.exceptions.NotFoundException;
 import com.donemiliano.api.features.roles.dto.CreateRoleDto;
 import com.donemiliano.api.features.roles.dto.RoleDto;
 import com.donemiliano.api.features.roles.entities.RoleEntity;
@@ -18,36 +19,37 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
-  private final IRoleMapper roleMapper;
-  private final RoleRepository roleRepository;
+    private final IRoleMapper roleMapper;
 
-  @Override
-  public List<RoleDto> getAllRoles() {
-    return roleRepository.findAll().stream()
-        .map(roleMapper::toDto)
-        .toList();
-  }
+    private final RoleRepository roleRepository;
 
-  @Override
-  public RoleDto getRoleById(Long id) {
-    RoleEntity role = roleRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Role not found"));
+    @Override
+    public List<RoleDto> getAllRoles() {
+        return roleRepository.findAll().stream()
+                .map(roleMapper::toDto)
+                .toList();
+    }
 
-    return roleMapper.toDto(role);
-  }
+    @Override
+    public RoleDto getRoleById(Long id) {
+        RoleEntity role = roleRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Role not found"));
 
-  @Override
-  public List<RoleDto> getRolesByIds(Set<Long> ids) {
-    return roleRepository.findAllById(ids).stream()
-        .map(roleMapper::toDto)
-        .toList();
-  }
+        return roleMapper.toDto(role);
+    }
 
-  @Override
-  public RoleDto createRole(CreateRoleDto roleDto) {
-    RoleEntity roleEntity = roleMapper.toCreateEntity(roleDto);
-    RoleEntity savedRole = roleRepository.save(roleEntity);
-    return roleMapper.toDto(savedRole);
-  }
+    @Override
+    public List<RoleDto> getRolesByIds(Set<Long> ids) {
+        return roleRepository.findAllById(ids).stream()
+                .map(roleMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public RoleDto createRole(CreateRoleDto roleDto) {
+        RoleEntity roleEntity = roleMapper.toCreateEntity(roleDto);
+        RoleEntity savedRole = roleRepository.save(roleEntity);
+        return roleMapper.toDto(savedRole);
+    }
 
 }

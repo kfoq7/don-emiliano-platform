@@ -13,17 +13,33 @@ import Order from './order/Order.tsx'
 
     <!-- Desktop cart sidebar -->
     <div class="hidden lg:block">
-      <div class="sticky top-28 rounded-xl border border-gray-100 bg-white shadow-lg overflow-hidden">
+      <div
+        class="sticky top-28 rounded-xl border border-gray-100 bg-white shadow-lg overflow-hidden"
+      >
         <!-- Cart header -->
-        <div class="px-5 py-4 bg-gradient-to-r from-primary/5 to-transparent border-b border-gray-100">
+        <div
+          class="px-5 py-4 bg-linear-to-r from-primary/5 to-transparent border-b border-gray-100"
+        >
           <div class="flex items-center justify-between">
             <h3 class="text-lg font-bold text-heading flex items-center gap-2">
-              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              <svg
+                class="w-5 h-5 text-primary"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
               </svg>
               Tu pedido
             </h3>
-            <span id="cart-item-count" class="text-xs font-semibold text-ink-muted bg-gray-100 px-2 py-0.5 rounded-full">
+            <span
+              id="cart-item-count"
+              class="text-xs font-semibold text-ink-muted bg-gray-100 px-2 py-0.5 rounded-full"
+            >
               0 items
             </span>
           </div>
@@ -58,7 +74,11 @@ import Order from './order/Order.tsx'
             class="w-full flex items-center justify-center gap-2 bg-primary text-white py-3 rounded-lg font-semibold cursor-pointer hover:bg-action-hover active:bg-action-pressed transition-all duration-200 shadow-md hover:shadow-lg"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"></path>
             </svg>
             Realizar mi pedido
           </button>
@@ -82,13 +102,19 @@ import Order from './order/Order.tsx'
     >
       <div class="flex items-center gap-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
         </svg>
         <span id="mobile-cart-count">0 productos</span>
       </div>
       <div class="flex items-center gap-2">
         <span>Ver pedido</span>
-        <span id="mobile-cart-total" class="bg-white/20 px-2.5 py-0.5 rounded-full text-sm">S/ 0.00</span>
+        <span id="mobile-cart-total" class="bg-white/20 px-2.5 py-0.5 rounded-full text-sm"
+          >S/ 0.00</span
+        >
       </div>
     </button>
   </div>

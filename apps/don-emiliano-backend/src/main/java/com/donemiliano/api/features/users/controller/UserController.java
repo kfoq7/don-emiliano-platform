@@ -19,15 +19,15 @@ import jakarta.validation.Valid;
 
 public interface UserController {
 
-  @GetMapping
-  public ResponseEntity<List<UserWithRolesDto>> getAllUsers();
+    @GetMapping
+    public ResponseEntity<List<UserWithRolesDto>> getAllUsers();
 
-  @PostMapping
-  public ResponseEntity<UserDto> createUser(@Valid @RequestBody CreateUserDto dto);
+    @PostMapping
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody CreateUserDto dto);
 
-  @PutMapping("/{id}")
-  public ResponseEntity<UserDto> updateUser(
-      @Parameter(required = true) @PathVariable(name = "id") Long id,
-      @Valid @RequestBody UpdateUserDto dto);
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUser(
+            @Parameter(required = true) @PathVariable(name = "id") Long id,
+            @Valid @RequestBody UpdateUserDto dto);
 
 }

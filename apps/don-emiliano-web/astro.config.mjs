@@ -16,10 +16,10 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
-  server: {
-    host: true,
-    allowedHosts: true,
-  },
+  // server: {
+  //   host: true,
+  //   allowedHosts: true,
+  // },
   vite: {
     plugins: [tailwindcss()],
   },

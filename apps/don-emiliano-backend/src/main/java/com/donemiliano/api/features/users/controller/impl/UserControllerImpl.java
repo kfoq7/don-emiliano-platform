@@ -20,21 +20,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserControllerImpl implements UserController {
 
-  private final UserService userService;
+    private final UserService userService;
 
-  @Override
-  public ResponseEntity<List<UserWithRolesDto>> getAllUsers() {
-    return ResponseEntity.ok(userService.getAllUsersWithRoles());
-  }
+    @Override
+    public ResponseEntity<List<UserWithRolesDto>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsersWithRoles());
+    }
 
-  @Override
-  public ResponseEntity<UserDto> createUser(CreateUserDto dto) {
-    return ResponseEntity.ok(userService.createUser(dto));
-  }
+    @Override
+    public ResponseEntity<UserDto> createUser(CreateUserDto dto) {
+        return ResponseEntity.ok(userService.createUser(dto));
+    }
 
-  @Override
-  public ResponseEntity<UserDto> updateUser(Long id, UpdateUserDto dto) {
-    return ResponseEntity.ok(userService.updateUser(id, dto));
-  }
+    @Override
+    public ResponseEntity<UserDto> updateUser(Long id, UpdateUserDto dto) {
+        return ResponseEntity.ok(userService.updateUser(id, dto));
+    }
 
 }

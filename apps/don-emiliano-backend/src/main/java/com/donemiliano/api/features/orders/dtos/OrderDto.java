@@ -13,12 +13,12 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class OrderDto {
 
-  private Long id;
+    private Long id;
 
-  private Integer orderNumber;
+    private Integer orderNumber;
 
-  private String observation;
+    private String observation;
 
-  private List<OrderItemDto> orderItems;
+    private List<OrderItemDto> orderItems;
 
 }

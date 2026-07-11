@@ -5,11 +5,15 @@ import java.util.List;
 
 import com.donemiliano.api.features.orders.dtos.CreateOrderDto;
 import com.donemiliano.api.features.orders.dtos.OrderDto;
+import com.donemiliano.api.features.orders.dtos.response.OrderResponse;
+import com.donemiliano.api.features.orders.dtos.resquest.OrderPaymentRequest;
 
 public interface OrderService {
 
-  List<OrderDto> getAllOrderByDate(LocalDateTime date);
+    List<OrderDto> getAllOrderByDate(LocalDateTime date);
 
-  OrderDto createOrder(CreateOrderDto order);
+    OrderDto createOrder(CreateOrderDto order);
+
+    OrderResponse closeOrderPayment(OrderPaymentRequest request);
 
 }

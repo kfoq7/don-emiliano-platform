@@ -89,7 +89,7 @@ export default function OrderCartList() {
                 </div>
 
                 {/* Subtotal */}
-                <span className="text-sm font-semibold text-heading min-w-[4rem] text-right">
+                <span className="text-sm font-semibold text-heading min-w-16 text-right">
                   S/ {(price * quantity).toFixed(2)}
                 </span>
 

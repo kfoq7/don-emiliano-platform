@@ -24,49 +24,50 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-  private final UserRepository userRepository;
-  private final RoleService roleService;
-  private final IUserMapper userMapper;
+    private final UserRepository userRepository;
 
-  @Override
-  public List<UserDto> getAllUsers() {
-    return userRepository.findAll().stream()
-        .map(userMapper::toDto)
-        .toList();
-  }
+    private final RoleService roleService;
 
-  @Override
-  public List<UserWithRolesDto> getAllUsersWithRoles() {
-    return userRepository.findAllWithRoles().stream()
-        .map(userMapper::toDtoWithRoles)
-        .toList();
-  }
+    private final IUserMapper userMapper;
 
-  @Override
-  @Transactional
-  public UserDto createUser(CreateUserDto createUserDto) {
-    UserEntity user = userMapper.toCreateEntity(createUserDto);
+    @Override
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
 
-    Set<RoleEntity> roles = roleService.getRolesByIds(createUserDto.getRoleIds()).stream()
-        .map(role -> new RoleEntity().setId(role.getId()).setName(role.getName()))
-        .collect(Collectors.toSet());
+    @Override
+    public List<UserWithRolesDto> getAllUsersWithRoles() {
+        return userRepository.findAllWithRoles().stream()
+                .map(userMapper::toDtoWithRoles)
+                .toList();
+    }
 
-    user.setRoles(roles);
+    @Override
+    @Transactional
+    public UserDto createUser(CreateUserDto createUserDto) {
+        UserEntity user = userMapper.toCreateEntity(createUserDto);
 
-    UserEntity savedUser = userRepository.save(user);
+        Set<RoleEntity> roles = roleService.getRolesByIds(createUserDto.getRoleIds()).stream()
+                .map(role -> new RoleEntity().setId(role.getId()).setName(role.getName()))
+                .collect(Collectors.toSet());
 
-    return userMapper.toDto(savedUser);
-  }
+        user.setRoles(roles);
+        UserEntity savedUser = userRepository.save(user);
 
-  @Override
-  @Transactional
-  public UserDto updateUser(Long id, UpdateUserDto updateUserDto) {
-    UserEntity user = userRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        return userMapper.toDto(savedUser);
+    }
 
-    userMapper.updateEntityFromDto(user, updateUserDto);
-    UserEntity updatedUser = userRepository.save(user);
+    @Override
+    @Transactional
+    public UserDto updateUser(Long id, UpdateUserDto updateUserDto) {
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new RuntimeException());
 
-    return userMapper.toDto(updatedUser);
-  }
+        userMapper.updateEntityFromDto(user, updateUserDto);
+        UserEntity updatedUser = userRepository.save(user);
+
+        return userMapper.toDto(updatedUser);
+    }
 
 }

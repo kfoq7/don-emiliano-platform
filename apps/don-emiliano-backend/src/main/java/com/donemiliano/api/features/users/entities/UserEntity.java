@@ -36,44 +36,44 @@ import lombok.ToString;
 @AllArgsConstructor
 public class UserEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
-  @SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", allocationSize = 1)
-  @Column(name = "id", updatable = false, nullable = false)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    @SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", allocationSize = 1)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
-  @Column(name = "first_name", nullable = true)
-  private String name;
+    @Column(name = "first_name", nullable = true)
+    private String name;
 
-  @Column(name = "last_name", nullable = true)
-  private String lastName;
+    @Column(name = "last_name", nullable = true)
+    private String lastName;
 
-  @Column(nullable = true, unique = true)
-  private String email;
+    @Column(nullable = true, unique = true)
+    private String email;
 
-  @Column(nullable = true)
-  private String password;
+    @Column(nullable = true)
+    private String password;
 
-  @Column(nullable = true)
-  private String phone;
+    @Column(nullable = true)
+    private String phone;
 
-  @Column(name = "is_active", nullable = false)
-  @Builder.Default
-  private Boolean isActive = true;
+    @Column(name = "is_active", nullable = false)
+    @Builder.Default
+    private Boolean isActive = true;
 
-  @CreationTimestamp
-  @Column(nullable = false, updatable = false)
-  private LocalDateTime createdAt;
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-  @UpdateTimestamp
-  @Column(nullable = false)
-  private LocalDateTime updatedAt;
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 
-  @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-  @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-  @Builder.Default
-  @ToString.Exclude
-  @EqualsAndHashCode.Exclude
-  private Set<RoleEntity> roles = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @Builder.Default
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<RoleEntity> roles = new HashSet<>();
 
 }

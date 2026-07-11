@@ -14,18 +14,18 @@ import com.donemiliano.api.features.products.dto.UpdateProductDto;
 import com.donemiliano.api.features.products.entities.ProductEntity;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE, unmappedSourcePolicy = ReportingPolicy.IGNORE, uses = {
-    ICategoryMapper.class, })
+        CategoryMapper.class, })
 public interface ProductMapper {
 
-  ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
+    ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
-  ProductEntity toCreateEntity(CreateProductDto dto);
+    ProductEntity toCreateEntity(CreateProductDto dto);
 
-  ProductEntity updateEntityFromDto(@MappingTarget ProductEntity entity, UpdateProductDto dto);
+    ProductEntity updateEntityFromDto(@MappingTarget ProductEntity entity, UpdateProductDto dto);
 
-  ProductDto toDto(ProductEntity entity);
+    ProductDto toDto(ProductEntity entity);
 
-  @Mapping(target = "category", source = "category")
-  ProductWithCategoryDto toDtoWithCategory(ProductEntity entity);
+    @Mapping(target = "category", source = "category")
+    ProductWithCategoryDto toDtoWithCategory(ProductEntity entity);
 
 }

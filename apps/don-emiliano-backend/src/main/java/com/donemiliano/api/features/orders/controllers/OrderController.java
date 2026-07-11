@@ -13,10 +13,10 @@ import com.donemiliano.api.features.orders.dtos.OrderDto;
 
 public interface OrderController {
 
-  @GetMapping
-  public ResponseEntity<List<OrderDto>> getAllOrderByDate(@RequestParam LocalDateTime date);
+    @GetMapping
+    public ResponseEntity<List<OrderDto>> getAllOrderByDate(@RequestParam LocalDateTime date);
 
-  @PostMapping
-  public ResponseEntity<OrderDto> createOrder(CreateOrderDto order);
+    @PostMapping
+    public ResponseEntity<OrderDto> createOrder(CreateOrderDto order);
 
 }

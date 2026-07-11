@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.donemiliano.api.features.core.exception.exceptions.NotFoundException;
 import com.donemiliano.api.features.products.dto.CategoryDto;
 import com.donemiliano.api.features.products.dto.CategoryWithProductsDto;
 import com.donemiliano.api.features.products.dto.CreateCategoryDto;
@@ -15,7 +16,6 @@ import com.donemiliano.api.features.products.dto.UpdateProductDto;
 import com.donemiliano.api.features.products.dto.UpdateProductStockAvailableDto;
 import com.donemiliano.api.features.products.entities.CategoryEntity;
 import com.donemiliano.api.features.products.entities.ProductEntity;
-import com.donemiliano.api.features.products.exceptions.CategoryNotFoundException;
 import com.donemiliano.api.features.products.mappers.CategoryMapper;
 import com.donemiliano.api.features.products.mappers.ProductMapper;
 import com.donemiliano.api.features.products.repositories.CategoryRepository;
@@ -68,7 +68,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDto createProduct(CreateProductDto createProductDto) {
         CategoryEntity category = categoryRepository.findById(createProductDto.getCategoryId())
-                .orElseThrow(() -> new CategoryNotFoundException());
+                .orElseThrow(() -> new NotFoundException("Category not found"));
 
         ProductEntity product = productMapper.toCreateEntity(createProductDto);
         product.setCategory(category);
@@ -90,11 +90,11 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDto updateProduct(Long id, UpdateProductDto updateProductDto) {
         ProductEntity product = productRepository.findWithCategoryById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new NotFoundException("Product not found"));
 
-        if (updateProductDto.getCategoryId() != null) {
-            CategoryEntity category = categoryRepository.findById(updateProductDto.getCategoryId())
-                    .orElseThrow(() -> new CategoryNotFoundException());
+        if (updateProductDto.categoryId() != null) {
+            CategoryEntity category = categoryRepository.findById(updateProductDto.categoryId())
+                    .orElseThrow(() -> new NotFoundException());
             product.setCategory(category);
         }
 
@@ -108,7 +108,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public CategoryDto updateCategory(Long id, CreateCategoryDto createCategoryDto) {
         CategoryEntity category = categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException());
+                .orElseThrow(() -> new NotFoundException("Product not found"));
 
         categoryMapper.updateEntityFromDto(category, createCategoryDto);
         CategoryEntity updatedCategory = categoryRepository.save(category);
@@ -120,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDto updateProductAvailability(Long id, UpdateProductStockAvailableDto updateProductDto) {
         ProductEntity product = productRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException());
+                .orElseThrow(() -> new NotFoundException());
 
         product.setIsStockAvailable(updateProductDto.getIsStockAvailable());
         ProductEntity updatedProduct = productRepository.save(product);

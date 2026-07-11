@@ -1,16 +1,10 @@
 package com.donemiliano.api.features.products.dto;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
+import jakarta.validation.constraints.Size;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
-@ToString
-@Accessors(chain = true)
-public class UpdateProductDto extends CreateProductDto {
-
+public record UpdateProductDto(
+        @Size(max = 40, message = "This should less then 40 characteres") String name,
+        @Size(max = 50, message = "") String lastName,
+        @Size(max = 20, message = "") String phone,
+        Long categoryId) {
 }
