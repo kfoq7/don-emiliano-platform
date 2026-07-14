@@ -1,16 +1,21 @@
 import { useStore } from '@nanostores/preact'
-import { productsStore, selectedCategoryAtom } from '@/stores/products.ts'
+import { $productsStore, getAllProductsStore, selectedCategoryAtom } from '@/stores/products'
 import ProductCard from './ProductCard.tsx'
 import { cartItems } from '@/stores/order.ts'
+import { useEffect } from 'preact/hooks'
 
 export default function Order() {
-  const $products = useStore(productsStore)
+  const $products = useStore($productsStore)
   const $cartItems = useStore(cartItems)
   const $selectedCategory = useStore(selectedCategoryAtom)
 
   const filteredProducts = Object.values($products).filter(
-    product => product.category === $selectedCategory,
+    product => product.category.name === $selectedCategory,
   )
+
+  useEffect(() => {
+    getAllProductsStore()
+  }, [])
 
   if (filteredProducts.length === 0) {
     return (

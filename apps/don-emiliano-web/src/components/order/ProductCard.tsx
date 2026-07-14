@@ -113,8 +113,8 @@ export default function ProductCard({ product, cartItem }: Props) {
           ) : !mounted || quantity === 0 || hasOptions ? (
             <button
               className="
-                w-full flex items-center justify-center gap-2 
-                bg-primary text-white py-2.5 px-4 rounded-lg 
+                w-full flex items-center justify-center gap-2
+                bg-primary text-white py-2.5 px-4 rounded-lg
                 font-semibold text-sm cursor-pointer
                 hover:bg-action-hover active:bg-action-pressed
                 transition-all duration-200
@@ -126,7 +126,7 @@ export default function ProductCard({ product, cartItem }: Props) {
             >
               {hasOptions ? (
                 <>
-                  <span className="fill-white w-4 h-4">+</span>
+                  <Plus className="fill-white w-4 h-4" />
                   Personalizar
                 </>
               ) : (
