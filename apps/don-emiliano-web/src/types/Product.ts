@@ -4,15 +4,23 @@ export interface ProductOption {
   type?: 'select' | 'radio'
 }
 
+export interface Category {
+  id: number
+  name: string
+  is_active: boolean
+  descrption?: string
+}
+
 export interface Product {
   id: number
   name: string
   description: string
-  category: string
+  category: Category
   price: number
   image?: string
-  isStockAvailable?: boolean
+  is_stock_cvailable?: boolean
   options?: ProductOption[]
+  thumbnail: string
 }
 
 export interface ProductSelected extends Omit<Product, 'image'> {

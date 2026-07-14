@@ -1,7 +1,9 @@
 import { atom, map } from 'nanostores'
-import productsData from '@/lib/products.json'
-
-export const productsStore = map<Record<number, (typeof productsData)[number]>>({})
+import { fetchAllProducts } from '@/services/products.service'
+import type { Product } from '@/types/Product'
+//
+// export const productsStore = map<Record<number, (typeof productsData)[number]>>({})
+export const $productsStore = atom<Product[]>([])
 
 // TODO: move to JSON statci file or retrive from database, and parsert to TitleCase
 // export const categoriesStore = atom<string[]>([
@@ -23,6 +25,12 @@ export const categories = [
 
 export const selectedCategoryAtom = atom<(typeof categories)[number]>('PORCIONES')
 
-productsData.forEach(product => {
-  productsStore.setKey(product.id, product)
-})
+export const getAllProductsStore = async () =>
+  fetchAllProducts().then(products => $productsStore.set(products ?? []))
+
+// productsData.forEach(product => {
+//   productsStore.setKey(product.id, product)
+// })
+//
+// export const getAllProductsStore = async () =>
+//   fetchAllProducts().then(products => productsStore.set(products))
