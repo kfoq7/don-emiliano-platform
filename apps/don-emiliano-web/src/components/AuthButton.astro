@@ -16,7 +16,6 @@ const loginUrl = `/ingresar?redirect=${encodeURIComponent(currentPath)}`
 
 <div class="relative" id="auth-container">
   {user ? (
-    <!-- Logged in: show user menu -->
     <button
       id="user-menu-btn"
       type="button"
@@ -60,7 +59,6 @@ const loginUrl = `/ingresar?redirect=${encodeURIComponent(currentPath)}`
       </a>
     </div>
   ) : (
-    <!-- Not logged in: show login link -->
     <a
       href={loginUrl}
       class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 hover:bg-surface-hover transition-colors text-sm text-ink-muted hover:text-ink"
@@ -74,8 +72,7 @@ const loginUrl = `/ingresar?redirect=${encodeURIComponent(currentPath)}`
   )}
 </div>
 
-<script>
-  // User menu dropdown handler
+<script> // User menu dropdown handler
   const userMenuBtn = document.getElementById('user-menu-btn')
   const userDropdown = document.getElementById('user-dropdown')
 
