@@ -7,7 +7,7 @@ export const $productsStore = atom<Product[]>([])
 export const categories = [
   'PORCIONES',
   'SANDWICHES',
-  'GUARNICIONES',
+  'TAMALES Y GUARNICIONES',
   'BEBIDAS CALIENTES',
   'COMBOS Y PROMOCIONES',
   'PLATOS CONTUNDENTES',
