@@ -14,7 +14,6 @@ export const categories = [
   'JUGOS',
   'FRAPPES',
   'CALDOS',
-  'MENUS',
 ] as const
 
 export const selectedCategoryAtom = atom<(typeof categories)[number]>('PORCIONES')
