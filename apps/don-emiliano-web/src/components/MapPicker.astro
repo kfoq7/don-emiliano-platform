@@ -15,14 +15,14 @@ const {
   height = '500px',
   zoom = 17,
 } = Astro.props
-
-const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
 ---
 
 <div
   id="map-container"
   class="map-picker-container w-full px-8 flex flex-col items-center"
-  data-unique-id={uniqueId}
+  data-lat={lat}
+  data-lng={lng}
+  data-zoom={zoom}
 >
   <div
     class="mt-4 mx-6 gap-2 flex flex-col md:flex-none items-center w-full max-w-md relative z-1000"
@@ -41,13 +41,6 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
       >
       </div>
     </div>
-
-    <!-- <p class="mt-2 text-sm text-gray-600"> -->
-    <!--   Lat: <span class="lat-display">{lat.toFixed(6)}</span> -->
-    <!--   , Lng: <span class="lng-display"> -->
-    <!--     {lng.toFixed(6)} -->
-    <!--   </span> -->
-    <!-- </p> -->
   </div>
 
   <div
@@ -81,10 +74,18 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
   import { location } from '@/stores/location'
   import { debounce } from '@/utils/debounce'
 
-  const L = window.L
+  type SearchResult = { lat: string; lon: string; display_name: string }
 
-  // Fix Leaflet default icon issue
+  const L = (window as any).L as typeof import('leaflet') | undefined
+
+  // Lima, Peru bounding box (minlon, maxlat, maxlon, minlat)
+  const LIMA_VIEWBOX = '-77.2,-11.7,-76.7,-12.3'
+  const MIN_QUERY_LENGTH = 3
+  // The modal animates in over 300ms; Leaflet must re-measure once it has its final size.
+  const MODAL_ANIMATION_MS = 350
+
   const fixLeafletIcons = () => {
+    if (!L) return
     delete (L.Icon.Default.prototype as any)._getIconUrl
     L.Icon.Default.mergeOptions({
       iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -93,261 +94,219 @@ const uniqueId = `map-${Math.random().toString(36).slice(2, 9)}`
     })
   }
 
-  // Search location using Nominatim API
-  async function searchLocation(query: string): Promise<any[]> {
-    if (!query || query.trim().length < 3) return []
+  const fetchNominatim = async (query: string, signal: AbortSignal): Promise<SearchResult[]> => {
+    const url = new URL('https://nominatim.openstreetmap.org/search')
+    url.searchParams.set('q', `${query}, Lima, Peru`)
+    url.searchParams.set('format', 'json')
+    url.searchParams.set('limit', '5')
+    url.searchParams.set('countrycodes', 'pe')
+    url.searchParams.set('bounded', '1')
+    url.searchParams.set('viewbox', LIMA_VIEWBOX)
+    url.searchParams.set('accept-language', 'es')
 
-    try {
-      // Lima, Peru bounding box
-      const minlon = -77.2
-      const minlat = -12.3
-      const maxlon = -76.7
-      const maxlat = -11.7
-
-      const url = new URL('https://nominatim.openstreetmap.org/search')
-      url.searchParams.set('q', `${query}, Lima, Peru`)
-      url.searchParams.set('format', 'json')
-      url.searchParams.set('limit', '5')
-      url.searchParams.set('countrycodes', 'pe')
-      url.searchParams.set('bounded', '1')
-      url.searchParams.set('viewbox', `${minlon},${maxlat},${maxlon},${minlat}`)
-
-      const response = await fetch(url.toString(), {
-        headers: {
-          'Accept-Language': 'es',
-        },
-      })
-
-      if (!response.ok) throw new Error('Search failed')
-
-      return await response.json()
-    } catch (error) {
-      console.error('Error searching location:', error)
-      return []
-    }
+    const response = await fetch(url, { signal })
+    if (!response.ok) throw new Error('Search failed')
+    return response.json()
   }
 
-  const initializeMap = (container: Element) => {
-    const wrapper = container.querySelector('#map-picker') as HTMLElement
-    if (!wrapper) return
+  // Throws AbortError when superseded so callers can ignore stale responses.
+  async function searchLocation(query: string, signal: AbortSignal): Promise<SearchResult[]> {
+    const results = await fetchNominatim(query, signal)
+    if (results.length > 0) return results
 
-    // Check if map is already initialized
-    if ((container as any).__leafletMap) {
-      const map = (container as any).__leafletMap
+    // OSM has little house-number coverage in Lima, so "Jr Huallaga 123" finds nothing
+    // while "Jr Huallaga" does. Retry on the street so the user can fine-tune on the map.
+    const street = query.replace(/\s+(n[°º.]?\s*)?\d+[a-z]?$/i, '').trim()
+    if (street === query || street.length < MIN_QUERY_LENGTH) return results
+    return fetchNominatim(street, signal)
+  }
 
-      // Just refresh the existing map
-      setTimeout(() => {
-        map.invalidateSize()
-      }, 100)
+  const restaurantIconHtml = `
+    <div class="flex items-center justify-center rounded-full bg-action w-8 h-8 shadow-lg">
+      <svg height="24px" viewBox="0 -960 960 960" width="24px" fill="white"><path d="M841-518v318q0 33-23.5 56.5T761-120H201q-33 0-56.5-23.5T121-200v-318q-23-21-35.5-54t-.5-72l42-136q8-26 28.5-43t47.5-17h556q27 0 47 16.5t29 43.5l42 136q12 39-.5 71T841-518Zm-272-42q27 0 41-18.5t11-41.5l-22-140h-78v148q0 21 14 36.5t34 15.5Zm-180 0q23 0 37.5-15.5T441-612v-148h-78l-22 140q-4 24 10.5 42t37.5 18Zm-178 0q18 0 31.5-13t16.5-33l22-154h-78l-40 134q-6 20 6.5 43t41.5 23Zm540 0q29 0 42-23t6-43l-42-134h-76l22 154q3 20 16.5 33t31.5 13ZM201-200h560v-282q-5 2-6.5 2H751q-27 0-47.5-9T663-518q-18 18-41 28t-49 10q-27 0-50.5-10T481-518q-17 18-39.5 28T393-480q-29 0-52.5-10T299-518q-21 21-41.5 29.5T211-480h-4.5q-2.5 0-5.5-2v282Zm560 0H201h560Z"/></svg>
+    </div>`
 
+  // Shared by the map click handler and the search box, which can be used before the map exists.
+  let picker: { map: L.Map; marker: L.Marker; zoom: number } | null = null
+
+  const updateLocation = (container: HTMLElement, lat: number, lng: number) => {
+    if (picker) {
+      picker.marker.setLatLng([lat, lng])
+      picker.map.setView([lat, lng], Math.max(picker.map.getZoom(), picker.zoom))
+    }
+
+    const latInput = container.querySelector<HTMLInputElement>('.lat-input')
+    const lngInput = container.querySelector<HTMLInputElement>('.lng-input')
+    if (latInput) latInput.value = String(lat)
+    if (lngInput) lngInput.value = String(lng)
+
+    location.set({ lat: lat.toFixed(6), lng: lng.toFixed(6) })
+
+    container.dispatchEvent(
+      new CustomEvent('location-change', {
+        detail: { latitude: lat, longitude: lng },
+        bubbles: true,
+      }),
+    )
+  }
+
+  const initializeMap = (container: HTMLElement) => {
+    const wrapper = container.querySelector<HTMLElement>('#map-picker')
+    if (!wrapper || !L) return
+
+    // Re-opening the modal: the map exists, it only needs to re-measure its container.
+    if (picker) {
+      const { map } = picker
+      setTimeout(() => map.invalidateSize(), MODAL_ANIMATION_MS)
       return
     }
 
-    const lat = parseFloat(container.getAttribute('data-lat') || '-34.397')
-    const lng = parseFloat(container.getAttribute('data-lng') || '150.644')
+    const restaurantLat = parseFloat(container.dataset.lat ?? '')
+    const restaurantLng = parseFloat(container.dataset.lng ?? '')
+    const zoom = parseInt(container.dataset.zoom ?? '', 10) || 17
+    if (Number.isNaN(restaurantLat) || Number.isNaN(restaurantLng)) return
 
-    const zoom = parseInt(container.getAttribute('data-zoom') || '13')
+    // Resume from a previously confirmed location, otherwise start at the restaurant.
+    const saved = location.get()
+    const startLat = saved ? parseFloat(saved.lat) : restaurantLat
+    const startLng = saved ? parseFloat(saved.lng) : restaurantLng
 
-    // Initialize map
     try {
-      const map = L.map(wrapper).setView([lat, lng], zoom)
-
-      // Remove leaflet attribution
+      const map = L.map(wrapper).setView([startLat, startLng], zoom)
       map.attributionControl.setPrefix('')
 
-      // Add tile layer
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
       }).addTo(map)
 
-      // Set the local Restaturant
-      const restaurantIcon = L.divIcon({
-        html: `
-          <div class="flex items-center justify-center rounded-full bg-action w-8 h-8 shadow-lg">
-            <svg height="24px" viewBox="0 -960 960 960" width="24px" fill="white"><path d="M841-518v318q0 33-23.5 56.5T761-120H201q-33 0-56.5-23.5T121-200v-318q-23-21-35.5-54t-.5-72l42-136q8-26 28.5-43t47.5-17h556q27 0 47 16.5t29 43.5l42 136q12 39-.5 71T841-518Zm-272-42q27 0 41-18.5t11-41.5l-22-140h-78v148q0 21 14 36.5t34 15.5Zm-180 0q23 0 37.5-15.5T441-612v-148h-78l-22 140q-4 24 10.5 42t37.5 18Zm-178 0q18 0 31.5-13t16.5-33l22-154h-78l-40 134q-6 20 6.5 43t41.5 23Zm540 0q29 0 42-23t6-43l-42-134h-76l22 154q3 20 16.5 33t31.5 13ZM201-200h560v-282q-5 2-6.5 2H751q-27 0-47.5-9T663-518q-18 18-41 28t-49 10q-27 0-50.5-10T481-518q-17 18-39.5 28T393-480q-29 0-52.5-10T299-518q-21 21-41.5 29.5T211-480h-4.5q-2.5 0-5.5-2v282Zm560 0H201h560Z"/></svg>
-          </div>`,
-        iconSize: [40, 40],
-        iconAnchor: [20, 20],
-        className: 'restaurant-icon-marker',
-      })
+      L.marker([restaurantLat, restaurantLng], {
+        icon: L.divIcon({
+          html: restaurantIconHtml,
+          iconSize: [40, 40],
+          iconAnchor: [20, 20],
+          className: 'restaurant-icon-marker',
+        }),
+        interactive: false,
+        keyboard: false,
+      }).addTo(map)
 
-      // Load Restaturant Icon
-      L.marker([lat, lng], { icon: restaurantIcon }).addTo(map)
+      const marker = L.marker([startLat, startLng]).addTo(map)
+      picker = { map, marker, zoom }
 
-      // Add initial marker if coordinates are not default
-      let marker: L.Marker | null = null
-      marker = L.marker([lat, lng]).addTo(map)
-
-      // Get form inputs and displays
-      const latInput = container.querySelector('.lat-input') as HTMLInputElement
-      const lngInput = container.querySelector('.lng-input') as HTMLInputElement
-      const latDisplay = container.querySelector('.lat-display')
-      const lngDisplay = container.querySelector('.lng-display')
-      const searchInput = container.querySelector('#location-search') as HTMLInputElement
-      const searchResults = container.querySelector('#search-results') as HTMLDivElement
-      const addressInput = container.querySelectorAll('input[type="text"]')[1] as HTMLInputElement
-
-      // Update location helper
-      const updateLocation = (newLat: number, newLng: number, displayName?: string) => {
-        // Update or create marker
-        if (marker) {
-          marker.setLatLng([newLat, newLng])
-        } else {
-          marker = L.marker([newLat, newLng]).addTo(map)
-        }
-
-        // Center map on new location
-        map.setView([newLat, newLng], 17)
-
-        // Update hidden inputs
-        if (latInput) latInput.value = newLat.toString()
-        if (lngInput) lngInput.value = newLng.toString()
-
-        const latFixed = newLat.toFixed(6)
-        const lngFixed = newLng.toFixed(6)
-
-        // Update display
-        if (latDisplay) latDisplay.textContent = latFixed
-        if (lngDisplay) lngDisplay.textContent = lngFixed
-
-        // Update address input if display name is provided
-        if (displayName && addressInput) {
-          addressInput.value = displayName
-        }
-
-        // Update local state coord
-        location.set({ lat: latFixed, lng: lngFixed })
-
-        container.dispatchEvent(
-          new CustomEvent('location-change', {
-            detail: { latitude: newLat, longitude: newLng },
-            bubbles: true,
-          }),
-        )
-      }
-
-      // Handle map clicks
-      map.on('click', (e: L.LeafletMouseEvent) => {
-        updateLocation(e.latlng.lat, e.latlng.lng)
-      })
-
-      // Search functionality with debounce
-      const handleSearch = debounce(async (query: string) => {
-        if (!searchResults) return
-
-        const results = await searchLocation(query)
-
-        if (results.length === 0) {
-          searchResults.innerHTML =
-            '<div class="p-3 text-gray-500 text-sm">No se encontraron resultados</div>'
-          searchResults.classList.remove('hidden')
-          return
-        }
-
-        searchResults.innerHTML = results
-          .map(
-            result => `
-          <button
-            type="button"
-            class="search-result-item w-full text-left p-3 hover:bg-gray-100 border-b last:border-b-0 transition-colors cursor-pointer"
-            data-lat="${result.lat}"
-            data-lon="${result.lon}"
-            data-display-name="${result.display_name}"
-          >
-            <div class="font-medium text-sm pointer-events-none">${result.display_name}</div>
-          </button>
-        `,
-          )
-          .join('')
-
-        searchResults.classList.remove('hidden')
-      }, 500)
-
-      // Event delegation: handle clicks on search result items via the container
-      if (searchResults) {
-        searchResults.addEventListener('click', e => {
-          const item = (e.target as HTMLElement).closest('.search-result-item') as HTMLElement
-          if (!item) return
-
-          const resultLat = parseFloat(item.getAttribute('data-lat') || '0')
-          const resultLon = parseFloat(item.getAttribute('data-lon') || '0')
-          const displayName = item.getAttribute('data-display-name') || ''
-
-          updateLocation(resultLat, resultLon, displayName)
-
-          // Update search input and hide results
-          if (searchInput) searchInput.value = displayName
-          searchResults.classList.add('hidden')
-        })
-      }
-
-      // Search input event listener
-      if (searchInput) {
-        searchInput.addEventListener('input', e => {
-          const query = (e.target as HTMLInputElement).value
-          if (query.trim().length >= 3) {
-            handleSearch(query)
-          } else {
-            searchResults?.classList.add('hidden')
-          }
-        })
-
-        // Close results when clicking outside
-        document.addEventListener('mousedown', e => {
-          if (
-            !searchInput.contains(e.target as Node) &&
-            !searchResults?.contains(e.target as Node)
-          ) {
-            searchResults?.classList.add('hidden')
-          }
-        })
-      }
-
-      // Store map instance on container for external access
-      ;(container as any).__leafletMap = map
+      map.on('click', (e: L.LeafletMouseEvent) =>
+        updateLocation(container, e.latlng.lat, e.latlng.lng),
+      )
+      setTimeout(() => map.invalidateSize(), MODAL_ANIMATION_MS)
     } catch (error) {
-      console.log('Initialize map error.')
+      console.error('Error initializing map:', error)
     }
   }
 
-  // Initialize on load and for dynamic content
-  // const initialize = () => {
-  //   fixLeafletIcons()
-  //   const mapContainer = document.querySelector('#map-container')
-  //   if (!mapContainer) return
-  //   initializeMap(mapContainer)
-  // }
-  //
-  // // Run on DOM ready
-  // if (document.readyState === 'loading') {
-  //   document.addEventListener('DOMContentLoaded', initialize)
-  // } else {
-  //   initialize()
-  // }
-  document.addEventListener('DOMContentLoaded', () => {
+  // Wired at page load, not on map init, so a map failure can't take the search down with it.
+  const setupSearch = (container: HTMLElement) => {
+    const searchInput = container.querySelector<HTMLInputElement>('#location-search')
+    const searchResults = container.querySelector<HTMLDivElement>('#search-results')
+    if (!searchInput || !searchResults) return
+
+    // Results are built with DOM APIs (not innerHTML): display names come from a third party.
+    const showMessage = (text: string) => {
+      const message = document.createElement('div')
+      message.className = 'p-3 text-gray-500 text-sm'
+      message.textContent = text
+      searchResults.replaceChildren(message)
+      searchResults.classList.remove('hidden')
+    }
+
+    const hideResults = () => searchResults.classList.add('hidden')
+
+    const renderResults = (results: SearchResult[]) => {
+      if (results.length === 0) return showMessage('No se encontraron resultados')
+
+      const items = results.map(result => {
+        const button = document.createElement('button')
+        button.type = 'button'
+        button.className =
+          'w-full text-left p-3 hover:bg-gray-100 border-b last:border-b-0 transition-colors cursor-pointer text-sm font-medium'
+        button.textContent = result.display_name
+        button.addEventListener('click', () => {
+          updateLocation(container, parseFloat(result.lat), parseFloat(result.lon))
+          searchInput.value = result.display_name
+          hideResults()
+        })
+        return button
+      })
+      searchResults.replaceChildren(...items)
+      searchResults.classList.remove('hidden')
+    }
+
+    let currentRequest: AbortController | null = null
+
+    const runSearch = async (query: string) => {
+      currentRequest?.abort()
+      const request = new AbortController()
+      currentRequest = request
+
+      showMessage('Buscando...')
+      try {
+        renderResults(await searchLocation(query, request.signal))
+      } catch (error) {
+        if ((error as Error).name === 'AbortError') return
+        console.error('Error searching location:', error)
+        showMessage('No se pudo buscar la dirección. Intenta de nuevo.')
+      }
+    }
+
+    const debouncedSearch = debounce(runSearch, 500)
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim()
+      if (query.length >= MIN_QUERY_LENGTH) {
+        debouncedSearch(query)
+      } else {
+        // Invalidate any in-flight request so it can't reopen the list after clearing.
+        currentRequest?.abort()
+        hideResults()
+      }
+    })
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        // Inside a form, Enter would submit it; here it should search right away.
+        e.preventDefault()
+        const query = searchInput.value.trim()
+        if (query.length >= MIN_QUERY_LENGTH) runSearch(query)
+      } else if (e.key === 'Escape' && !searchResults.classList.contains('hidden')) {
+        // Don't let the modal's Escape handler close the whole dialog.
+        e.stopPropagation()
+        hideResults()
+      }
+    })
+
+    document.addEventListener('mousedown', e => {
+      const target = e.target as Node
+      if (!searchInput.contains(target) && !searchResults.contains(target)) hideResults()
+    })
+  }
+
+  const setup = () => {
     fixLeafletIcons()
 
-    const mapContainer = document.querySelector('.map-picker-container')
+    const mapContainer = document.querySelector<HTMLElement>('.map-picker-container')
     if (!mapContainer) return
 
-    // Listen for modal open event to initialize map
-    mapContainer.addEventListener('modal-opened', () => {
-      // Small delay to ensure modal is fully rendered and visible
-      setTimeout(() => {
-        initializeMap(mapContainer)
-      }, 100)
-    })
-  })
-</script>
+    setupSearch(mapContainer)
 
-<script is:inline define:vars={{ lat, lng, zoom, uniqueId }}>
-  // Set data attributes for this specific instance
-  const container = document.querySelector(`[data-unique-id="${uniqueId}"]`)
-  if (container) {
-    container.setAttribute('data-lat', lat.toString())
-    container.setAttribute('data-lng', lng.toString())
-    container.setAttribute('data-zoom', zoom.toString())
+    // The modal is hidden at load, so Leaflet can only measure the container once it opens.
+    mapContainer.addEventListener('modal-opened', () => {
+      setTimeout(() => initializeMap(mapContainer), 100)
+    })
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setup)
+  } else {
+    setup()
   }
 </script>

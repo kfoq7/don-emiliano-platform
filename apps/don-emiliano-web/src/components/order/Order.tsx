@@ -1,5 +1,10 @@
 import { useStore } from '@nanostores/preact'
-import { $productsStore, getAllProductsStore, selectedCategoryAtom } from '@/stores/products'
+import {
+  $productsLoading,
+  $productsStore,
+  getAllProductsStore,
+  selectedCategoryAtom,
+} from '@/stores/products'
 import ProductCard from './ProductCard.tsx'
 import { cartItems } from '@/stores/order.ts'
 import { useEffect } from 'preact/hooks'
@@ -8,6 +13,7 @@ export default function Order() {
   const $products = useStore($productsStore)
   const $cartItems = useStore(cartItems)
   const $selectedCategory = useStore(selectedCategoryAtom)
+  const $loading = useStore($productsLoading)
 
   const filteredProducts = Object.values($products).filter(
     product => product.category.name === $selectedCategory,
@@ -16,6 +22,19 @@ export default function Order() {
   useEffect(() => {
     getAllProductsStore()
   }, [])
+
+  if ($loading) {
+    return (
+      <div
+        className="flex flex-col items-center justify-center py-16 text-center"
+        role="status"
+        aria-live="polite"
+      >
+        <div className="w-10 h-10 rounded-full border-4 border-gray-200 border-t-gray-500 animate-spin mb-4" />
+        <p className="text-ink-muted font-medium">Cargando productos...</p>
+      </div>
+    )
+  }
 
   if (filteredProducts.length === 0) {
     return (

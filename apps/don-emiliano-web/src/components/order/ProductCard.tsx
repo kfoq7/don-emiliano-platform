@@ -44,19 +44,19 @@ export default function ProductCard({ product, cartItem }: Props) {
         `}
       >
         {/* Product image */}
-        {product.image && (
+        {product.thumbnail && (
           <div className="relative overflow-hidden">
             <img
-              src={product.image}
+              src={product.thumbnail}
               alt={product.name}
               className={`
                 w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105
-                ${product.isStockAvailable === false ? 'grayscale opacity-80' : ''}
+                ${product.is_stock_available === false ? 'grayscale opacity-80' : ''}
               `}
               loading="lazy"
             />
 
-            {product.isStockAvailable === false && (
+            {product.is_stock_available === false && (
               <div className="absolute inset-0 bg-white/30 flex items-center justify-center backdrop-blur-[1px]">
                 <span className="bg-white/90 text-gray-500 font-bold px-3 py-1 rounded-full text-sm border border-gray-200 shadow-sm">
                   Agotado
@@ -67,7 +67,7 @@ export default function ProductCard({ product, cartItem }: Props) {
             {/* Price badge on image */}
             <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm">
               <span
-                className={`text-sm font-bold ${product.isStockAvailable === false ? 'text-gray-500' : 'text-primary'}`}
+                className={`text-sm font-bold ${product.is_stock_available === false ? 'text-gray-500' : 'text-primary'}`}
               >
                 S/ {product.price.toFixed(2)}
               </span>
@@ -83,7 +83,7 @@ export default function ProductCard({ product, cartItem }: Props) {
 
         {/* Content area */}
         <div
-          className={`flex flex-col flex-1 p-4 ${product.isStockAvailable === false ? 'opacity-75' : ''}`}
+          className={`flex flex-col flex-1 p-4 ${product.is_stock_available === false ? 'opacity-75' : ''}`}
         >
           <div className="flex-1 mb-3">
             <h3 className="font-bold text-base text-heading leading-snug">{product.name}</h3>
@@ -95,10 +95,10 @@ export default function ProductCard({ product, cartItem }: Props) {
           </div>
 
           {/* No image fallback: show price inline */}
-          {!product.image && (
+          {!product.thumbnail && (
             <div className="mb-3">
               <span
-                className={`text-lg font-bold ${product.isStockAvailable === false ? 'text-gray-500' : 'text-primary'}`}
+                className={`text-lg font-bold ${product.is_stock_available === false ? 'text-gray-500' : 'text-primary'}`}
               >
                 S/ {product.price.toFixed(2)}
               </span>
@@ -106,7 +106,7 @@ export default function ProductCard({ product, cartItem }: Props) {
           )}
 
           {/* Add to cart / quantity controls */}
-          {product.isStockAvailable === false ? (
+          {product.is_stock_available === false ? (
             <div className="w-full flex items-center justify-center gap-2 bg-gray-100 text-gray-500 py-2.5 px-4 rounded-lg font-semibold text-sm cursor-not-allowed border border-gray-200">
               Agotado
             </div>

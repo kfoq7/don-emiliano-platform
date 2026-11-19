@@ -1,36 +1,33 @@
-import { atom, map } from 'nanostores'
+import { atom } from 'nanostores'
 import { fetchAllProducts } from '@/services/products.service'
 import type { Product } from '@/types/Product'
-//
-// export const productsStore = map<Record<number, (typeof productsData)[number]>>({})
+
 export const $productsStore = atom<Product[]>([])
 
-// TODO: move to JSON statci file or retrive from database, and parsert to TitleCase
-// export const categoriesStore = atom<string[]>([
-//   'porciones',
-//   'bebidas calientes',
-//   'guarniciones',
-//   'jugos',
-//   'frappes',
-//   'caldo',
-// ])
 export const categories = [
   'PORCIONES',
-  'BEBIDAS CALIENTES',
+  'SANDWICHES',
   'GUARNICIONES',
+  'BEBIDAS CALIENTES',
+  'COMBOS Y PROMOCIONES',
+  'PLATOS CONTUNDENTES',
   'JUGOS',
   'FRAPPES',
   'CALDOS',
+  'MENUS',
 ] as const
 
 export const selectedCategoryAtom = atom<(typeof categories)[number]>('PORCIONES')
 
-export const getAllProductsStore = async () =>
-  fetchAllProducts().then(products => $productsStore.set(products ?? []))
+// Starts true so the first render shows the spinner instead of a flash of the empty state.
+export const $productsLoading = atom<boolean>(true)
 
-// productsData.forEach(product => {
-//   productsStore.setKey(product.id, product)
-// })
-//
-// export const getAllProductsStore = async () =>
-//   fetchAllProducts().then(products => productsStore.set(products))
+export const getAllProductsStore = async () => {
+  $productsLoading.set(true)
+  try {
+    const products = await fetchAllProducts()
+    $productsStore.set(products ?? [])
+  } finally {
+    $productsLoading.set(false)
+  }
+}

@@ -17,10 +17,9 @@ export interface Product {
   description: string
   category: Category
   price: number
-  image?: string
-  is_stock_cvailable?: boolean
+  is_stock_available?: boolean
   options?: ProductOption[]
-  thumbnail: string
+  thumbnail?: string
 }
 
 export interface ProductSelected extends Omit<Product, 'image'> {
